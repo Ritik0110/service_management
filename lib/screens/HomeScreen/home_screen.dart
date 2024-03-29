@@ -38,9 +38,9 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: Colors.red.shade700,
                   foregroundColor: Colors.white,
                   radius: 10,
-                  child: Center(
+                  child: const Center(
                       child: FittedBox(
-                          child: const Text(
+                          child: Text(
                     '5',
                   ))),
                 ),
@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            color: Color(0xFF2f67de),
+            color: const Color(0xFF2f67de),
             child: EasyDateTimeLine(
               headerProps: const EasyHeaderProps(
                 monthPickerType: MonthPickerType.switcher,
@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
-                  todayStrStyle: TextStyle(
+                  todayStrStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontWeight: FontWeight.w100)),
@@ -107,11 +107,11 @@ class HomeScreen extends StatelessWidget {
           ),
           Container(
             color: Colors.white,
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
                 RichText(
-                  text: TextSpan(style: TextStyle(fontSize: 18), children: [
+                  text: const TextSpan(style: TextStyle(fontSize: 18), children: [
                     TextSpan(
                         text: "Today Ticket ",
                         style: TextStyle(
@@ -122,11 +122,11 @@ class HomeScreen extends StatelessWidget {
                             color: Colors.black, fontWeight: FontWeight.bold))
                   ]),
                 ),
-                Spacer(),
-                Text("Filter"),
+                const Spacer(),
+                const Text("Filter"),
                 IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.filter_alt_outlined,
                       color: Color(
                         0xFF2f67de,
@@ -138,11 +138,11 @@ class HomeScreen extends StatelessWidget {
           ),
            Expanded(
              child: ListView.builder(
-               padding: EdgeInsets.all(16),
+               padding: const EdgeInsets.all(16),
                
                itemCount: 10,itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.symmetric(vertical: 8),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
 clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                       color: Colors.green,
@@ -150,15 +150,15 @@ clipBehavior: Clip.hardEdge,
 
                   ),
                   child: Container(
-                    margin: EdgeInsets.only(left: 5),
+                    margin: const EdgeInsets.only(left: 5),
                     color: Colors.white,
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
                           children: [
-                            Column(
+                            const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -166,12 +166,12 @@ clipBehavior: Clip.hardEdge,
                                 Text("Computer Not Working",style: TextStyle(fontSize: 12),)
                               ],
                             ),
-                            Spacer(),
-                            CircleAvatar(backgroundColor: Colors.grey.shade100,child: Icon(Icons.call,color: Colors.green,))
+                            const Spacer(),
+                            CircleAvatar(backgroundColor: Colors.grey.shade100,child: const Icon(Icons.call,color: Colors.green,))
                           ],
                         ),
                         Divider(color: Colors.grey.shade200,thickness: 2,),
-                        Row(
+                        const Row(
                           children: [
                             Text("Time : ",style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.w300,),),
                             Text("01:30 PM",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),),
@@ -179,8 +179,8 @@ clipBehavior: Clip.hardEdge,
                             Text("Priority : ",style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.w300,),),
                             Text("High",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.deepPurple),),
                           ],
-                        )
-                        Row(
+                        ),
+                        const Row(
                           children: [
                             Icon(Icons.location_on_outlined)
                           ],

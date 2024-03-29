@@ -39,9 +39,9 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: Colors.red.shade700,
                   foregroundColor: Colors.white,
                   radius: 10,
-                  child: Center(
+                  child: const Center(
                       child: FittedBox(
-                          child: const Text(
+                          child: Text(
                     '5',
                   ))),
                 ),
@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.bold),
-                  todayStrStyle: TextStyle(
+                  todayStrStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 8,
                       fontWeight: FontWeight.w100)),

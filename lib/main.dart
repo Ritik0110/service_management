@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
           titleTextStyle: TextStyle(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: FontWeight.w500,
           ),
         ),

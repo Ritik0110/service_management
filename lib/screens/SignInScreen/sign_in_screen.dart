@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
+import 'package:service_call_management/screens/SignInScreen/sign_in_controller.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 
 import '../../utils/app_colors.dart';
@@ -11,6 +12,7 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SignInController controller = Get.put(SignInController());
     return Scaffold(
       backgroundColor: AppColors.blue2F6Color,
       body: SafeArea(
@@ -24,9 +26,9 @@ class SignInScreen extends StatelessWidget {
 
                   Text("Welcome To",style:  AppTextStyle.regularTS.copyWith(
                      color: AppColors.whiteColor,
-                      fontSize: 16, fontWeight: FontWeight.w200),),
+                      fontSize: 24, fontWeight: FontWeight.w200),),
                   Text("SAP Business One\nService Call Management",style: AppTextStyle.semiBoldTS.copyWith(
-                      fontSize: 16, color: AppColors.whiteColor),),
+                      fontSize: 24, color: AppColors.whiteColor),),
 
                   const SizedBox(
                     height: 36,
@@ -53,30 +55,42 @@ class SignInScreen extends StatelessWidget {
                         const SizedBox(
                           height: 16,
                         ),
-                        const CustomTextFormField(
+                         CustomTextFormField(
+                          controller: controller.emailController,
                           title: "Email / Phone Number ",
                           isRequired: false,
                           hint: "Enter Email/ Phone Number",
                         ),
-                        const CustomTextFormField(
-                          title: "Password",
-                          isRequired: false,
-                          hint: "Enter password",
-                          suffix_icon: Icon(Icons.visibility_off_outlined,opticalSize: 1, ),
+                         Obx(
+                           () =>  CustomTextFormField(
+                            controller: controller.passwordController,
+                            obscureText: !controller.isPasswordVisible.value,
+                            title: "Password",
+                            isRequired: false,
+                            hint: "Enter password",
+                            suffix_icon: InkWell(onTap: () {
+                              controller.togglePasswordVisibility();
+                            },child: Icon(controller.isPasswordVisible.value==false?Icons.visibility_off_outlined:Icons.visibility_outlined,opticalSize: 1, )),
                         ),
+                         ),
                         const SizedBox(
                           height: 16,
                         ),
                         Row(
                           children: [
-                            Checkbox(
-                              side: const BorderSide(
-                                  strokeAlign: 5,
-                                  color: Colors.grey,
-                                  width: 1,
-                                  style: BorderStyle.solid),
-                              value: false,
-                              onChanged: (value) {},
+                            Obx(
+                              () =>  Checkbox(
+                                visualDensity: VisualDensity.compact,
+                                side: const BorderSide(
+                                    strokeAlign: 5,
+                                    color: Colors.grey,
+                                    width: 1,
+                                    style: BorderStyle.solid),
+                                value: controller.isRememberMe.value,
+                                onChanged: (value) {
+                                  controller.toggleRememberMe();
+                                },
+                              ),
                             ),
                              Text(
                               'Remember Password',
@@ -146,7 +160,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.prefixText,
     this.prefixTextStyle,
-    this.fontWeightForTitle,
+    this.fontWeightForTitle, this.obscureText,
   }) : super(key: key);
   final String title;
   final bool isRequired;
@@ -165,6 +179,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? prefixText;
   final TextStyle? prefixTextStyle;
   final FontWeight? fontWeightForTitle;
+  final bool? obscureText;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -179,6 +194,7 @@ class CustomTextFormField extends StatelessWidget {
             fontWeight: fontWeightForTitle,
           ),
           TextFormField(
+            obscureText: obscureText ?? false,
             onTapOutside: onTapOutside,
             onChanged: onChanged,
             autofocus: false,
@@ -192,8 +208,8 @@ class CustomTextFormField extends StatelessWidget {
             controller: controller,
             style: AppTextStyle.regularTS.copyWith(
               fontWeight: FontWeight.normal,
-              color: Color(0xFF323232),
-              fontSize: 14,
+              color: AppColors.black323Color,
+              fontSize: 16,
             ),
             decoration: InputDecoration(
               contentPadding:
@@ -205,7 +221,7 @@ class CustomTextFormField extends StatelessWidget {
               prefixStyle: prefixTextStyle,
               hintText: hint,
               hintStyle: AppTextStyle.regularTS
-                  .copyWith(color: AppColors.grey848Color, fontSize: 12),
+                  .copyWith(color: AppColors.grey848Color, fontSize: 16),
               suffixIcon: suffix_icon,
               counterText: "",
               prefixIcon: prefix_icon,
@@ -243,7 +259,7 @@ class CustomTextFormFieldLabel extends StatelessWidget {
               text: title,
               style: AppTextStyle.regularTS.copyWith(
                 fontSize: 14,
-                fontWeight: fontWeight ?? FontWeight.normal,
+                // fontWeight: fontWeight ?? FontWeight.normal,
                 color: AppColors.black323Color,
               ),
             ),

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
-import 'package:service_call_management/screens/choose_items/choose_items.dart';
-import 'package:service_call_management/screens/purchase_request/purchase_request.dart';
-import 'package:service_call_management/screens/purchase_request_form/purchase_request_form.dart';
-import 'package:service_call_management/screens/ticket_details/ticket_details.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 
@@ -33,6 +29,15 @@ class MyApp extends StatelessWidget {
       },
       title: 'Flutter Demo',
       theme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
         scaffoldBackgroundColor: AppColors.scaffoldColor,
         iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(
@@ -40,16 +45,23 @@ class MyApp extends StatelessWidget {
           )
         ),
         appBarTheme:  AppBarTheme(
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
           backgroundColor: AppColors.blue2F6Color,
           centerTitle: false,
           foregroundColor: Colors.white,
           titleTextStyle: AppTextStyle.white16medium
         ),
+        radioTheme: RadioThemeData(
+
+          fillColor: MaterialStateProperty.resolveWith((states) => states.contains(MaterialState.selected) ? AppColors.blue2F6Color : Colors.grey),
+          visualDensity: VisualDensity.standard,
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue2F6Color),
         useMaterial3: true,
       ),
 
-      home: const ChooseItems(),
+      home: const SignInScreen(),
     );
   }
 }

@@ -26,5 +26,6 @@ class AppColors{
   static const Color purple9C5Color = Color(0xff9C5FD9);
   static const Color scaffoldColor = Color(0xffEEF2F7);
   static const Color redFF5Color = Color(0xffFF525F);
+  static const Color redE25Color = Color(0xffE25757);
 
 }

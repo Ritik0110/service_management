@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
@@ -6,6 +7,7 @@ import 'package:service_call_management/utils/app_test_style.dart';
 
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -65,5 +67,12 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 

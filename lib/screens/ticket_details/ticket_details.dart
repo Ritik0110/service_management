@@ -146,7 +146,7 @@ class TicketDetails extends StatelessWidget {
           height: 50,
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
-            border: Border.all(color: color),
+            border: Border.all(color: color, width: 1.2),
             borderRadius: BorderRadius.circular(5),
           ),
           child: Center(

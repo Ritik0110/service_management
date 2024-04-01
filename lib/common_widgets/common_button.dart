@@ -5,8 +5,9 @@ import '../utils/app_test_style.dart';
 
 class CommonMaterialButton extends StatelessWidget {
   CommonMaterialButton(
-      {required this.buttonText, required this.onTap, super.key});
+      {required this.buttonText, required this.onTap,this.width, super.key});
   String buttonText;
+  double? width;
   void Function() onTap;
 
   @override
@@ -16,7 +17,7 @@ class CommonMaterialButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       color: AppColors.green33AColor,
-      minWidth: double.infinity,
+      minWidth: width ?? double.maxFinite,
       height: 50,
       onPressed: onTap,
       child: Text(buttonText, style: AppTextStyle.white16medium),

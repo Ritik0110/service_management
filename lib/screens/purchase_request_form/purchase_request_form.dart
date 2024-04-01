@@ -1,35 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:service_call_management/common_widgets/common_dropdown.dart';
 import 'package:service_call_management/screens/choose_items/choose_items.dart';
+import 'package:service_call_management/screens/purchase_request_form/purchase_request_form_controller.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 
 import '../../common_widgets/common_button.dart';
 import '../../utils/app_colors.dart';
 
-class PurchaseRequestForm extends StatefulWidget {
-  const PurchaseRequestForm({super.key});
+class PurchaseRequestForm extends StatelessWidget {
+  PurchaseRequestForm({super.key});
 
-  @override
-  State<PurchaseRequestForm> createState() => _PurchaseRequestFormState();
-}
-
-class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
-  DateTime selectedDate = DateTime.now();
-
-  _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate, // Refer step 1
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  final formController = Get.put(PurchaseFormController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +38,16 @@ class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
                     'Product Serial Number',
                     style: AppTextStyle.black323regular14,
                   ),
-                  CommonDropdownField(hintText: 'Select Product Serial Number'),
+                  CommonDropdownField(
+                      hintText: 'Select Product Serial Number',
+                      dropdownList: formController.seriesList),
                   Text(
                     'Requirement Date',
                     style: AppTextStyle.black323regular14,
                   ),
                   10.sizedBoxHeight,
                   TextFormField(
+                    controller: formController.dateController,
                     decoration: InputDecoration(
                       hintText: "DD/MM/YYYY",
                       hintStyle: AppTextStyle.grey84regular16,
@@ -74,14 +60,16 @@ class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
                       ),
                     ),
                     readOnly: true,
-                    onTap: () => _selectDate(context),
+                    onTap: () => formController.selectDate(context),
                   ),
                   10.sizedBoxHeight,
                   Text(
                     'To Warehouse',
                     style: AppTextStyle.black323regular14,
                   ),
-                  CommonDropdownField(hintText: 'Select Warehouse'),
+                  CommonDropdownField(
+                      hintText: 'Select Warehouse',
+                      dropdownList: formController.wareHouseList),
                 ],
               ),
             ),
@@ -103,13 +91,15 @@ class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
                     'From Warehouse',
                     style: AppTextStyle.black323regular14,
                   ),
-                  CommonDropdownField(hintText: 'Select Warehouse'),
+                  CommonDropdownField(
+                      hintText: 'Select Warehouse',
+                      dropdownList: formController.wareHouseList),
                   CommonMaterialButton(
                       buttonText: "Choose Item",
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const ChooseItems();
+                          return ChooseItems();
                         }));
                       })
                 ],

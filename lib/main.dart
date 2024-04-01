@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
+import 'package:service_call_management/utils/app_colors.dart';
+import 'package:service_call_management/utils/app_test_style.dart';
 
 
 void main() {
@@ -32,17 +34,16 @@ class MyApp extends StatelessWidget {
              foregroundColor: MaterialStatePropertyAll(Colors.white)
           )
         ),
-        appBarTheme:  const AppBarTheme(
-          backgroundColor: Color(0xFF2f67de),
+        appBarTheme:    AppBarTheme(
+          backgroundColor:AppColors.blue2F6Color,
           centerTitle: false,
           foregroundColor: Colors.white,
-          titleTextStyle: TextStyle(
-            color: Colors.white,
+          titleTextStyle: AppTextStyle.mediumTS.copyWith(
+            color: AppColors.whiteColor,
             fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+          )
         ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF2f67de)),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue2F6Color),
         useMaterial3: true,
       ),
       home: const SignInScreen(),

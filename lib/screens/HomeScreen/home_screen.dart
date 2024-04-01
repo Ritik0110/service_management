@@ -1,6 +1,10 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/screens/HomeScreen/widgets/home_bottom_sheet.dart';
+import 'package:service_call_management/utils/app_test_style.dart';
+
+import '../../utils/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,13 +13,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
+      drawer: const Drawer(),
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            // Scaffold.of(context).openDrawer();
-          },
-          icon: const Icon(Icons.menu, size: 30),
-        ),
+
         title: const Text('Home'),
         actions: [
           IconButton(
@@ -54,17 +54,18 @@ class HomeScreen extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            color: Theme.of(context).primaryColor,
+            color: AppColors.blue2F6Color,
             child: EasyDateTimeLine(
-              headerProps: const EasyHeaderProps(
+              headerProps:  EasyHeaderProps(
                 selectedDateFormat: SelectedDateFormat.fullDateDMonthAsStrY,
-                selectedDateStyle: TextStyle(
-                  color: Colors.white
+                selectedDateStyle: AppTextStyle.semiBoldTS.copyWith(
+                  fontSize: 14,
+                  color: AppColors.whiteColor,
                 ),
                 monthPickerType: MonthPickerType.switcher,
-                monthStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
+                monthStyle:AppTextStyle.semiBoldTS.copyWith(
+                  fontSize: 14,
+                  color: AppColors.whiteColor,
                 ),
                 showMonthPicker: true,
                 showSelectedDate: true,
@@ -84,238 +85,72 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  activeDayNumStyle: const TextStyle(
-                      color: Color(0xFF2f67de),
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                  activeDayStrStyle: const TextStyle(
-                      color: Color(0xFF2f67de),
-                      fontSize: 8,
-                      fontWeight: FontWeight.w100),
-                  inactiveDayNumStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                  inactiveDayStrStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w100),
-                  todayNumStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
-                  todayStrStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 8,
-                      fontWeight: FontWeight.w100)),
+                  activeDayNumStyle: AppTextStyle.semiBoldTS.copyWith(
+                    fontSize: 12,
+                    color: AppColors.blue2F6Color,
+                  ),
+                  activeDayStrStyle: AppTextStyle.regularTS.copyWith(
+                    color: AppColors.blue2F6Color,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  inactiveDayNumStyle: AppTextStyle.semiBoldTS.copyWith(
+                    fontSize: 11,
+                    color: AppColors.whiteColor,
+                  ),
+                  inactiveDayStrStyle: AppTextStyle.regularTS.copyWith(
+                  fontSize: 10,
+                    fontWeight: FontWeight.w200,
+                color: AppColors.whiteColor,
+              ),
+                  todayNumStyle:  AppTextStyle.semiBoldTS.copyWith(
+                fontSize: 11,
+                color: AppColors.whiteColor,
+              ),
+                  todayStrStyle: AppTextStyle.regularTS.copyWith(
+                    fontWeight: FontWeight.w200,
+                    fontSize: 10,
+                    color: AppColors.whiteColor,
+                  )),
             ),
           ),
           Container(
             color: Colors.white,
             child: Row(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 16,
-                  ),
-                  child: RichText(
-                    text: TextSpan(style: TextStyle(fontSize: 18), children: [
-                      TextSpan(
-                          text: "Today Ticket ",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal)),
-                      TextSpan(
-                          text: "(10)",
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold))
-                    ]),
-                  ),
+                SizedBox(
+                  width :16,
+
+
                 ),
+                Text(
+                  "Today Ticket ",
+                    style: AppTextStyle.mediumTS.copyWith(fontSize: 12,color: AppColors.grey848Color)),
+                Text(
+                    "(10)",
+                    style: AppTextStyle.mediumTS.copyWith(color: AppColors.black333Color,fontSize: 12)),
                 const Spacer(),
                 InkWell(
                   onTap: () {
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: const BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10))),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("Filter"),
-                                    IconButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        icon: Icon(
-                                          Icons.close,
-                                          color: Theme.of(context).primaryColor,
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: Get.width,
-                                color: Colors.white,
-                                padding: EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Status"),
-                                    Wrap(
-                                      alignment: WrapAlignment.spaceBetween,
-                                      direction: Axis.horizontal,
-                                      children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            ),
-                                            Text("All")
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            ),
-                                            Text("Open")
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            ),
-                                            Text("Close")
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Container(
-                                 width: Get.width,
-                                color: Colors.white,
-                                padding: EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Status"),
-                                    Wrap(
-                                      alignment: WrapAlignment.spaceBetween,
-                                      spacing: 8.0, // Adjust spacing as needed
-                                      children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            ),
-                                            Text("All")
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            ),
-                                            Text("High")
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            ),
-                                            Text("Medium")
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Radio(
-                                              value: true,
-                                              groupValue: true,
-                                              onChanged: (value) {},
-                                            ),
-                                            Text("Low")
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 16,),
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          
-                                        ),
-
-                                        onPressed: () {
-
-                                    }, child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text("Apply"),
-                                        ],
-                                      ),
-                                    ))
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                        return HomeFilterBottomSheet();
                       },
                     );
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    color: Colors.blue,
+                    color: AppColors.blueEFFColor,
                     child: Row(
                       children: [
-                        Text("Filter"),
-                        Icon(
+                        Text("Filter",style: AppTextStyle.mediumTS.copyWith(color: AppColors.blue2E6Color,fontSize: 12)),
+                        const Icon(
                           Icons.filter_alt_outlined,
                           color: Color(
                             0xFF2f67de,
                           ),
-                          size: 30,
+                          size: 25,
                         ),
                       ],
                     ),
@@ -326,18 +161,18 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               itemCount: 10,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.symmetric(vertical: 8),
+                  margin: const EdgeInsets.symmetric(vertical: 8),
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: AppColors.green47CColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Container(
-                    margin: const EdgeInsets.only(left: 8),
+                    margin: const EdgeInsets.only(left: 6),
                     color: Colors.white,
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -345,30 +180,32 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Column(
+                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
                                   "#405514",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: AppTextStyle.semiBoldTS.copyWith(
+                                    color: AppColors.grey646Color,
+                                    fontSize: 12
+                                  )
                                 ),
                                 Text(
                                   "Computer Not Working",
-                                  style: TextStyle(fontSize: 12),
+                                  style: AppTextStyle.semiBoldTS.copyWith(
+                                      color: AppColors.black191Color,
+                                      fontSize: 12
+                                  ),
                                 )
                               ],
                             ),
-                            Spacer(),
+                            const Spacer(),
                             CircleAvatar(
                                 backgroundColor: Colors.grey.shade100,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.call,
-                                  color: Colors.green,
+                                  color:AppColors.green34CColor,
                                 ))
                           ],
                         ),
@@ -380,46 +217,45 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Text(
                               "Time : ",
-                              style: TextStyle(
+                              style: AppTextStyle.regularTS.copyWith(
                                 fontSize: 12,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w300,
+                                color: AppColors.grey848Color,
                               ),
                             ),
                             Text(
                               "01:30 PM",
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                            Spacer(),
+                              style: AppTextStyle.semiBoldTS.copyWith(
+                                  color: AppColors.black323Color,
+                                  fontSize: 12
+                              ),),
+                            const Spacer(),
                             Text(
                               "Priority : ",
-                              style: TextStyle(
+                              style: AppTextStyle.regularTS.copyWith(
                                 fontSize: 12,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w300,
+                                color: AppColors.grey848Color,
                               ),
                             ),
                             Text(
                               "High",
-                              style: TextStyle(
+                              style: AppTextStyle.semiBoldTS.copyWith(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.deepPurple),
+                                  color: AppColors.purple9C5Color),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         Row(
                           children: [
-                            Icon(Icons.location_on_outlined),
+                            const Icon(Icons.location_on_outlined),
                             Expanded(
                                 child: Text(
                               "Gitschiner Str., Berlin Germany",
-                              style: TextStyle(
-                                fontSize: 12,
+                              style: AppTextStyle.mediumTS.copyWith(
+                                fontSize: 10,
+                                color: AppColors.black191Color
                               ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
@@ -438,3 +274,5 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+

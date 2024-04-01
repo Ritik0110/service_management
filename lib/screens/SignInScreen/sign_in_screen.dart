@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
+import 'package:service_call_management/utils/app_test_style.dart';
+
+import '../../utils/app_colors.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color backGroundColor = const Color(0xFF2f67de);
-    Color greenButtonBackgroundColor = const Color(0xFF33af59);
-
     return Scaffold(
-      backgroundColor: backGroundColor,
+      backgroundColor: AppColors.blue2F6Color,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -22,29 +22,12 @@ class SignInScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  RichText(
-                    text: const TextSpan(
-                        style: TextStyle(
-                          letterSpacing: 1.5,
-                          height: 1.5,
-                          fontSize: 26,
-                          color: Colors.white,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'Welcome To\n',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'SAP Business One\nService Call Management',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ]),
-                  ),
+                  Text("Welcome To",style:  AppTextStyle.regularTS.copyWith(
+                     color: AppColors.whiteColor,
+                      fontSize: 16, fontWeight: FontWeight.w200),),
+                  Text("SAP Business One\nService Call Management",style: AppTextStyle.semiBoldTS.copyWith(
+                      fontSize: 16, color: AppColors.whiteColor),),
+
                   const SizedBox(
                     height: 36,
                   ),
@@ -54,43 +37,53 @@ class SignInScreen extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Sign In',
-                          style: TextStyle(
+                         Text(
+                          'SIGN IN',
+                          style: AppTextStyle.semiBoldTS.copyWith(
+                            color: AppColors.black323Color,
                             fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+
+                          )
                         ),
                         const SizedBox(
                           height: 16,
                         ),
-                        const CustomTextFormField(title: "Email / Phone Number ", isRequired: false,hint: "Enter Email/ Phone Number",),
-                        const CustomTextFormField(title: "Password", isRequired: false,hint: "Enter password",suffix_icon: Icon(Icons.visibility_off_outlined),),
+                        const CustomTextFormField(
+                          title: "Email / Phone Number ",
+                          isRequired: false,
+                          hint: "Enter Email/ Phone Number",
+                        ),
+                        const CustomTextFormField(
+                          title: "Password",
+                          isRequired: false,
+                          hint: "Enter password",
+                          suffix_icon: Icon(Icons.visibility_off_outlined,opticalSize: 1, ),
+                        ),
                         const SizedBox(
                           height: 16,
                         ),
                         Row(
                           children: [
                             Checkbox(
-
-                              side: const BorderSide(strokeAlign: 5,color: Colors.grey,width: 1,style: BorderStyle.solid),
-                              value: false, onChanged: (value) {
-
-                            },),
-
-                               const Text(
-                                'Remember Password',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                              side: const BorderSide(
+                                  strokeAlign: 5,
+                                  color: Colors.grey,
+                                  width: 1,
+                                  style: BorderStyle.solid),
+                              value: false,
+                              onChanged: (value) {},
+                            ),
+                             Text(
+                              'Remember Password',
+                              style: AppTextStyle.regularTS.copyWith(
+                                fontSize: 12,
                               ),
-
-
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -98,21 +91,25 @@ class SignInScreen extends StatelessWidget {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: greenButtonBackgroundColor,
+                            backgroundColor: AppColors.green33AColor,
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                           onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen(),), (route) => false);
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(),
+                                ),
+                                (route) => false);
                           },
-                          child: const Row(
+                          child:  Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16.0),
-                                child: Text('Sign In'),
+                                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                child:Text('Sign In',style:  AppTextStyle.mediumTS.copyWith(fontSize: 16,color: AppColors.whiteColor,)),
                               ),
                             ],
                           ),
@@ -193,25 +190,22 @@ class CustomTextFormField extends StatelessWidget {
             maxLength: maxLength,
             validator: validator,
             controller: controller,
-            style: const TextStyle(
-              fontFamily: "Roboto",
+            style: AppTextStyle.regularTS.copyWith(
               fontWeight: FontWeight.normal,
               color: Color(0xFF323232),
               fontSize: 14,
             ),
             decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
               prefixText: prefixText,
               prefixStyle: prefixTextStyle,
               hintText: hint,
-              hintStyle: const TextStyle(
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.normal,
-                  color: Color(0xFFC1C1C1),
-                  fontSize: 14),
+              hintStyle: AppTextStyle.regularTS
+                  .copyWith(color: AppColors.grey848Color, fontSize: 12),
               suffixIcon: suffix_icon,
               counterText: "",
               prefixIcon: prefix_icon,
@@ -247,17 +241,17 @@ class CustomTextFormFieldLabel extends StatelessWidget {
           text: TextSpan(children: [
             TextSpan(
               text: title,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: fontWeight ?? FontWeight.normal,
-                  color: Color(0xFF323232),
-                  fontFamily: "Roboto"),
+              style: AppTextStyle.regularTS.copyWith(
+                fontSize: 14,
+                fontWeight: fontWeight ?? FontWeight.normal,
+                color: AppColors.black323Color,
+              ),
             ),
             isRequired
                 ? const TextSpan(
                     text: "*",
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.normal,
                         color: Color(0xFFFF0000),
                         fontFamily: "Roboto"),
@@ -266,7 +260,7 @@ class CustomTextFormFieldLabel extends StatelessWidget {
           ]),
         ),
         const SizedBox(
-          height: 8,
+          height: 10,
         ),
       ],
     );

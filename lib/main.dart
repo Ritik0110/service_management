@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
+import 'package:service_call_management/screens/choose_items/choose_items.dart';
+import 'package:service_call_management/screens/purchase_request/purchase_request.dart';
+import 'package:service_call_management/screens/purchase_request_form/purchase_request_form.dart';
+import 'package:service_call_management/screens/ticket_details/ticket_details.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 
@@ -21,7 +25,7 @@ class MyApp extends StatelessWidget {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             // Change this value to adjust scaling
-            textScaleFactor: 1.5,
+            textScaleFactor: 1.0,
             //textScaler: const TextScaler.linear(1.5)
           ),
           child: child!,
@@ -29,24 +33,23 @@ class MyApp extends StatelessWidget {
       },
       title: 'Flutter Demo',
       theme: ThemeData(
-        iconButtonTheme: IconButtonThemeData(
+        scaffoldBackgroundColor: AppColors.scaffoldColor,
+        iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(
              foregroundColor: MaterialStatePropertyAll(Colors.white)
           )
         ),
-        appBarTheme:    AppBarTheme(
-          backgroundColor:AppColors.blue2F6Color,
+        appBarTheme:  AppBarTheme(
+          backgroundColor: AppColors.blue2F6Color,
           centerTitle: false,
           foregroundColor: Colors.white,
-          titleTextStyle: AppTextStyle.mediumTS.copyWith(
-            color: AppColors.whiteColor,
-            fontSize: 16,
-          )
+          titleTextStyle: AppTextStyle.white16medium
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue2F6Color),
         useMaterial3: true,
       ),
-      home: const SignInScreen(),
+
+      home: const ChooseItems(),
     );
   }
 }

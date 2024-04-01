@@ -1,15 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
-import 'package:service_call_management/screens/choose_items/choose_items.dart';
-import 'package:service_call_management/screens/purchase_request/purchase_request.dart';
 import 'package:service_call_management/screens/purchase_request_form/purchase_request_form.dart';
-import 'package:service_call_management/screens/ticket_details/ticket_details.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -49,9 +47,16 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home: const ChooseItems(),
+      home: const PurchaseRequestForm(),
     );
   }
 }
-
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 

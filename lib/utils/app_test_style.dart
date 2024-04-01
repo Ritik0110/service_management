@@ -24,7 +24,11 @@ class AppTextStyle{
     fontWeight: FontWeight.w700,
   );
 
-
+  // grey84 14
+  static TextStyle grey84regular14 = regularTS.copyWith(
+    color: AppColors.grey848Color,
+    fontSize: 14,
+  );
   static TextStyle grey84regular16 = regularTS.copyWith(
     color: AppColors.grey848Color,
     fontSize: 16,
@@ -37,10 +41,17 @@ class AppTextStyle{
     color: AppColors.black323Color,
     fontSize: 14,
   );
+  static TextStyle yellowFF9regular16 = regularTS.copyWith(
+    color: AppColors.yellowFF9Color,
+    fontSize: 16,
+  );
 
 
 
-
+  static TextStyle black323medium14 = mediumTS.copyWith(
+    color: AppColors.black323Color,
+    fontSize: 14,
+  );
   static TextStyle grey7A7medium14 = mediumTS.copyWith(
     color: AppColors.grey7A7Color,
     fontSize: 14,
@@ -68,6 +79,10 @@ class AppTextStyle{
 
 
 
+  static TextStyle black323semi14 = semiBoldTS.copyWith(
+    color: AppColors.black323Color,
+    fontSize: 14,
+  );
   static TextStyle grey646semi16 = semiBoldTS.copyWith(
     color: AppColors.grey646Color,
     fontSize: 16,

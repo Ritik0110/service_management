@@ -11,7 +11,7 @@ class CommonDropdownField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 12),
         items: dropdownList.map((String category) {
           return DropdownMenuItem(value: category, child: Text(category));
         }).toList(),

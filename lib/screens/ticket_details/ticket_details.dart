@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/common_widgets/common_button.dart';
 import 'package:service_call_management/screens/purchase_request/purchase_request.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
@@ -13,7 +14,7 @@ class TicketDetails extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppColors.scaffoldColor,
         appBar: AppBar(
-          title: Text('Ticket Details'),
+          title: const Text('Ticket Details'),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,13 +105,8 @@ class TicketDetails extends StatelessWidget {
                       value: "\n22-March-2024,3:30 PM",
                       style: AppTextStyle.black323semi16),
                   24.sizedBoxHeight,
-                  MaterialButton(
-                    color: AppColors.green33AColor,
-                    minWidth: double.infinity,
-                    height: 50,
-                    child: Text("Close Ticket", style: AppTextStyle.white16medium),
-                    onPressed: () {},
-                  )
+                  CommonMaterialButton(
+                      buttonText: "Close Ticket", onTap: () {}),
                 ],
               ),
             ),
@@ -135,7 +131,8 @@ class TicketDetails extends StatelessWidget {
           style: reversed ? style : AppTextStyle.grey84regular16,
           children: [
             TextSpan(
-                text: value, style: reversed ? AppTextStyle.grey84regular16 : style)
+                text: value,
+                style: reversed ? AppTextStyle.grey84regular16 : style)
           ]),
     );
   }

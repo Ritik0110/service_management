@@ -33,9 +33,18 @@ class AppTextStyle{
     color: AppColors.black323Color,
     fontSize: 16,
   );
+  static TextStyle black323regular14 = regularTS.copyWith(
+    color: AppColors.black323Color,
+    fontSize: 14,
+  );
 
 
 
+
+  static TextStyle grey7A7medium14 = mediumTS.copyWith(
+    color: AppColors.grey7A7Color,
+    fontSize: 14,
+  );
   static TextStyle black191medium16 = mediumTS.copyWith(
     color: AppColors.black191Color,
     fontSize: 16,

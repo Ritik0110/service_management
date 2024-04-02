@@ -45,15 +45,19 @@ class DataList {
           "id": 1,
           "name": "printer 1",
           "series_number": "001",
+          "selected_items":1,
           "quantity": 25,
           "price": 400,
+          "total_price": 400,
         },
         {
           "id": 2,
           "name": "printer 2",
           "series_number": "002",
+          "selected_items":1,
           "quantity": 100,
           "price": 249,
+          "total_price": 249,
         }
       ]
     },
@@ -64,16 +68,20 @@ class DataList {
         {
           "id": 1,
           "name": "Monitor 1",
-          "series_number": "001",
+          "series_number": "003",
+          "selected_items":1,
           "quantity": 25,
           "price": 400,
+          "total_price": 400
         },
         {
           "id": 2,
           "name": "Monitor 2",
-          "series_number": "002",
+          "series_number": "004",
+          "selected_items":1,
           "quantity": 100,
           "price": 400,
+          "total_price": 400,
         }
       ]
     },
@@ -84,16 +92,20 @@ class DataList {
         {
           "id": 1,
           "name": "Cable 1",
-          "series_number": "001",
+          "series_number": "005",
+          "selected_items":1,
           "quantity": 25,
           "price": 400,
+          "total_price": 400,
         },
         {
           "id": 2,
           "name": "Cable 2",
-          "series_number": "002",
+          "series_number": "006",
+          "selected_items":1,
           "quantity": 100,
           "price": 400,
+          "total_price": 400,
         }
       ]
     }

@@ -48,14 +48,25 @@ class ChooseItems extends StatelessWidget {
                           itemCount:
                               chooseController.items[index]["subMenu"].length,
                           shrinkWrap: true,
-                          itemBuilder: (context, id) {
+                          itemBuilder: (context, j) {
                             return Container(
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               color: AppColors.scaffoldColor,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Checkbox(value: false, onChanged: (value) {}),
+                                  Obx(
+                                    () => Checkbox(
+                                        value: chooseController
+                                                .selectedItemsList[
+                                            "${chooseController.items[index]["subMenu"][j]["id"]}${chooseController.items[index]["subMenu"][j]["series_number"]}"],
+                                        onChanged: (value) {
+                                          chooseController.itemSelected(
+                                              chooseController.items[index]
+                                                  ["subMenu"][j],
+                                              "${chooseController.items[index]["subMenu"][j]["id"]}${chooseController.items[index]["subMenu"][j]["series_number"]}");
+                                        }),
+                                  ),
                                   CachedNetworkImage(
                                     imageUrl:
                                         "https://4.imimg.com/data4/GL/UP/MY-5812789/3-printer.jpg",
@@ -72,14 +83,14 @@ class ChooseItems extends StatelessWidget {
                                       children: [
                                         Text(
                                           chooseController.items[index]
-                                              ["subMenu"][id]["name"],
+                                              ["subMenu"][j]["name"],
                                           softWrap: true,
                                           style: AppTextStyle.black323medium14,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         Text(
-                                          "\$ ${chooseController.items[index]["subMenu"][id]["price"]}",
+                                          "\$ ${chooseController.items[index]["subMenu"][j]["price"]}",
                                           style: AppTextStyle.black323semi16,
                                         ),
                                       ],
@@ -92,12 +103,13 @@ class ChooseItems extends StatelessWidget {
                                       children: [
                                         Text(
                                           chooseController.items[index]
-                                          ["subMenu"][id]["series_number"],
+                                              ["subMenu"][j]["series_number"],
                                           style: AppTextStyle.grey84regular14,
                                         ),
                                         Text(
                                           chooseController.items[index]
-                                          ["subMenu"][id]["quantity"].toString(),
+                                                  ["subMenu"][j]["quantity"]
+                                              .toString(),
                                           style: AppTextStyle.grey84regular14,
                                         ),
                                       ],
@@ -137,7 +149,7 @@ class ChooseItems extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const PurchaseOrderReviewPage()));
+                                    PurchaseOrderReviewPage()));
                       },
                       width: 200,
                     )

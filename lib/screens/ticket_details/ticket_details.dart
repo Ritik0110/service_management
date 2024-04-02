@@ -7,7 +7,13 @@ import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 
 class TicketDetails extends StatelessWidget {
-  const TicketDetails({super.key});
+  const TicketDetails({super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketStatus, required this.ticketPriority, required this.ticketLocation});
+  final String ticketId;
+  final String ticketTitle;
+  final String ticketTime;
+  final String ticketStatus;
+  final String ticketPriority;
+  final String ticketLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -28,25 +34,25 @@ class TicketDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "#045514",
+                    "#$ticketId",
                     style: AppTextStyle.grey646semi16,
                   ),
                   Text(
-                    "Computer Not Working",
+                    "$ticketTitle",
                     style: AppTextStyle.black191medium16,
                   ),
                   10.sizedBoxHeight,
                   commonRow(
                       title: "Time : ",
-                      value: "2:00 AM",
+                      value: "$ticketTime",
                       style: AppTextStyle.black323semi16),
                   commonRow(
                       title: "Status : ",
-                      value: "Open",
+                      value: "$ticketStatus",
                       style: AppTextStyle.green47cSemi16),
                   commonRow(
                       title: "Priority : ",
-                      value: "Medium",
+                      value: "$ticketPriority",
                       style: AppTextStyle.yellowFF9Semi16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -56,7 +62,7 @@ class TicketDetails extends StatelessWidget {
                         color: AppColors.black191Color,
                       ),
                       Text(
-                        "Gischinser Str. Berlin, Germany",
+                        "$ticketLocation",
                         style: AppTextStyle.black191medium16,
                       ),
                     ],

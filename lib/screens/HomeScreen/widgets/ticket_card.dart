@@ -17,20 +17,20 @@ class TicketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const TicketDetails()));
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: ticketStatus.toLowerCase() == "open"? AppColors.green47CColor:AppColors.redE25Color,
-          borderRadius: BorderRadius.circular(10),
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: ticketStatus.toLowerCase() == "open"? AppColors.green47CColor:AppColors.redE25Color,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>  TicketDetails(ticketId: ticketId,ticketTitle: ticketTitle,ticketStatus: ticketStatus,ticketLocation: ticketLocation,ticketPriority: ticketPriority,ticketTime: ticketTitle,)));
+        },
         child: Container(
           margin: const EdgeInsets.only(left: 6),
           color: Colors.white,
@@ -45,7 +45,7 @@ class TicketCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                          "#${ticketId}",
+                          "#$ticketId",
                           style: AppTextStyle.semiBoldTS.copyWith(
                               color: AppColors.grey646Color,
                               fontSize: 16

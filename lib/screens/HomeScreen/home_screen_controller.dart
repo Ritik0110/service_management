@@ -38,7 +38,7 @@ class HomeControler extends GetxController {
   "status": "Open"
   },
   {
-  "id": "405515",
+  "id": "405516",
   "date": "01-04-2024",
   "title": "Computer Fan Not Working  ",
   "time": "01:30 PM",
@@ -47,13 +47,76 @@ class HomeControler extends GetxController {
   "status": "Close"
   },
   {
-  "id": "405515",
+  "id": "405517",
   "date": "01-04-2024",
   "title": "Display Not Working",
   "time": "01:30 PM",
   "priority": "Medium",
   "location": "Gitschiner Str., Berlin Germeany",
   "status": "Close"
+  },
+  {
+  "id": "405518",
+  "date": "02-04-2024",
+  "title": "Computer Not Working",
+  "time": "01:30 PM",
+  "priority": "High",
+  "location": "Gitschiner Str., Berlin Germeany",
+  "status": "Open"
+  },
+  {
+  "id": "405519",
+  "date": "02-04-2024",
+  "title": "USB Device Not Connect",
+  "time": "01:30 PM",
+  "priority": "Low",
+  "location": "Gitschiner Str., Berlin Germeany",
+  "status": "Open"
+  },
+  {
+  "id": "405520",
+  "date": "02-04-2024",
+  "title": "Computer Fan Not Working",
+  "time": "02:30 PM",
+  "priority": "Low",
+  "location": "Gitschiner Str., Berlin Germeany",
+  "status": "Close"
+  },
+  {
+  "id": "405521",
+  "date": "02-04-2024",
+  "title": "Display Not Working",
+  "time": "02:30 PM",
+  "priority": "Medium",
+  "location": "Gitschiner Str., Berlin Germeany",
+  "status": "Close"
+  },
+  {
+  "id": "405521",
+  "date": "01-04-2024",
+  "title": "Display Not Working",
+  "time": "03:30 PM",
+  "priority": "Medium",
+  "location": "Gitschiner Str., Berlin Germeany",
+  "status": "Open"
+  },
+  {
+  "id": "405522",
+  "date": "03-04-2024",
+  "title": "Display Not Working",
+  "time": "02:30 PM",
+  "priority": "High",
+  "location": "Gitschiner Str., Berlin Germeany",
+  "status": "Close"
+  },
+  {
+  "id": "405523",
+  "date": "03-04-2024",
+  "title": "Computer Fan Not Working",
+  "time": "03:30 PM",
+  "priority": "Medium",
+  "location": "Gitschiner Str., Berlin Germeany",
+  "status": "Open"
   }
   ]
 }"""));
@@ -68,6 +131,7 @@ class HomeControler extends GetxController {
     // TODO: implement onInit
     ticketList.value = ticketsModel.data??[];
     listElementCount.value = ticketList.length;
+    applyFilter();
     super.onInit();
   }
 
@@ -104,19 +168,19 @@ class HomeControler extends GetxController {
     }).toList()??[];
       // List<Data> filteredList = ticketsModel.data??[];
       if(status.value == Status.open){
-        filteredList = filteredList.where((element) => element.status?.toLowerCase() == "open").toList()??[];
+        filteredList.removeWhere((element) => element.status?.toLowerCase() != "open");
       }
       if(status.value == Status.close){
-        filteredList = filteredList.where((element) => element.status?.toLowerCase() == "close").toList()??[];
+        filteredList.removeWhere((element) => element.status?.toLowerCase() != "close");
       }
       if(priority.value == Priority.low){
-        filteredList = filteredList.where((element) => element.priority?.toLowerCase() == "low").toList()??[];
+        filteredList.removeWhere((element) => element.priority?.toLowerCase() != "low");
       }
       if(priority.value == Priority.medium){
-        filteredList = filteredList.where((element) => element.priority?.toLowerCase() == "medium").toList()??[];
+        filteredList.removeWhere((element) => element.priority?.toLowerCase() != "medium");
       }
       if(priority.value == Priority.high){
-        filteredList = filteredList.where((element) => element.priority?.toLowerCase() == "high").toList()??[];
+        filteredList.removeWhere((element) => element.priority?.toLowerCase() != "high");
       }
       ticketList.value = filteredList;
       listElementCount.value = ticketList.length;

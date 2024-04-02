@@ -1,15 +1,17 @@
-import 'package:easy_date_timeline/easy_date_timeline.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/screens/HomeScreen/home_screen_controller.dart';
+import 'package:service_call_management/screens/HomeScreen/noification_screen.dart';
+import 'package:service_call_management/screens/HomeScreen/widgets/search_tickets_dialog.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/home_bottom_sheet.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/home_date_picker.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/ticket_card.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 
-import '../../Models/TicketsModel.dart';
+
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 
@@ -21,7 +23,35 @@ class HomeScreen extends StatelessWidget {
     HomeControler controller = Get.put(HomeControler());
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      drawer: const Drawer(),
+      drawer:  Drawer(
+         child: Column(
+           children: [
+              DrawerHeader(
+                decoration: const BoxDecoration(
+                  color: AppColors.blue2F6Color,
+                ),
+                child: Center(
+                  child: Text(
+                    'Service Call Management',
+                    style: AppTextStyle.white16medium,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: const Text('Home'),
+                onTap: () {
+                  Get.back();
+                },
+              ),
+              ListTile(
+                title: const Text('Sign Out'),
+                onTap: () {
+                  Get.offAll(() => const SignInScreen());
+                },
+              ),
+           ],
+         ),
+      ),
       appBar: AppBar(
         title: const Text('Home'),
         actions: [
@@ -29,49 +59,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 controller.searchText.value = '';
                 Get.dialog(useSafeArea: false,Dialog.fullscreen(
-                  child: Scaffold(
-
-                    appBar:
-                      AppBar(
-                        title: const Text('Search Ticket'),
-                        leading: IconButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          icon: const Icon(Icons.arrow_back),
-                        ),
-                      ),
-                     body:   SafeArea(
-                       child: Column(
-                         children: [
-                            Padding(
-                             padding: EdgeInsets.all(16.0),
-                             child: CustomTextFormField(title: 'Search Ticket', isRequired: false,onChanged: (value){
-                               controller.searchText.value = value;
-                             },
-                           )),
-                           Expanded(
-                             child: Obx(
-                               () {
-                                List<Data> searchResult =  controller.ticketList.where((element) => element.title?.toLowerCase()?.contains(controller.searchText.value.toLowerCase())??false).toList();
-                                 return ListView.builder(
-                                 padding: const EdgeInsets.all(16),
-                                  shrinkWrap: true,
-                                 scrollDirection: Axis.vertical,
-
-                                 itemCount: searchResult.length,
-                                 itemBuilder: (context, index) {
-                                   return  TicketCard(ticketId:searchResult[index].id??"", ticketTitle: searchResult[index].title??"", ticketTime: searchResult[index].time??"", ticketPriority: searchResult[index].priority??"", ticketLocation: searchResult[index].location??"", ticketStatus: searchResult[index].status??"",);
-                                 },);}
-                             ),
-                           ),
-                         ],
-                       ),
-                     ),
-
-
-
-                  )
+                  child: SearchTicketsDialog(controller: controller)
                 ));
               },
               icon: Image.asset(
@@ -81,7 +69,10 @@ class HomeScreen extends StatelessWidget {
           Stack(
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
+
+                  },
                   icon: Image.asset(
                     AppAssets.notificationIcon,
                     height: 25,
@@ -159,7 +150,6 @@ class HomeScreen extends StatelessWidget {
                             date.year == controller.selectedDate.value.year;
                       }).toList().length??0;
 
-                      print(count);
 
                       return Text(
                       "($count)",
@@ -208,15 +198,15 @@ class HomeScreen extends StatelessWidget {
                 itemCount: controller.listElementCount.value,
                 itemBuilder: (context, index) {
                   return TicketCard(
-                    ticketId: controller.ticketList.value[index].id ?? '',
-                    ticketTitle: controller.ticketList.value[index].title ?? "",
-                    ticketTime: controller.ticketList.value[index].time ?? "",
+                    ticketId: controller.ticketList[index].id ?? '',
+                    ticketTitle: controller.ticketList[index].title ?? "",
+                    ticketTime: controller.ticketList[index].time ?? "",
                     ticketPriority:
-                        controller.ticketList.value[index].priority ?? "",
+                        controller.ticketList[index].priority ?? "",
                     ticketLocation:
-                        controller.ticketList.value[index].location ?? '',
+                        controller.ticketList[index].location ?? '',
                     ticketStatus:
-                        controller.ticketList.value[index].status ?? "",
+                        controller.ticketList[index].status ?? "",
                   );
                 },
               ),
@@ -227,3 +217,5 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+

@@ -193,22 +193,25 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: controller.listElementCount.value,
-                itemBuilder: (context, index) {
-                  return TicketCard(
-                    ticketId: controller.ticketList[index].id ?? '',
-                    ticketTitle: controller.ticketList[index].title ?? "",
-                    ticketTime: controller.ticketList[index].time ?? "",
-                    ticketPriority:
-                        controller.ticketList[index].priority ?? "",
-                    ticketLocation:
-                        controller.ticketList[index].location ?? '',
-                    ticketStatus:
-                        controller.ticketList[index].status ?? "",
-                  );
-                },
+              () => Container(
+                color: AppColors.blueEFFColor,
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: controller.listElementCount.value,
+                  itemBuilder: (context, index) {
+                    return TicketCard(
+                      ticketId: controller.ticketList[index].id ?? '',
+                      ticketTitle: controller.ticketList[index].title ?? "",
+                      ticketTime: controller.ticketList[index].time ?? "",
+                      ticketPriority:
+                          controller.ticketList[index].priority ?? "",
+                      ticketLocation:
+                          controller.ticketList[index].location ?? '',
+                      ticketStatus:
+                          controller.ticketList[index].status ?? "",
+                    );
+                  },
+                ),
               ),
             ),
           )

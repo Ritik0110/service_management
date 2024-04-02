@@ -21,6 +21,14 @@ class TicketCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 10,
+            spreadRadius: 2,
+            offset: const Offset(0, 0),
+          )
+        ],
         color: ticketStatus.toLowerCase() == "open"? AppColors.green47CColor:AppColors.redE25Color,
         borderRadius: BorderRadius.circular(10),
       ),

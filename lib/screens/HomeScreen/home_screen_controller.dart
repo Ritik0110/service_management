@@ -183,6 +183,10 @@ class HomeControler extends GetxController {
         filteredList.removeWhere((element) => element.priority?.toLowerCase() != "high");
       }
       ticketList.value = filteredList;
+      if(listElementCount.value == ticketList.length) {
+        listElementCount.value = 0;
+      }
       listElementCount.value = ticketList.length;
+
   }
 }

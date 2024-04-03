@@ -9,7 +9,9 @@ import 'package:service_call_management/screens/HomeScreen/widgets/home_bottom_s
 import 'package:service_call_management/screens/HomeScreen/widgets/home_date_picker.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/ticket_card.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
+import 'package:service_call_management/utils/app_preferences.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 import '../../utils/app_assets.dart';
@@ -45,7 +47,9 @@ class HomeScreen extends StatelessWidget {
               ),
               ListTile(
                 title: const Text('Sign Out'),
-                onTap: () {
+                onTap: () async {
+                  SharedPreferences preferences  = await SharedPreferences.getInstance();
+                  preferences.remove(AppPreferences.isLoggedIn);
                   Get.offAll(() => const SignInScreen());
                 },
               ),
@@ -75,22 +79,23 @@ class HomeScreen extends StatelessWidget {
                   },
                   icon: Image.asset(
                     AppAssets.notificationIcon,
-                    height: 25,
+                    color: AppColors.whiteColor,
+                    height: 22,
                   )),
-              // Positioned(
-              //   top: 2,
-              //   right: 2,
-              //   child: CircleAvatar(
-              //     backgroundColor: Colors.red.shade700,
-              //     foregroundColor: Colors.white,
-              //     radius: 10,
-              //     child: const Center(
-              //         child: FittedBox(
-              //             child: Text(
-              //       '5',
-              //     ))),
-              //   ),
-              // ),
+              Positioned(
+                top: 2,
+                right: 2,
+                child: CircleAvatar(
+                  backgroundColor: Colors.red.shade700,
+                  foregroundColor: Colors.white,
+                  radius: 10,
+                  child: const Center(
+                      child: FittedBox(
+                          child: Text(
+                    '5',
+                  ))),
+                ),
+              ),
             ],
           )
         ],
@@ -111,8 +116,11 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () {
-                      int count = controller.ticketsModel.data?.where((element) {
-                        if (element.date == null) {
+                      if(controller.ticketsModel==null){
+                        return const SizedBox();
+                      }
+                      int count = controller.ticketsModel?.value.serviceData?.where((element) {
+                        if (element.generateDate == null) {
                           if (kDebugMode) {
                             print("Skipping element with null date: $element");
                           }
@@ -120,10 +128,10 @@ class HomeScreen extends StatelessWidget {
                         }
 
                         // Remove any extra whitespace
-                        String cleanedDate = element.date!.trim();
+                        String cleanedDate = element.generateDate!.trim();
 
                         // Split the date string into day, month, and year
-                        List<String> dateParts = cleanedDate.split('-');
+                        List<String> dateParts = cleanedDate.split('/');
                         if (dateParts.length != 3) {
                           if (kDebugMode) {
                             print("Skipping element with invalid date format: $element");
@@ -132,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                         }
 
                         // Reconstruct the date string in "yyyy-MM-dd" format
-                        String formattedDate = '${dateParts[2]}-${dateParts[1]}-${dateParts[0]}';
+                        String formattedDate = '${dateParts[2]}-${dateParts[0]}-${dateParts[1]}';
 
                         // Try to parse the formatted date string into a DateTime object
                         DateTime? date = DateTime.tryParse(formattedDate);
@@ -193,22 +201,22 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => Container(
+              () => controller.ticketsModel==null?SizedBox(): Container(
                 color: AppColors.blueEFFColor,
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: controller.listElementCount.value,
                   itemBuilder: (context, index) {
                     return TicketCard(
-                      ticketId: controller.ticketList[index].id ?? '',
-                      ticketTitle: controller.ticketList[index].title ?? "",
+                      ticketId: controller.ticketList[index].serviceCallNo ?? '',
+                      ticketTitle: controller.ticketList[index].subject ?? "",
                       ticketTime: controller.ticketList[index].time ?? "",
                       ticketPriority:
                           controller.ticketList[index].priority ?? "",
                       ticketLocation:
-                          controller.ticketList[index].location ?? '',
+                          controller.ticketList[index].address ?? '',
                       ticketStatus:
-                          controller.ticketList[index].status ?? "",
+                          controller.ticketList[index].callStatus ?? "",
                     );
                   },
                 ),

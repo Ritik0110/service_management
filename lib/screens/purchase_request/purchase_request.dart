@@ -3,6 +3,8 @@ import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 
+import '../purchase_request_form/purchase_request_form.dart';
+
 class PurchaseRequest extends StatefulWidget {
   const PurchaseRequest({super.key});
 
@@ -19,6 +21,22 @@ class _PurchaseRequestState extends State<PurchaseRequest> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Purchase Request'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => PurchaseRequestForm(),));
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.blue2F6Color,
+        foregroundColor: AppColors.whiteColor,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PurchaseRequestForm(),));
+        },
+        child: const Icon(Icons.add),
       ),
       body: Stack(
         children: [

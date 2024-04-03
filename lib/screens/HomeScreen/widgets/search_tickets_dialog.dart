@@ -38,7 +38,7 @@ class SearchTicketsDialog extends StatelessWidget {
             child: Padding(
                 padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
                 child: CustomTextFormField(
-                   hint: 'Enter Ticket ID or Title',
+                   hint: 'Enter Ticket ID / Title',
                   prefix_icon: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Image.asset(AppAssets.searchIcon,color: AppColors.blue2F6Color,height: 20,width: 20,),
@@ -51,8 +51,8 @@ class SearchTicketsDialog extends StatelessWidget {
           Expanded(
             child: Obx(
                     () {
-                  List<Data> searchResult =  controller.ticketList.where((element) {
-                    return "${element.title}#${element.id}".toLowerCase()?.contains(controller.searchText.value.toLowerCase())??false;}).toList();
+                  List<ServiceData> searchResult =  controller.ticketList.where((element) {
+                    return "${element.subject}#${element.serviceCallNo}".toLowerCase()?.contains(controller.searchText.value.toLowerCase())??false;}).toList();
                   return Container(
                     color:AppColors.blueEFFColor,
                     child: ListView.builder(
@@ -62,7 +62,7 @@ class SearchTicketsDialog extends StatelessWidget {
 
                       itemCount: searchResult.length,
                       itemBuilder: (context, index) {
-                        return  TicketCard(ticketId:searchResult[index].id??"", ticketTitle: searchResult[index].title??"", ticketTime: searchResult[index].time??"", ticketPriority: searchResult[index].priority??"", ticketLocation: searchResult[index].location??"", ticketStatus: searchResult[index].status??"",);
+                        return  TicketCard(ticketId:searchResult[index].serviceCallNo??"", ticketTitle: searchResult[index].subject??"", ticketTime: searchResult[index].time??"", ticketPriority: searchResult[index].priority??"", ticketLocation: searchResult[index].address??"", ticketStatus: searchResult[index].callStatus??"",);
                       },),
                   );}
             ),

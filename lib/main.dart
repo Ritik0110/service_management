@@ -1,12 +1,25 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/Models/employee_model.dart';
+import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
 import 'package:service_call_management/utils/app_colors.dart';
+import 'package:service_call_management/utils/app_preferences.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
+import 'package:service_call_management/utils/app_variables.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
-void main() {
+Future<void> main() async {
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  AppVariables.isLoggedIn = prefs.getBool(AppPreferences.isLoggedIn) ?? false;
+  if(AppVariables.isLoggedIn){
+     AppVariables.employeeModel = EmployeeModel.fromJson(json.decode(prefs.getString(AppPreferences.storedEmpData) ?? '{}'));
+  }
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
@@ -17,6 +30,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
@@ -64,7 +78,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home: const SignInScreen(),
+      home: AppVariables.isLoggedIn? const HomeScreen():const SignInScreen(),
     );
   }
 }

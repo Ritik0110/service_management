@@ -1,84 +1,112 @@
-//sample data
-
-// {
-// "resultFlag": 1,
-// "data": [
-// {
-// "id": "405514",
-// "date": "01-04-2024",
-// "title": "Computer Not Working",
-// "time": "01:30 PM",
-// "priority": "High",
-// "location": "Gitschiner Str., Berlin Germeany",
-// "status": "Open"
-// }
-// ]
-// }
-
-
 class TicketsModel {
-  int? resultFlag;
-  List<Data>? data;
+  int? result;
+  String? message;
+  int? count;
+  List<ServiceData>? serviceData;
 
-  TicketsModel({this.resultFlag, this.data});
+  TicketsModel({this.result, this.message, this.count, this.serviceData});
 
   TicketsModel.fromJson(Map<String, dynamic> json) {
-    resultFlag = json['resultFlag'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+    result = json['Result'];
+    message = json['Message'];
+    count = json['Count'];
+    if (json['Service_Data'] != null) {
+      serviceData = <ServiceData>[];
+      json['Service_Data'].forEach((v) {
+        serviceData!.add(ServiceData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['resultFlag'] = this.resultFlag;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Result'] = result;
+    data['Message'] = message;
+    data['Count'] = count;
+    if (serviceData != null) {
+      data['Service_Data'] = serviceData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Data {
-  String? id;
-  String? date;
-  String? title;
-  String? time;
+class ServiceData {
+  String? serviceCallNo;
+  String? subject;
+  String? callStatus;
   String? priority;
-  String? location;
-  String? status;
+  String? problemType;
+  String? callType;
+  String? customerCode;
+  String? customerName;
+  String? issueType;
+  String? generateDate;
+  String? itemCode;
+  String? itemName;
+  String? address;
+  String? time;
+  String? contactPerson;
+  String? contactNumber;
+  String? endDate;
 
-  Data(
-      {this.id,
-        this.date,
-        this.title,
-        this.time,
+  ServiceData(
+      {this.serviceCallNo,
+        this.subject,
+        this.callStatus,
         this.priority,
-        this.location,
-        this.status});
+        this.problemType,
+        this.callType,
+        this.customerCode,
+        this.customerName,
+        this.issueType,
+        this.generateDate,
+        this.itemCode,
+        this.itemName,
+        this.address,
+        this.time,
+        this.contactPerson,
+        this.contactNumber,
+        this.endDate});
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    date = json['date'];
-    title = json['title'];
-    time = json['time'];
-    priority = json['priority'];
-    location = json['location'];
-    status = json['status'];
+  ServiceData.fromJson(Map<String, dynamic> json) {
+    serviceCallNo = json['ServiceCallNo'];
+    subject = json['Subject'];
+    callStatus = json['CallStatus'];
+    priority = json['Priority'];
+    problemType = json['ProblemType'];
+    callType = json['CallType'];
+    customerCode = json['CustomerCode'];
+    customerName = json['CustomerName'];
+    issueType = json['IssueType'];
+    generateDate = json['GenerateDate'];
+    itemCode = json['ItemCode'];
+    itemName = json['ItemName'];
+    address = json['Address'];
+    time = json['Time'];
+    contactPerson = json['ContactPerson'];
+    contactNumber = json['ContactNumber'];
+    endDate = json['EndDate'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date'] = this.date;
-    data['title'] = this.title;
-    data['time'] = this.time;
-    data['priority'] = this.priority;
-    data['location'] = this.location;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ServiceCallNo'] = serviceCallNo;
+    data['Subject'] = subject;
+    data['CallStatus'] = callStatus;
+    data['Priority'] = priority;
+    data['ProblemType'] = problemType;
+    data['CallType'] = callType;
+    data['CustomerCode'] = customerCode;
+    data['CustomerName'] = customerName;
+    data['IssueType'] = issueType;
+    data['GenerateDate'] = generateDate;
+    data['ItemCode'] = itemCode;
+    data['ItemName'] = itemName;
+    data['Address'] = address;
+    data['Time'] = time;
+    data['ContactPerson'] = contactPerson;
+    data['ContactNumber'] = contactNumber;
+    data['EndDate'] = endDate;
     return data;
   }
 }

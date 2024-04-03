@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
+
 import 'package:service_call_management/screens/SignInScreen/sign_in_controller.dart';
+import 'package:service_call_management/utils/api_helper.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
+import 'package:service_call_management/utils/form_validators.dart';
 
 import '../../utils/app_colors.dart';
 
@@ -12,7 +14,9 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SignInController controller = Get.put(SignInController());
+    SignInController controller = Get.put(SignInController(),);
+    final formKey = GlobalKey<FormState>();
+    controller.loadStoredData();
     return Scaffold(
       backgroundColor: AppColors.blue2F6Color,
       body: SafeArea(
@@ -41,94 +45,109 @@ class SignInScreen extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                         Text(
-                          'SIGN IN',
-                          style: AppTextStyle.semiBoldTS.copyWith(
-                            color: AppColors.black323Color,
-                            fontSize: 24,
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                           Text(
+                            'SIGN IN',
+                            style: AppTextStyle.semiBoldTS.copyWith(
+                              color: AppColors.black323Color,
+                              fontSize: 24,
 
-                          )
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                         CustomTextFormField(
-                          controller: controller.emailController,
-                          title: "Email / Phone Number ",
-                          isRequired: false,
-                          hint: "Enter Email/ Phone Number",
-                        ),
-                         Obx(
-                           () =>  CustomTextFormField(
-                            controller: controller.passwordController,
-                            obscureText: !controller.isPasswordVisible.value,
-                            title: "Password",
-                            isRequired: false,
-                            hint: "Enter password",
-                            suffix_icon: InkWell(onTap: () {
-                              controller.togglePasswordVisibility();
-                            },child: Icon(controller.isPasswordVisible.value==false?Icons.visibility_off_outlined:Icons.visibility_outlined,opticalSize: 1, )),
-                        ),
-                         ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          children: [
-                            Obx(
-                              () =>  Checkbox(
-                                visualDensity: VisualDensity.compact,
-                                side: const BorderSide(
-                                    strokeAlign: 5,
-                                    color: Colors.grey,
-                                    width: 1,
-                                    style: BorderStyle.solid),
-                                value: controller.isRememberMe.value,
-                                onChanged: (value) {
-                                  controller.toggleRememberMe();
-                                },
-                              ),
-                            ),
-                             Text(
-                              'Remember Password',
-                              style: AppTextStyle.regularTS.copyWith(
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.green33AColor,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                            )
                           ),
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                  builder: (context) => HomeScreen(),
-                                ),
-                                (route) => false);
-                          },
-                          child:  Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          const SizedBox(
+                            height: 16,
+                          ),
+                           CustomTextFormField(
+                            validator: FormValidators.requiredFieldValidator,
+                            controller: controller.emailController,
+                            title: "User ID ",
+                            isRequired: false,
+                            hint: "Enter User ID",
+                          ),
+                           Obx(
+                             () =>  CustomTextFormField(
+                               validator: FormValidators.requiredFieldValidator,
+                              controller: controller.passwordController,
+                              obscureText: !controller.isPasswordVisible.value,
+                              title: "Password",
+                              isRequired: false,
+                              hint: "Enter password",
+                              suffix_icon: InkWell(onTap: () {
+                                controller.togglePasswordVisibility();
+                              },child: Icon(controller.isPasswordVisible.value==false?Icons.visibility_off_outlined:Icons.visibility_outlined,opticalSize: 1, )),
+                          ),
+                           ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                child:Text('Sign In',style:  AppTextStyle.mediumTS.copyWith(fontSize: 16,color: AppColors.whiteColor,)),
+                              Obx(
+                                () =>  Checkbox(
+                                  visualDensity: VisualDensity.compact,
+                                  side: const BorderSide(
+                                      strokeAlign: 5,
+                                      color: Colors.grey,
+                                      width: 1,
+                                      style: BorderStyle.solid),
+                                  value: controller.isRememberMe.value,
+                                  onChanged: (value) {
+                                    controller.toggleRememberMe();
+                                  },
+                                ),
+                              ),
+                               Text(
+                                'Remember Password',
+                                style: AppTextStyle.regularTS.copyWith(
+                                  fontSize: 12,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.green33AColor,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: () {
+                              if(formKey.currentState?.validate() == true){
+
+                            controller.signIn();
+                              }
+                            },
+                            child:  Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                  child:Text('Sign In',style:  AppTextStyle.mediumTS.copyWith(fontSize: 16,color: AppColors.whiteColor,)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Center(
+                            child: Obx(
+                                  () =>  Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Text(controller.errorMessage.value,style: AppTextStyle.boldTS.copyWith(
+                                fontSize: 12,
+                                color: AppColors.redE25Color,
+                              ),),
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

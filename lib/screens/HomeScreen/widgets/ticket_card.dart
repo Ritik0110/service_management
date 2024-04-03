@@ -29,7 +29,7 @@ class TicketCard extends StatelessWidget {
             offset: const Offset(0, 0),
           )
         ],
-        color: ticketStatus.toLowerCase() == "open"? AppColors.green47CColor:AppColors.redE25Color,
+        color: ticketStatus.toLowerCase() == "open"? AppColors.green47CColor:ticketStatus.toLowerCase() == "close"?AppColors.redE25Color:Colors.grey,
         borderRadius: BorderRadius.circular(10),
       ),
       child: InkWell(
@@ -108,7 +108,7 @@ class TicketCard extends StatelessWidget {
                     ticketPriority,
                     style: AppTextStyle.semiBoldTS.copyWith(
                         fontSize: 16,
-                        color: ticketPriority.toLowerCase() == "high"? AppColors.purple9C5Color:ticketPriority.toLowerCase() == "low"? AppColors.blue3BCColor:AppColors.yellowFF9Color,
+                        color: ticketPriority.toLowerCase() == "high"? AppColors.purple9C5Color:ticketPriority.toLowerCase() == "low"? AppColors.blue3BCColor:ticketPriority.toLowerCase() == "medium"?AppColors.yellowFF9Color:Colors.grey,
                     ),
                   ),
                 ],

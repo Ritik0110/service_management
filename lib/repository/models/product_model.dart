@@ -106,6 +106,54 @@ class DataList {
           "quantity": 100,
           "price": 400,
           "total_price": 400,
+        },
+      ]
+    },
+    {
+      "productId": 4,
+      "productType":"Printer",
+      "subMenu":[
+        {
+          "id": 1,
+          "name": "printer 1",
+          "series_number": "007",
+          "selected_items":1,
+          "quantity": 25,
+          "price": 400,
+          "total_price": 400,
+        },
+        {
+          "id": 2,
+          "name": "printer 2",
+          "series_number": "008",
+          "selected_items":1,
+          "quantity": 100,
+          "price": 249,
+          "total_price": 249,
+        }
+      ]
+    },
+    {
+      "productId": 5,
+      "productType":"Printer",
+      "subMenu":[
+        {
+          "id": 1,
+          "name": "printer 1",
+          "series_number": "009",
+          "selected_items":1,
+          "quantity": 25,
+          "price": 400,
+          "total_price": 400,
+        },
+        {
+          "id": 2,
+          "name": "printer 2",
+          "series_number": "010",
+          "selected_items":1,
+          "quantity": 100,
+          "price": 249,
+          "total_price": 249,
         }
       ]
     }

@@ -13,11 +13,20 @@ class ChooseItems extends StatelessWidget {
 
   final chooseController = Get.put(ChooseItemController());
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose Items'),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+            print("Hiii");
+            Get.delete<ChooseItemController>();
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
         actions: [
           IconButton(
             onPressed: () {},

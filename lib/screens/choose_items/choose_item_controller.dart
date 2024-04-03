@@ -11,18 +11,14 @@ class ChooseItemController extends GetxController {
   void onInit() {
     super.onInit();
     items = DataList.itemsList;
-    print(items);
-    items.forEach((element) {
+    for (var element in items) {
       for (var i = 0; i < element["subMenu"].length; i++) {
-        print("${element["subMenu"][i]["id"]}");
-        print("${element["subMenu"][i]["series_number"]}");
         selectedItemsList.addAll({
           "${element["subMenu"][i]["id"]}${element["subMenu"][i]["series_number"]}":
               false
         });
       }
-    });
-    print(selectedItemsList);
+    }
   }
 
   itemSelected(var data, var index) {

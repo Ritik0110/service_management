@@ -39,12 +39,13 @@ class OrderReviewController extends GetxController {
   }
 
   void decreaseQuantity(index) {
-    totalAmount.value = 0;
-    itemControl.selectedItems[index]["selected_items"] -= 1;
-    itemControl.selectedItems[index]["total_price"] =
-        itemControl.selectedItems[index]["selected_items"] *
-            itemControl.selectedItems[index]["price"];
-
-    updateTotalAmount();
+    if (itemControl.selectedItems[index]["selected_items"] > 1) {
+      totalAmount.value = 0;
+      itemControl.selectedItems[index]["selected_items"] -= 1;
+      itemControl.selectedItems[index]["total_price"] =
+          itemControl.selectedItems[index]["selected_items"] *
+              itemControl.selectedItems[index]["price"];
+      updateTotalAmount();
+    }
   }
 }

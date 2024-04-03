@@ -9,30 +9,25 @@ import 'package:service_call_management/utils/extension/size_extension.dart';
 import '../../common_widgets/common_button.dart';
 import 'order_review_controller.dart';
 
-class PurchaseOrderReviewPage extends StatefulWidget {
-  const PurchaseOrderReviewPage({super.key});
+class PurchaseOrderReviewPage extends StatelessWidget {
+   PurchaseOrderReviewPage({super.key});
 
-  @override
-  State<PurchaseOrderReviewPage> createState() =>
-      _PurchaseOrderReviewPageState();
-}
-
-class _PurchaseOrderReviewPageState extends State<PurchaseOrderReviewPage> {
   final reviewController = Get.put(OrderReviewController());
 
   final ChooseItemController itemsController = Get.find();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Purchase Order Review'),
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+              Get.delete<OrderReviewController>();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
         ),
         body: Stack(
           children: [

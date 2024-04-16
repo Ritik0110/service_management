@@ -30,9 +30,9 @@ class SignInScreen extends StatelessWidget {
 
                   Text("Welcome To",style:  AppTextStyle.regularTS.copyWith(
                      color: AppColors.whiteColor,
-                      fontSize: 24, fontWeight: FontWeight.w200),),
-                  Text("SAP Business One\nService Call Management",style: AppTextStyle.semiBoldTS.copyWith(
-                      fontSize: 24, color: AppColors.whiteColor),),
+                      fontSize: 28, fontWeight: FontWeight.w200),),
+                  Text("SAP Business One\nService Call Parts\nRequests",style: AppTextStyle.boldTS.copyWith(
+                      fontSize: 28, color: AppColors.whiteColor),),
 
                   const SizedBox(
                     height: 36,
@@ -64,9 +64,9 @@ class SignInScreen extends StatelessWidget {
                            CustomTextFormField(
                             validator: FormValidators.requiredFieldValidator,
                             controller: controller.emailController,
-                            title: "User ID ",
+                            title: "SAP User ID ",
                             isRequired: false,
-                            hint: "Enter User ID",
+                            hint: "Enter SAP User ID",
                           ),
                            Obx(
                              () =>  CustomTextFormField(
@@ -138,7 +138,7 @@ class SignInScreen extends StatelessWidget {
                           Center(
                             child: Obx(
                                   () =>  Padding(
-                                    padding: EdgeInsets.all(16),
+                                    padding: const EdgeInsets.all(16),
                                     child: Text(controller.errorMessage.value,style: AppTextStyle.boldTS.copyWith(
                                 fontSize: 12,
                                 color: AppColors.redE25Color,

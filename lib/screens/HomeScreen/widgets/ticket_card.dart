@@ -6,12 +6,13 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_test_style.dart';
 class TicketCard extends StatelessWidget {
   const TicketCard({
-    super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketPriority, required this.ticketLocation, required this.ticketStatus,
+    super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketLocation, required this.ticketStatus, required this.model, required this.manuSN,
   });
   final String ticketId;
   final String ticketTitle;
   final String ticketTime;
-  final String ticketPriority;
+  final String model;
+  final String manuSN;
   final String ticketLocation;
   final String ticketStatus;
 
@@ -37,7 +38,7 @@ class TicketCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>  TicketDetails(ticketId: ticketId,ticketTitle: ticketTitle,ticketStatus: ticketStatus,ticketLocation: ticketLocation,ticketPriority: ticketPriority,ticketTime: ticketTitle,)));
+                  builder: (context) =>  TicketDetails(ticketId: ticketId,ticketTitle: ticketTitle,ticketStatus: ticketStatus,ticketLocation: ticketLocation,ticketTime: ticketTitle,)));
         },
         child: Container(
           margin: const EdgeInsets.only(left: 6),
@@ -98,21 +99,57 @@ class TicketCard extends StatelessWidget {
                     ),),
                   const Spacer(),
                   Text(
-                    "Priority : ",
+                    "Status : ",
                     style: AppTextStyle.regularTS.copyWith(
                       fontSize: 16,
                       color: AppColors.grey848Color,
                     ),
                   ),
                   Text(
-                    ticketPriority,
+                    ticketStatus,
                     style: AppTextStyle.semiBoldTS.copyWith(
                         fontSize: 16,
-                        color: ticketPriority.toLowerCase() == "high"? AppColors.purple9C5Color:ticketPriority.toLowerCase() == "low"? AppColors.blue3BCColor:ticketPriority.toLowerCase() == "medium"?AppColors.yellowFF9Color:Colors.grey,
+                        color: ticketStatus.toLowerCase() == "open"? AppColors.green47CColor:ticketStatus.toLowerCase() == "close"? AppColors.redE25Color:Colors.grey,
                     ),
                   ),
                 ],
               ),
+
+              Row(
+                children: [
+                  Text(
+                    "Model : ",
+                    style: AppTextStyle.regularTS.copyWith(
+                      fontSize: 16,
+                      color: AppColors.grey848Color,
+                    ),
+                  ),
+                  Text(
+                    model,
+                    style: AppTextStyle.semiBoldTS.copyWith(
+                        color: AppColors.black323Color,
+                        fontSize: 16
+                    ),),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "manuSN : ",
+                    style: AppTextStyle.regularTS.copyWith(
+                      fontSize: 16,
+                      color: AppColors.grey848Color,
+                    ),
+                  ),
+                  Text(
+                    manuSN,
+                    style: AppTextStyle.semiBoldTS.copyWith(
+                        color: AppColors.black323Color,
+                        fontSize: 16
+                    ),),
+                ],
+              ),
+
               const SizedBox(
                 height: 4,
               ),

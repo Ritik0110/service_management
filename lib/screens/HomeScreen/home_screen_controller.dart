@@ -110,18 +110,18 @@ class HomeControler extends GetxController {
       filteredList.removeWhere(
           (element) => element.callStatus?.toLowerCase() != "close");
     }
-    if (priority.value == Priority.low) {
-      filteredList
-          .removeWhere((element) => element.priority?.toLowerCase() != "low");
-    }
-    if (priority.value == Priority.medium) {
-      filteredList.removeWhere(
-          (element) => element.priority?.toLowerCase() != "medium");
-    }
-    if (priority.value == Priority.high) {
-      filteredList
-          .removeWhere((element) => element.priority?.toLowerCase() != "high");
-    }
+    // if (priority.value == Priority.low) {
+    //   filteredList
+    //       .removeWhere((element) => element.priority?.toLowerCase() != "low");
+    // }
+    // if (priority.value == Priority.medium) {
+    //   filteredList.removeWhere(
+    //       (element) => element.priority?.toLowerCase() != "medium");
+    // }
+    // if (priority.value == Priority.high) {
+    //   filteredList
+    //       .removeWhere((element) => element.priority?.toLowerCase() != "high");
+    // }
     ticketList.value = filteredList;
     if (listElementCount.value == ticketList.length) {
       listElementCount.value = 0;

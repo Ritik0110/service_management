@@ -7,12 +7,11 @@ import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 
 class TicketDetails extends StatelessWidget {
-  const TicketDetails({super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketStatus, required this.ticketPriority, required this.ticketLocation});
+  const TicketDetails({super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketStatus,  required this.ticketLocation});
   final String ticketId;
   final String ticketTitle;
   final String ticketTime;
   final String ticketStatus;
-  final String ticketPriority;
   final String ticketLocation;
 
   @override
@@ -52,7 +51,7 @@ class TicketDetails extends StatelessWidget {
                       style: AppTextStyle.green47cSemi16),
                   commonRow(
                       title: "Priority : ",
-                      value: "$ticketPriority",
+                      value: "",
                       style: AppTextStyle.yellowFF9Semi16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,

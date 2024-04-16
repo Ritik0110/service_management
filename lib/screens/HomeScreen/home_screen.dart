@@ -201,9 +201,9 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => controller.ticketsModel==null?SizedBox(): Container(
+              () =>Container(
                 color: AppColors.blueEFFColor,
-                child: ListView.builder(
+                child: controller.listElementCount.value == 0? Center(child: Text("No Data Found.",style: AppTextStyle.semiBoldTS.copyWith(color: AppColors.grey848Color),),):ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: controller.listElementCount.value,
                   itemBuilder: (context, index) {
@@ -211,8 +211,8 @@ class HomeScreen extends StatelessWidget {
                       ticketId: controller.ticketList[index].serviceCallNo ?? '',
                       ticketTitle: controller.ticketList[index].subject ?? "",
                       ticketTime: controller.ticketList[index].time ?? "",
-                      ticketPriority:
-                          controller.ticketList[index].priority ?? "",
+                      model: "8453548042",
+                      manuSN: "04982093",
                       ticketLocation:
                           controller.ticketList[index].address ?? '',
                       ticketStatus:

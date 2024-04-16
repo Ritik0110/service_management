@@ -7,6 +7,7 @@ import 'package:service_call_management/utils/app_assets.dart';
 
 import '../../../Models/TicketsModel.dart';
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_test_style.dart';
 import '../../SignInScreen/sign_in_screen.dart';
 import '../home_screen_controller.dart';
 class SearchTicketsDialog extends StatelessWidget {
@@ -55,14 +56,14 @@ class SearchTicketsDialog extends StatelessWidget {
                     return "${element.subject}#${element.serviceCallNo}".toLowerCase()?.contains(controller.searchText.value.toLowerCase())??false;}).toList();
                   return Container(
                     color:AppColors.blueEFFColor,
-                    child: ListView.builder(
+                    child:searchResult.isEmpty?Center(child: Text("No Data Found.",style: AppTextStyle.semiBoldTS.copyWith(color: AppColors.grey848Color),),): ListView.builder(
                       padding: const EdgeInsets.all(16),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
 
                       itemCount: searchResult.length,
                       itemBuilder: (context, index) {
-                        return  TicketCard(ticketId:searchResult[index].serviceCallNo??"", ticketTitle: searchResult[index].subject??"", ticketTime: searchResult[index].time??"", ticketPriority: searchResult[index].priority??"", ticketLocation: searchResult[index].address??"", ticketStatus: searchResult[index].callStatus??"",);
+                        return  TicketCard(ticketId:searchResult[index].serviceCallNo??"", ticketTitle: searchResult[index].subject??"", ticketTime: searchResult[index].time??"", ticketLocation: searchResult[index].address??"", ticketStatus: searchResult[index].callStatus??"",manuSN: "Not Provided",model: "Not Provided ",);
                       },),
                   );}
             ),

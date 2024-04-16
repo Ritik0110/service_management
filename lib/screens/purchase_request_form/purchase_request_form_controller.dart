@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/repository/models/product_model.dart';
 
-class PurchaseFormController extends GetxController{
-
+class PurchaseFormController extends GetxController {
   List seriesList = [];
   List wareHouseList = [];
 
@@ -22,17 +21,16 @@ class PurchaseFormController extends GetxController{
   final TextEditingController dateController = TextEditingController();
 
   selectDate(BuildContext context) async {
-      final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate, // Refer step 1
-        firstDate: DateTime(2020),
-        lastDate: DateTime(2025),
-      );
-      if (picked != null && picked != selectedDate) {
-          selectedDate = picked;
-          dateController.text = selectedDate.toString();
-      }
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate) {
+      selectedDate = picked;
+      dateController.text =
+          "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}";
+    }
   }
-
-
 }

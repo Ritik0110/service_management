@@ -17,6 +17,7 @@ class AppTextStyle{
   static TextStyle semiBoldTS = const TextStyle(
     fontFamily: "Montserrat",
     fontWeight: FontWeight.w600,
+
   );
 
   static TextStyle boldTS = const TextStyle(

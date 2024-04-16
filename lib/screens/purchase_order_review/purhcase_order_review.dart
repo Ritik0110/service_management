@@ -10,7 +10,7 @@ import '../../common_widgets/common_button.dart';
 import 'order_review_controller.dart';
 
 class PurchaseOrderReviewPage extends StatelessWidget {
-   PurchaseOrderReviewPage({super.key});
+  PurchaseOrderReviewPage({super.key});
 
   final reviewController = Get.put(OrderReviewController());
 
@@ -60,6 +60,7 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                   child: Container(
                     color: AppColors.whiteColor,
                     child: GetBuilder(
+                      id: "order_review",
                       init: OrderReviewController(),
                       builder: (control) {
                         return ListView.builder(
@@ -113,7 +114,6 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                                       children: [
                                         TextButton(
                                           onPressed: () {
-                                            control.removeItem(index);
                                           },
                                           child: Row(
                                             children: [
@@ -207,7 +207,7 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                                   style: AppTextStyle.grey7A7medium16,
                                   children: [
                                 TextSpan(
-                                  text: "\$ ${reviewController.totalAmount}",
+                                  text: "\$ ",
                                   style: AppTextStyle.black323semi16,
                                 )
                               ]))),

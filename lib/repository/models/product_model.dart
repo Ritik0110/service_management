@@ -42,22 +42,16 @@ class DataList {
       "productType":"Printer",
       "subMenu":[
         {
-          "id": 1,
+          "id": 11,
           "name": "printer 1",
           "series_number": "001",
-          "selected_items":1,
-          "quantity": 25,
-          "price": 400,
-          "total_price": 400,
+          "quantity": 0,
         },
         {
-          "id": 2,
+          "id": 12,
           "name": "printer 2",
           "series_number": "002",
-          "selected_items":1,
-          "quantity": 100,
-          "price": 249,
-          "total_price": 249,
+          "quantity": 0,
         }
       ]
     },
@@ -66,23 +60,17 @@ class DataList {
       "productType":"Monitor",
       "subMenu":[
         {
-          "id": 1,
+          "id": 21,
           "name": "Monitor 1",
           "series_number": "003",
-          "selected_items":1,
-          "quantity": 25,
-          "price": 400,
-          "total_price": 400
+          "quantity": 0,
         },
         {
-          "id": 2,
+          "id": 22,
           "name": "Monitor 2",
           "series_number": "004",
-          "selected_items":1,
-          "quantity": 100,
-          "price": 400,
-          "total_price": 400,
-        }
+          "quantity": 0,
+         }
       ]
     },
     {
@@ -90,22 +78,16 @@ class DataList {
       "productType":"Cable",
       "subMenu":[
         {
-          "id": 1,
+          "id": 31,
           "name": "Cable 1",
           "series_number": "005",
-          "selected_items":1,
-          "quantity": 25,
-          "price": 400,
-          "total_price": 400,
+          "quantity": 0,
         },
         {
-          "id": 2,
+          "id": 32,
           "name": "Cable 2",
           "series_number": "006",
-          "selected_items":1,
-          "quantity": 100,
-          "price": 400,
-          "total_price": 400,
+          "quantity": 0,
         },
       ]
     },
@@ -114,22 +96,16 @@ class DataList {
       "productType":"Printer",
       "subMenu":[
         {
-          "id": 1,
+          "id": 41,
           "name": "printer 1",
           "series_number": "007",
-          "selected_items":1,
-          "quantity": 25,
-          "price": 400,
-          "total_price": 400,
+          "quantity": 0,
         },
         {
-          "id": 2,
+          "id": 42,
           "name": "printer 2",
           "series_number": "008",
-          "selected_items":1,
-          "quantity": 100,
-          "price": 249,
-          "total_price": 249,
+          "quantity": 0,
         }
       ]
     },
@@ -138,22 +114,16 @@ class DataList {
       "productType":"Printer",
       "subMenu":[
         {
-          "id": 1,
+          "id": 51,
           "name": "printer 1",
           "series_number": "009",
-          "selected_items":1,
-          "quantity": 25,
-          "price": 400,
-          "total_price": 400,
+          "quantity": 0,
         },
         {
-          "id": 2,
+          "id": 52,
           "name": "printer 2",
           "series_number": "010",
-          "selected_items":1,
-          "quantity": 100,
-          "price": 249,
-          "total_price": 249,
+          "quantity": 0,
         }
       ]
     }

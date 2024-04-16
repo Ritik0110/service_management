@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:service_call_management/Models/employee_model.dart';
-import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_preferences.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/app_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Models/employee_model.dart';
+import 'screens/HomeScreen/home_screen.dart';
 
 
 Future<void> main() async {
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      builder: (context, child) {
+     /* builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             // Change this value to adjust scaling
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
           ),
           child: child!,
         );
-      },
+      },*/
       title: 'Flutter Demo',
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(

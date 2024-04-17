@@ -74,52 +74,53 @@ class TicketDetails extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               color: AppColors.whiteColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      commonRow(
-                          title: "Customer Name",
-                          value: "\nAquant Systems",
-                          style: AppTextStyle.black323semi16),
-                      const CircleAvatar(
-                        radius: 20,
-                        backgroundColor: AppColors.whiteF2FColor,
-                        child: Icon(
-                          Icons.call,
-                          color: AppColors.green33AColor,
-                        ),
-                      )
-                    ],
-                  ),
-                  10.sizedBoxHeight,
-                  commonRow(
-                      title: "Contact Person",
-                      value: "\nTroy Brown",
-                      style: AppTextStyle.black323semi16),
-                  10.sizedBoxHeight,
-                  commonRow(
-                      title: "Start Date",
-                      value: "\n22-March-2024,2:00 PM",
-                      style: AppTextStyle.black323semi16),
-                  10.sizedBoxHeight,
-                  commonRow(
-                      title: "End Date",
-                      value: "\n22-March-2024,3:30 PM",
-                      style: AppTextStyle.black323semi16),
-                  24.sizedBoxHeight,
-                  CommonMaterialButton(
-                      buttonText: "Close Ticket", onTap: () {}),
-                ],
+              child: SingleChildScrollView(
+                physics:const ClampingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        commonRow(
+                            title: "Customer Name",
+                            value: "\nAquant Systems",
+                            style: AppTextStyle.black323semi16),
+                        const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: AppColors.whiteF2FColor,
+                          child: Icon(
+                            Icons.call,
+                            color: AppColors.green33AColor,
+                          ),
+                        )
+                      ],
+                    ),
+                    10.sizedBoxHeight,
+                    commonRow(
+                        title: "Contact Person",
+                        value: "\nTroy Brown",
+                        style: AppTextStyle.black323semi16),
+                    10.sizedBoxHeight,
+                    commonRow(
+                        title: "Start Date",
+                        value: "\n22-March-2024,2:00 PM",
+                        style: AppTextStyle.black323semi16),
+                    10.sizedBoxHeight,
+                    commonRow(
+                        title: "End Date",
+                        value: "\n22-March-2024,3:30 PM",
+                        style: AppTextStyle.black323semi16),
+                    24.sizedBoxHeight,
+
+                  ],
+                ),
               ),
             ),
-            20.sizedBoxHeight,
-            Text("Stock Request", style: AppTextStyle.grey7A7medium16),
-            colorButton("Stock Transfer Request", AppColors.blue24Color, () {}),
-            colorButton("Stock Purchase Request", AppColors.pinkC42Color, () {
-              Get.to(const PurchaseRequest());
+            const Spacer(),
+            CommonMaterialButton(
+                buttonText: "Stock Request", onTap: () {
+                  Get.to(() => const PurchaseRequest());
             }),
           ],
         ));

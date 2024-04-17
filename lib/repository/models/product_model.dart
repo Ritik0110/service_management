@@ -46,12 +46,14 @@ class DataList {
           "name": "printer 1",
           "series_number": "001",
           "quantity": 0,
+          "Available QTY": 25,
         },
         {
           "id": 12,
           "name": "printer 2",
           "series_number": "002",
           "quantity": 0,
+          "Available QTY": 20,
         }
       ]
     },
@@ -64,12 +66,14 @@ class DataList {
           "name": "Monitor 1",
           "series_number": "003",
           "quantity": 0,
+          "Available QTY": 35,
         },
         {
           "id": 22,
           "name": "Monitor 2",
           "series_number": "004",
           "quantity": 0,
+          "Available QTY": 45,
          }
       ]
     },
@@ -82,12 +86,14 @@ class DataList {
           "name": "Cable 1",
           "series_number": "005",
           "quantity": 0,
+          "Available QTY": 5,
         },
         {
           "id": 32,
           "name": "Cable 2",
           "series_number": "006",
           "quantity": 0,
+          "Available QTY": 28,
         },
       ]
     },
@@ -100,12 +106,14 @@ class DataList {
           "name": "printer 1",
           "series_number": "007",
           "quantity": 0,
+          "Available QTY": 80,
         },
         {
           "id": 42,
           "name": "printer 2",
           "series_number": "008",
           "quantity": 0,
+          "Available QTY": 4,
         }
       ]
     },
@@ -118,12 +126,14 @@ class DataList {
           "name": "printer 1",
           "series_number": "009",
           "quantity": 0,
+          "Available QTY": 250,
         },
         {
           "id": 52,
           "name": "printer 2",
           "series_number": "010",
           "quantity": 0,
+          "Available QTY": 62,
         }
       ]
     }

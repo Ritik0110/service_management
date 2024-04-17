@@ -14,15 +14,19 @@ class CommonMaterialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+    return Container(
+      color: AppColors.whiteColor,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        color: AppColors.green33AColor,
+        minWidth: width ?? double.maxFinite,
+        height: 50,
+        onPressed: onTap,
+        child: Text(buttonText, style: AppTextStyle.white16medium),
       ),
-      color: AppColors.green33AColor,
-      minWidth: width ?? double.maxFinite,
-      height: 50,
-      onPressed: onTap,
-      child: Text(buttonText, style: AppTextStyle.white16medium),
     );
   }
 }

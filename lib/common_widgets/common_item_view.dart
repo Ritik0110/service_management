@@ -1,6 +1,4 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 import '../utils/app_colors.dart';
@@ -35,13 +33,6 @@ class _CommonItemViewState extends State<CommonItemView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CachedNetworkImage(
-            imageUrl:
-                "https://4.imimg.com/data4/GL/UP/MY-5812789/3-printer.jpg",
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-          ),
           10.sizedBoxWidth,
           Expanded(
             flex: 2,

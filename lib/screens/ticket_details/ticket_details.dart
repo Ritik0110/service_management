@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/common_widgets/common_button.dart';
-import 'package:service_call_management/screens/purchase_request/purchase_request.dart';
+import 'package:service_call_management/screens/stock_request/stock_request.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
@@ -120,7 +120,7 @@ class TicketDetails extends StatelessWidget {
             const Spacer(),
             CommonMaterialButton(
                 buttonText: "Stock Request", onTap: () {
-                  Get.to(() => const PurchaseRequest());
+                  Get.to(() => const StockRequest());
             }),
           ],
         ));

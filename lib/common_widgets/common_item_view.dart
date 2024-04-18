@@ -60,39 +60,54 @@ class _CommonItemViewState extends State<CommonItemView> {
               borderRadius: BorderRadius.circular(5),
             ),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+
               children: [
                 InkWell(
                   onTap: widget.decrement,
-                  child: const Icon(
-                    Icons.remove,
-                    size: 20,
-                    color: AppColors.grey848Color,
+                  child:const SizedBox(
+                    width: 15,
+                    child:  Center(
+                      child: Icon(
+                        Icons.remove,
+                        size: 20,
+                        color: AppColors.grey848Color,
+                      ),
+                    ),
                   ),
                 ),
                 const VerticalDivider(
                   color: AppColors.grey848Color,
                   thickness: 1,
                 ),
-                Text("${widget.quantity}",
-                    overflow: TextOverflow.visible,
-                    style: AppTextStyle.black323medium14),
+                SizedBox(
+                  width: 20,
+                  child: Center(
+                    child: Text("${widget.quantity}",
+                        overflow: TextOverflow.visible,
+                        style: AppTextStyle.black323medium14),
+                  ),
+                ),
                 const VerticalDivider(
                   color: AppColors.grey848Color,
                   thickness: 1,
                 ),
-                InkWell(
-                  onTap: widget.increment,
-                  child: const Icon(
-                    Icons.add,
-                    size: 20,
-                    color: AppColors.grey848Color,
+                SizedBox(
+                  width: 20,
+                  child: Center(
+                    child: InkWell(
+                      onTap: widget.increment,
+                      child: Icon(
+                        Icons.add,
+                        size: 20,
+                        color: AppColors.grey848Color,
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          10.sizedBoxWidth
+          10.sizedBoxWidth,
         ],
       ),
     );

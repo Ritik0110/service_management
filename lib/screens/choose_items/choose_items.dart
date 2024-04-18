@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service_call_management/common_widgets/common_button.dart';
-import 'package:service_call_management/common_widgets/common_item_view.dart';
-import 'package:service_call_management/screens/choose_items/choose_item_controller.dart';
-import 'package:service_call_management/utils/app_colors.dart';
-import 'package:service_call_management/utils/app_test_style.dart';
-import 'package:service_call_management/utils/extension/size_extension.dart';
+import '../../common_widgets/common_button.dart';
+import '../../common_widgets/common_item_view.dart';
+import 'choose_item_controller.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_test_style.dart';
+import '../../utils/extension/size_extension.dart';
 
 class ChooseItems extends StatelessWidget {
   ChooseItems({super.key});
@@ -40,161 +41,160 @@ class ChooseItems extends StatelessWidget {
           ),
         ],
       ),
-      body: Stack(
+      body: Column(
         children: [
-          ListView.builder(
-              itemCount: chooseController.items.length,
-              itemBuilder: (context, index) {
-                return ExpansionTile(
-                    title: Text(
-                      chooseController.items[index]["productType"],
-                      style: AppTextStyle.black323semi14,
-                    ),
-                    children: [
-                      ListView.builder(
-                          itemCount:
-                              chooseController.items[index]["subMenu"].length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, j) {
-                            return GetBuilder(
-                                init: chooseController,
-                                builder: (control) {
-                                  return CommonItemView(
-                                      title: chooseController.items[index]
-                                          ["subMenu"][j]["name"],
-                                      subTitle: chooseController.items[index]
-                                          ["subMenu"][j]["series_number"],
-                                      quantity: chooseController.items[index]
-                                          ["subMenu"][j]["quantity"],
-                                      increment: () => chooseController
-                                          .increaseItem1(index, j),
-                                      decrement: () => chooseController
-                                          .decreaseItem1(index, j),
-                                      imageUrl: "imageUrl");
-                                });
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 14),
-                              color: AppColors.scaffoldColor,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CachedNetworkImage(
-                                    imageUrl:
-                                        "https://4.imimg.com/data4/GL/UP/MY-5812789/3-printer.jpg",
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  10.sizedBoxWidth,
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          chooseController.items[index]
-                                              ["subMenu"][j]["name"],
-                                          softWrap: true,
-                                          style: AppTextStyle.black323semi14,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Text(
-                                          chooseController.items[index]
-                                              ["subMenu"][j]["series_number"],
-                                          style: AppTextStyle.grey7A7medium14,
-                                        ),
-                                      ],
+          Expanded(
+            child: ListView.builder(
+                itemCount: chooseController.items.length,
+                itemBuilder: (context, index) {
+                  return ExpansionTile(
+                      title: Text(
+                        chooseController.items[index]["productType"],
+                        style: AppTextStyle.black323semi14,
+                      ),
+                      children: [
+                        ListView.builder(
+                            itemCount:
+                                chooseController.items[index]["subMenu"].length,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, j) {
+                              return GetBuilder(
+                                  init: chooseController,
+                                  builder: (control) {
+                                    return CommonItemView(
+                                        title: chooseController.items[index]
+                                            ["subMenu"][j]["name"],
+                                        subTitle: chooseController.items[index]
+                                            ["subMenu"][j]["series_number"],
+                                        quantity: chooseController.items[index]
+                                            ["subMenu"][j]["quantity"],
+                                        increment: () => chooseController
+                                            .increaseItem1(index, j),
+                                        decrement: () => chooseController
+                                            .decreaseItem1(index, j),
+                                        imageUrl: "imageUrl");
+                                  });
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 14),
+                                color: AppColors.scaffoldColor,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl:
+                                          "https://4.imimg.com/data4/GL/UP/MY-5812789/3-printer.jpg",
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
                                     ),
-                                  ),
-                                  Container(
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: AppColors.grey848Color,
-                                          width: 1),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        InkWell(
-                                          onTap: () => chooseController
-                                              .decreaseItem1(index, j),
-                                          child: const Icon(
-                                            Icons.remove,
-                                            size: 20,
-                                            color: AppColors.grey848Color,
+                                    10.sizedBoxWidth,
+                                    Expanded(
+                                      flex: 2,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            chooseController.items[index]
+                                                ["subMenu"][j]["name"],
+                                            softWrap: true,
+                                            style: AppTextStyle.black323semi14,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ),
-                                        const VerticalDivider(
-                                          color: AppColors.grey848Color,
-                                          thickness: 1,
-                                        ),
-                                        GetBuilder(
-                                            init: chooseController,
-                                            builder: (control) {
-                                              return Text(
-                                                  "${control.items[index]["subMenu"][j]["quantity"]}",
-                                                  overflow:
-                                                      TextOverflow.visible,
-                                                  style: AppTextStyle
-                                                      .black323medium14);
-                                            }),
-                                        const VerticalDivider(
-                                          color: AppColors.grey848Color,
-                                          thickness: 1,
-                                        ),
-                                        InkWell(
-                                          onTap: () => chooseController
-                                              .increaseItem1(index, j),
-                                          child: const Icon(
-                                            Icons.add,
-                                            size: 20,
-                                            color: AppColors.grey848Color,
+                                          Text(
+                                            chooseController.items[index]
+                                                ["subMenu"][j]["series_number"],
+                                            style: AppTextStyle.grey7A7medium14,
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  10.sizedBoxWidth
-                                ],
-                              ),
-                            );
-                          })
-                    ]);
-              }),
-          Positioned(
-              bottom: 0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                color: AppColors.whiteColor,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Obx(() => Text(
-                          "Total Items: (${chooseController.totalItems.value})",
-                          style: AppTextStyle.black191medium16,
-                        )),
-                    CommonMaterialButton(
-                      buttonText: "Review Order",
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             PurchaseOrderReviewPage()));
-                      },
-                      width: 200,
-                    )
-                  ],
-                ),
-              )),
+                                    Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: AppColors.grey848Color,
+                                            width: 1),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          InkWell(
+                                            onTap: () => chooseController
+                                                .decreaseItem1(index, j),
+                                            child: const Icon(
+                                              Icons.remove,
+                                              size: 20,
+                                              color: AppColors.grey848Color,
+                                            ),
+                                          ),
+                                          const VerticalDivider(
+                                            color: AppColors.grey848Color,
+                                            thickness: 1,
+                                          ),
+                                          GetBuilder(
+                                              init: chooseController,
+                                              builder: (control) {
+                                                return Text(
+                                                    "${control.items[index]["subMenu"][j]["quantity"]}",
+                                                    overflow:
+                                                        TextOverflow.visible,
+                                                    style: AppTextStyle
+                                                        .black323medium14);
+                                              }),
+                                          const VerticalDivider(
+                                            color: AppColors.grey848Color,
+                                            thickness: 1,
+                                          ),
+                                          InkWell(
+                                            onTap: () => chooseController
+                                                .increaseItem1(index, j),
+                                            child: const Icon(
+                                              Icons.add,
+                                              size: 20,
+                                              color: AppColors.grey848Color,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    10.sizedBoxWidth
+                                  ],
+                                ),
+                              );
+                            })
+                      ]);
+                }),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 14),
+            width: MediaQuery.of(context).size.width,
+            color: AppColors.whiteColor,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Obx(() => Text(
+                      "Total Items: (${chooseController.totalItems.value})",
+                      style: AppTextStyle.black191medium16,
+                    )),
+                CommonMaterialButton(
+                  buttonText: "Review Order",
+                  onTap: () {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             PurchaseOrderReviewPage()));
+                  },
+                  width: 200,
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

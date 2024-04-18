@@ -5,5 +5,5 @@ class AppUrl {
   static const String getItems = "ItemList";
   static const String inventoryTransfer = "InventoryTransfer";
   static const String purchaseRequest = "PurchaseRequest";
-  static const String getWarehouses = "WarehouseList";
+  static const String getWarehouses = "Warehouse";
 }

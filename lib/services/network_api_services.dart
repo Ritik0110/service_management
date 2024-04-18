@@ -52,7 +52,6 @@ dynamic responseData(Response response) {
   switch (response.statusCode) {
     case 200:
       var data = jsonDecode(response.toString());
-      print(data["Result"]);
       return data;
 
     case 400:

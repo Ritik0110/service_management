@@ -9,8 +9,8 @@ import '../../utils/app_test_style.dart';
 import '../../utils/extension/size_extension.dart';
 
 class ChooseItems extends StatelessWidget {
-  ChooseItems({super.key});
-
+  ChooseItems({super.key,required this.warehouse});
+  String warehouse;
   final chooseController = Get.put(ChooseItemController());
 
   @override

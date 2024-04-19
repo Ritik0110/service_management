@@ -10,7 +10,7 @@ import '../../common_widgets/common_button.dart';
 import '../../utils/app_colors.dart';
 
 class PurchaseRequestForm extends StatelessWidget {
-  PurchaseRequestForm({super.key,required this.isPurchase});
+  PurchaseRequestForm({super.key, required this.isPurchase});
 
   bool isPurchase;
   final formController = Get.put(PurchaseFormController());
@@ -53,32 +53,43 @@ class PurchaseRequestForm extends StatelessWidget {
                         color: AppColors.grey848Color,
                       ),
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please select date';
+                      }
+                      return null;
+                    },
                     readOnly: true,
                     onTap: () => formController.selectDate(context),
                   ),
                   10.sizedBoxHeight,
-                  !isPurchase?
                   Text(
                     'from Warehouse',
                     style: AppTextStyle.black323regular14,
-                  ): const SizedBox(),
-                  !isPurchase?
-                  Obx(() => CommonDropdownField(
-                        hintText: 'Select Warehouse',
-                        dropdownList: !formController.isLoading.value
-                            ? formController.warehouseList
-                            : null,
-                      )):const SizedBox(),
-                  Text(
-                    'To Warehouse',
-                    style: AppTextStyle.black323regular14,
                   ),
                   Obx(() => CommonDropdownField(
+                    onChange:formController.onfromWarehouseChange,
                     hintText: 'Select Warehouse',
                     dropdownList: !formController.isLoading.value
                         ? formController.warehouseList
                         : null,
                   )),
+                  !isPurchase
+                      ? Text(
+                          'to Warehouse',
+                          style: AppTextStyle.black323regular14,
+                        )
+                      : const SizedBox(),
+                  !isPurchase
+                      ? Obx(() => CommonDropdownField(
+                          onChange: formController.ontoWarehouseChange,
+                            hintText: 'Select Warehouse',
+                            dropdownList: !formController.isLoading.value
+                                ? formController.warehouseList
+                                : null,
+                          ))
+                      : const SizedBox(),
+
                 ],
               ),
             ),
@@ -87,7 +98,7 @@ class PurchaseRequestForm extends StatelessWidget {
                 buttonText: "Choose Item",
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ChooseItems();
+                    return ChooseItems(warehouse: formController.selectedFromWarehouse.value,);
                   }));
                 })
           ],

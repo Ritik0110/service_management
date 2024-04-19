@@ -11,7 +11,8 @@ class PurchaseFormController extends GetxController {
   final _api = NetWorkApiService();
   RxBool isLoading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  RxString selectedFromWarehouse = "".obs;
+  RxString selectedToWarehouse = "".obs;
   @override
   void onReady() {
     // TODO: implement onReady
@@ -23,6 +24,15 @@ class PurchaseFormController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+  }
+
+  onfromWarehouseChange(String? value) {
+    selectedFromWarehouse.value = value!;
+    update();
+  }
+  ontoWarehouseChange(String? value) {
+    selectedToWarehouse.value = value!;
+    update();
   }
 
 

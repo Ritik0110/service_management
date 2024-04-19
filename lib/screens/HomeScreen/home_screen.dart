@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/screens/HomeScreen/home_screen_controller.dart';
-import 'package:service_call_management/screens/HomeScreen/noification_screen.dart';
+
 import 'package:service_call_management/screens/HomeScreen/widgets/search_tickets_dialog.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/home_bottom_sheet.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/home_date_picker.dart';
@@ -153,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                         return date.day == controller.selectedDate.value.day &&
                             date.month == controller.selectedDate.value.month &&
                             date.year == controller.selectedDate.value.year;
-                      }).toList().length??0;
+                      }).toList().length;
 
 
                       return Text(
@@ -170,7 +170,7 @@ class HomeScreen extends StatelessWidget {
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return HomeFilterBottomSheet(
+                        return const HomeFilterBottomSheet(
 
                         );
                       },

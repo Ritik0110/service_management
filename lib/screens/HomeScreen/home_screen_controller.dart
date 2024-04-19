@@ -1,7 +1,7 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
 import 'package:service_call_management/Models/TicketsModel.dart';
 import 'package:service_call_management/utils/api_helper.dart';
@@ -45,7 +45,7 @@ class HomeControler extends GetxController {
 
 
   Future<void> loadApiData() async {
-    Get.dialog(Center(child: CircularProgressIndicator(),),barrierDismissible: false);
+    Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
     String result = await ApiHelper.getTickets(
       DateFormat("yyyy-MM-dd").format(selectedDate.value),
     )??"";
@@ -59,7 +59,7 @@ class HomeControler extends GetxController {
     applyFilter();
     }else{
       Get.defaultDialog(barrierDismissible: false,onWillPop: () async {
-        return await  false;
+        return false;
       },title: "Error",titleStyle: AppTextStyle.boldTS.copyWith(fontSize: 18,color: AppColors.redE25Color,),content: Text(result,style: AppTextStyle.semiBoldTS,textAlign: TextAlign.left),onConfirm: (){
         loadApiData();
       },confirm: ElevatedButton(onPressed: () {
@@ -72,7 +72,7 @@ class HomeControler extends GetxController {
 
   void applyFilter() {
     List<ServiceData> filteredList =
-        ticketsModel?.value.serviceData?.where((element) {
+        ticketsModel.value.serviceData?.where((element) {
               if (element.generateDate == null) {
                 return false;
               }
@@ -83,7 +83,9 @@ class HomeControler extends GetxController {
               // Split the date string into day, month, and year
               List<String> dateParts = cleanedDate.split('/');
               if (dateParts.length != 3) {
-                print("Skipping element with invalid date format: $element");
+                if (kDebugMode) {
+                  print("Skipping element with invalid date format: $element");
+                }
                 return false;
               }
 
@@ -94,7 +96,9 @@ class HomeControler extends GetxController {
               // Try to parse the formatted date string into a DateTime object
               DateTime? date = DateTime.tryParse(formattedDate);
               if (date == null) {
-                print("Skipping element due to parsing error: $element");
+                if (kDebugMode) {
+                  print("Skipping element due to parsing error: $element");
+                }
                 return false;
               }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:service_call_management/screens/HomeScreen/home_screen_controller.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 

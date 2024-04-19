@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+
 import 'package:service_call_management/screens/HomeScreen/widgets/ticket_card.dart';
 import 'package:service_call_management/utils/app_assets.dart';
 
@@ -36,7 +35,7 @@ class SearchTicketsDialog extends StatelessWidget {
           Container(
             color: Colors.white,
             child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
                 child: CustomTextFormField(
                   hint: 'Enter Ticket ID / Title',
                   prefix_icon: Padding(
@@ -61,8 +60,7 @@ class SearchTicketsDialog extends StatelessWidget {
                   controller.ticketList.where((element) {
                 return "${element.subject}#${element.serviceCallNo}"
                         .toLowerCase()
-                        ?.contains(controller.searchText.value.toLowerCase()) ??
-                    false;
+                        .contains(controller.searchText.value.toLowerCase());
               }).toList();
               return Container(
                 color: AppColors.blueEFFColor,

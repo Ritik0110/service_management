@@ -12,7 +12,7 @@ class HomeDatePicker extends StatelessWidget {
   final HomeControler homeController;
   @override
   Widget build(BuildContext context) {
-    String calanderKey = "calanderKey";
+    String calenderKey = "calenderKey";
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       color: AppColors.blue2F6Color,
@@ -21,9 +21,9 @@ class HomeDatePicker extends StatelessWidget {
           Obx(
             () {
               return EasyDateTimeLine(
-                key: Key(calanderKey),
+                key: Key(calenderKey),
                 headerProps: EasyHeaderProps(
-                  selectedDateFormat: SelectedDateFormat.fullDateDMonthAsStrY,
+                  dateFormatter: const FullDateDMonthAsStrYFormatter(),
                   selectedDateStyle: AppTextStyle.semiBoldTS.copyWith(
                     fontSize: 16,
                     color: AppColors.whiteColor,
@@ -102,11 +102,11 @@ class HomeDatePicker extends StatelessWidget {
                 showDatePicker(
                         context: context,
                         initialDate: homeController.selectedDate.value,
-                        firstDate: DateTime.now().subtract(Duration(days: 365)),
-                        lastDate: DateTime.now().add(Duration(days: 365)))
+                        firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                        lastDate: DateTime.now().add(const Duration(days: 365)))
                     .then((value) {
                   if (value != null) {
-                    calanderKey = value.toString();
+                    calenderKey = value.toString();
                     homeController.setSelectDate(value);
                   }
                 });

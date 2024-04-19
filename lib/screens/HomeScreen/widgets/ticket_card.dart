@@ -105,7 +105,7 @@ class TicketCard extends StatelessWidget {
                   const Spacer(),
                   InkWell(
                     onTap: (){
-                      launchUrl(Uri.parse("tel:${contactNumber??""}"));
+                      launchUrl(Uri.parse("tel:$contactNumber"));
                     },
                     child: CircleAvatar(
                         backgroundColor: Colors.grey.shade100,
@@ -201,7 +201,7 @@ class TicketCard extends StatelessWidget {
                   ),
                   Expanded(
                       child: Text(
-                    "$ticketLocation",
+                    ticketLocation,
                     style: AppTextStyle.mediumTS
                         .copyWith(fontSize: 14, color: AppColors.black191Color),
                     overflow: TextOverflow.ellipsis,

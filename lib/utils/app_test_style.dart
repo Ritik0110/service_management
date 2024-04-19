@@ -100,6 +100,10 @@ class AppTextStyle{
     color: AppColors.green47CColor,
     fontSize: 16,
   );
+  static TextStyle purple9C5Semi16 = semiBoldTS.copyWith(
+    color: AppColors.purple9C5Color,
+    fontSize: 16,
+  );
   static TextStyle black323semi16 = semiBoldTS.copyWith(
     color: AppColors.black323Color,
     fontSize: 16,

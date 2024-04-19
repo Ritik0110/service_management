@@ -5,18 +5,21 @@ import '../utils/app_colors.dart';
 import '../utils/app_test_style.dart';
 
 class CommonItemView extends StatefulWidget {
-  CommonItemView(
-      {super.key,
-      required this.title,
-      required this.subTitle,
-      required this.increment,
-      required this.decrement,
-      required this.quantity,
-      required this.imageUrl});
-  String imageUrl;
+  CommonItemView({
+    super.key,
+    required this.title,
+    required this.subTitle,
+    required this.increment,
+    required this.decrement,
+    this.remove,
+    required this.subQty,
+    required this.quantity,
+  });
   String title;
   String subTitle;
   int quantity;
+  int subQty;
+  Function()? remove;
   Function() increment;
   Function() decrement;
 
@@ -30,86 +33,148 @@ class _CommonItemViewState extends State<CommonItemView> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
       color: AppColors.scaffoldColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Column(
         children: [
-          10.sizedBoxWidth,
-          Expanded(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.title,
-                  softWrap: true,
-                  style: AppTextStyle.black323semi14,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              10.sizedBoxWidth,
+              Expanded(
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.title,
+                      softWrap: true,
+                      style: AppTextStyle.grey84regular14,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      widget.subTitle,
+                      style: AppTextStyle.black191medium16,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                Text(
-                  widget.subTitle,
-                  style: AppTextStyle.grey7A7medium14,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 30,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.grey848Color, width: 1),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Row(
-
-              children: [
-                InkWell(
-                  onTap: widget.decrement,
-                  child:const SizedBox(
-                    width: 15,
-                    child:  Center(
-                      child: Icon(
-                        Icons.remove,
-                        size: 20,
-                        color: AppColors.grey848Color,
-                      ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 28,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.grey848Color, width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: widget.decrement,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.horizontal(left: Radius.circular(5)),
+                            ),
+                            width: 25,
+                            child: const Center(
+                              child: Icon(
+                                Icons.remove,
+                                size: 20,
+                                color: AppColors.grey848Color,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const VerticalDivider(
+                          color: AppColors.grey848Color,
+                          thickness: 1,
+                          width: 0,
+                        ),
+                        SizedBox(
+                          width: 30,
+                          child: Center(
+                            child: Text("${widget.subQty}",
+                                overflow: TextOverflow.visible,
+                                style: AppTextStyle.black323medium14),
+                          ),
+                        ),
+                        const VerticalDivider(
+                          color: AppColors.grey848Color,
+                          thickness: 1,
+                          width: 2,
+                        ),
+                        InkWell(
+                          onTap: widget.increment,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.horizontal(
+                                  right: Radius.circular(5)),
+                            ),
+                            width: 25,
+                            child: Center(
+                              child: InkWell(
+                                onTap: widget.increment,
+                                child: const Icon(
+                                  Icons.add,
+                                  size: 20,
+                                  color: AppColors.grey848Color,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                const VerticalDivider(
-                  color: AppColors.grey848Color,
-                  thickness: 1,
-                ),
-                SizedBox(
-                  width: 20,
-                  child: Center(
-                    child: Text("${widget.quantity}",
-                        overflow: TextOverflow.visible,
-                        style: AppTextStyle.black323medium14),
-                  ),
-                ),
-                const VerticalDivider(
-                  color: AppColors.grey848Color,
-                  thickness: 1,
-                ),
-                SizedBox(
-                  width: 20,
-                  child: Center(
-                    child: InkWell(
-                      onTap: widget.increment,
-                      child: Icon(
-                        Icons.add,
-                        size: 20,
-                        color: AppColors.grey848Color,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                  10.sizedBoxHeight,
+                  commonRow(
+                      title: "Available QTY : ",
+                      value: "${widget.quantity}",
+                      style: AppTextStyle.black323semi14)
+                ],
+              ),
+              10.sizedBoxWidth,
+            ],
           ),
-          10.sizedBoxWidth,
+          widget.remove != null ? Row(
+            children: [
+            MaterialButton(onPressed: widget.remove,child: Row(children: [
+              Text("Remove",style: AppTextStyle.grey84regular14,),
+              const Icon(Icons.delete,color: AppColors.grey848Color,)
+            ],),)
+            ],
+          ):const SizedBox(),
         ],
       ),
+    );
+  }
+
+  Widget commonRow(
+      {required String title,
+      required String value,
+      required TextStyle style,
+      bool reversed = false}) {
+    return RichText(
+      maxLines: 3,
+      softWrap: true,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.left,
+      text: TextSpan(
+          text: title,
+          style: reversed ? style : AppTextStyle.grey84regular14,
+          children: [
+            TextSpan(
+                text: value,
+                style: reversed ? AppTextStyle.grey84regular16 : style)
+          ]),
     );
   }
 }

@@ -1,63 +1,75 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/ItemModel.dart';
-import 'package:service_call_management/repository/models/product_model.dart';
 import 'package:service_call_management/services/network_api_services.dart';
 import 'package:service_call_management/utils/app_url.dart';
 
 class ChooseItemController extends GetxController {
   RxInt totalItems = 0.obs;
-  RxList selectedItems = [].obs;
-  RxList items = [].obs;
+  var selectedItems = [].obs;
+  List<ItemData> selectedItemsList = <ItemData>[].obs;
   final _api = NetWorkApiService();
   ItemModel model = ItemModel();
-  var subLists =  <String, List<ItemData>>{}.obs;
+  var subLists = <String, List<ItemData>>{}.obs;
+  RxList<List<ItemData>> groupItems = <List<ItemData>>[].obs;
+  var subQty = <String, num>{}.obs;
+  RxString whsCode = "02".obs;
 
   @override
-  void onInit() {
-    super.onInit();
-    items.value = DataList.itemsList;
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
     getItems();
   }
 
   Future getItems() async {
-    var data = await _api.postApi(AppUrl.getItems,{
-      "WhsCode": "02",
+    Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
+    var data = await _api.postApi(AppUrl.getItems, {
+      "WhsCode": "${whsCode.value}",
     });
+    if(Get.isDialogOpen??false){
+      Get.back();
+    }
     model = ItemModel.fromJson(data);
     model.itemData?.forEach((element) {
       if (!subLists.containsKey(element.groupName)) {
         subLists[element.groupName.toString()] = [];
       }
       subLists[element.groupName]!.add(element);
+      subQty['${element.itemCode}'] = 0;
     });
-    print(subLists["Finish Goods"]?[0].itemName);
-
-
-
-
+    groupItems.value = subLists.values.toList();
   }
+
   totalItemsCount() {
     totalItems.value = 0;
-    for (int i = 0; i < items.length; i++) {
-      for (int j = 0; j < items[i]["subMenu"].length; j++) {
-        totalItems += items[i]["subMenu"][j]["quantity"];
-      }
-    }
-    print(totalItems.value);
+    subQty.forEach((key, value) {
+      totalItems.value += value.toInt();
+    });
   }
 
-  increaseItem1(int mainIndex, int subIndex) {
-    items[mainIndex]["subMenu"][subIndex]["quantity"] += 1;
-    totalItemsCount();
-    print(items[mainIndex]["subMenu"][subIndex]["quantity"]);
-    update();
-  }
-  decreaseItem1(int mainIndex, int subIndex) {
-    if (items[mainIndex]["subMenu"][subIndex]["quantity"] >= 1) {
-      items[mainIndex]["subMenu"][subIndex]["quantity"] -= 1;
+  increaseItem1(ItemData data) {
+    if (subQty[data.itemCode]! < data.quantity!) {
+      !selectedItemsList.contains(data) ? selectedItemsList.add(data) : null;
+      subQty[data.itemCode!] = (subQty[data.itemCode]! + 1);
       totalItemsCount();
-      print(items[mainIndex]["subMenu"][subIndex]["quantity"]);
+      update();
     }
+  }
+
+  decreaseItem1(ItemData data) {
+    if (subQty[data.itemCode]! > 0) {
+      subQty[data.itemCode!] = (subQty[data.itemCode]! - 1);
+      subQty[data.itemCode] == 0 ? selectedItemsList.remove(data) : null;
+      totalItemsCount();
+      update();
+    }
+  }
+
+  removeItem(ItemData data) {
+    subQty[data.itemCode!] = 0;
+    selectedItemsList.remove(data);
+    totalItemsCount();
     update();
   }
 }

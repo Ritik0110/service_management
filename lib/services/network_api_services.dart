@@ -36,7 +36,6 @@ class NetWorkApiService extends BaseApiServices {
           data: body) // if body of api is written in raw form then encoded it otherwise send only body to the api
           .timeout(const Duration(seconds: 15));
       data = responseData(response);
-
       return data;
     } on SocketException {
       throw InternetException();
@@ -53,7 +52,6 @@ dynamic responseData(Response response) {
     case 200:
       var data = jsonDecode(response.toString());
       return data;
-
     case 400:
       throw InvalidUrlException();
     default:

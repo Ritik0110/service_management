@@ -134,7 +134,7 @@ class TicketDetails extends StatelessWidget {
             const Spacer(),
             CommonMaterialButton(
                 buttonText: "Stock Request", onTap: () {
-                  Get.to(() => const StockRequest());
+                  Get.to(() => StockRequest(callId: ticketId,));
             }),
           ],
         ));

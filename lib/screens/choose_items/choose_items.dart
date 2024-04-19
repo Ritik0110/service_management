@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../common_widgets/common_button.dart';
 import '../../common_widgets/common_item_view.dart';
+import '../purchase_order_review/purhcase_order_review.dart';
 import 'choose_item_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_test_style.dart';
@@ -44,18 +43,26 @@ class ChooseItems extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-                itemCount: chooseController.items.length,
-                itemBuilder: (context, index) {
-                  return ExpansionTile(
-                      title: Text(
-                        chooseController.items[index]["productType"],
-                        style: AppTextStyle.black323semi14,
-                      ),
-                      children: [
-                        ListView.builder(
+            child: Obx(() => ListView.separated(
+                  itemCount: chooseController.groupItems.length,
+                  itemBuilder: (context, index) {
+                    return ExpansionTile(
+                        backgroundColor: AppColors.whiteColor,
+                        collapsedBackgroundColor: AppColors.whiteColor,
+                        title: Text(
+                          chooseController.groupItems[index][0].groupName
+                              .toString(),
+                          style: AppTextStyle.black323semi14,
+                        ),
+                        iconColor: AppColors.grey848Color,
+                        collapsedIconColor: AppColors.grey848Color,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                        children: [
+                          ListView.separated(
                             itemCount:
-                                chooseController.items[index]["subMenu"].length,
+                                chooseController.groupItems[index].length,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, j) {
@@ -63,112 +70,47 @@ class ChooseItems extends StatelessWidget {
                                   init: chooseController,
                                   builder: (control) {
                                     return CommonItemView(
-                                        title: chooseController.items[index]
-                                            ["subMenu"][j]["name"],
-                                        subTitle: chooseController.items[index]
-                                            ["subMenu"][j]["series_number"],
-                                        quantity: chooseController.items[index]
-                                            ["subMenu"][j]["quantity"],
-                                        increment: () => chooseController
-                                            .increaseItem1(index, j),
-                                        decrement: () => chooseController
-                                            .decreaseItem1(index, j),
-                                        imageUrl: "imageUrl");
+                                      title: control
+                                          .groupItems[index][j].itemCode
+                                          .toString(),
+                                      subTitle: control
+                                          .groupItems[index][j].itemName
+                                          .toString(),
+                                      quantity: (control.groupItems[index][j]
+                                                  .quantity ??
+                                              0)
+                                          .toInt(),
+                                      subQty: control.subQty[control
+                                          .groupItems[index][j].itemCode
+                                          .toString()]?.toInt() ?? 0,
+                                      increment: () =>
+                                          chooseController.increaseItem1(control
+                                              .groupItems[index][j]),
+                                      decrement: () =>
+                                          chooseController.decreaseItem1(control
+                                              .groupItems[index][j]),
+                                    );
                                   });
-                              return Container(
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 14),
-                                color: AppColors.scaffoldColor,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl:
-                                          "https://4.imimg.com/data4/GL/UP/MY-5812789/3-printer.jpg",
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    10.sizedBoxWidth,
-                                    Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            chooseController.items[index]
-                                                ["subMenu"][j]["name"],
-                                            softWrap: true,
-                                            style: AppTextStyle.black323semi14,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            chooseController.items[index]
-                                                ["subMenu"][j]["series_number"],
-                                            style: AppTextStyle.grey7A7medium14,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: AppColors.grey848Color,
-                                            width: 1),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          InkWell(
-                                            onTap: () => chooseController
-                                                .decreaseItem1(index, j),
-                                            child: const Icon(
-                                              Icons.remove,
-                                              size: 20,
-                                              color: AppColors.grey848Color,
-                                            ),
-                                          ),
-                                          const VerticalDivider(
-                                            color: AppColors.grey848Color,
-                                            thickness: 1,
-                                          ),
-                                          GetBuilder(
-                                              init: chooseController,
-                                              builder: (control) {
-                                                return Text(
-                                                    "${control.items[index]["subMenu"][j]["quantity"]}",
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                    style: AppTextStyle
-                                                        .black323medium14);
-                                              }),
-                                          const VerticalDivider(
-                                            color: AppColors.grey848Color,
-                                            thickness: 1,
-                                          ),
-                                          InkWell(
-                                            onTap: () => chooseController
-                                                .increaseItem1(index, j),
-                                            child: const Icon(
-                                              Icons.add,
-                                              size: 20,
-                                              color: AppColors.grey848Color,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    10.sizedBoxWidth
-                                  ],
+                                    horizontal: 16.0),
+                                child: Divider(
+                                  color:
+                                      AppColors.grey848Color.withOpacity(0.5),
+                                  height: 1,
                                 ),
                               );
-                            })
-                      ]);
-                }),
+                            },
+                          )
+                        ]);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return 2.sizedBoxHeight;
+                  },
+                )),
           ),
           Container(
             padding: const EdgeInsets.only(left: 14),
@@ -184,11 +126,7 @@ class ChooseItems extends StatelessWidget {
                 CommonMaterialButton(
                   buttonText: "Review Order",
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             PurchaseOrderReviewPage()));
+                    Get.to(PurchaseOrderReviewPage());
                   },
                   width: 200,
                 )

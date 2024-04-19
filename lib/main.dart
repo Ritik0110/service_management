@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
       },
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: "Montserrat",
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             shape: MaterialStatePropertyAll(
@@ -78,7 +79,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue2F6Color),
         useMaterial3: true,
       ),
-
       home: AppVariables.isLoggedIn? const HomeScreen():const SignInScreen(),
     );
   }

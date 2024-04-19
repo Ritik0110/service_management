@@ -10,23 +10,24 @@ class PurchaseFormController extends GetxController {
   List<DropdownMenuItem<String>>? warehouseList = <DropdownMenuItem<String>>[].obs;
   final _api = NetWorkApiService();
   RxBool isLoading = false.obs;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-
+    getWareHouse();
   }
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getWareHouse();
   }
 
 
   getWareHouse() async {
+    Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
     isLoading.value = true;
     var data = await _api.getApi(AppUrl.getWarehouses);
     warehouses = WarehouseModel.fromJson(data);
@@ -40,6 +41,9 @@ class PurchaseFormController extends GetxController {
     warehouseList;
     print("series list ${warehouseList?[0].value}");
     isLoading.value = false;
+    if(Get.isDialogOpen??false){
+      Get.back();
+    }
     update();
 
   }

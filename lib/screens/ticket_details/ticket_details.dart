@@ -29,61 +29,61 @@ class TicketDetails extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Ticket Details'),
         ),
-        body: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                color: AppColors.whiteColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "#$ticketId",
-                      style: AppTextStyle.grey646semi16,
-                    ),
-                    Text(
-                      "$ticketTitle",
-                      style: AppTextStyle.black191medium16,
-                    ),
-                    10.sizedBoxHeight,
-                    commonRow(
-                        title: "Time : ",
-                        value: "$ticketTime",
-                        style: AppTextStyle.black323semi16),
-                    commonRow(
-                        title: "Status : ",
-                        value: "$ticketStatus",
-                        style: AppTextStyle.green47cSemi16),
-                    commonRow(
-                        title: "Priority : ",
-                        value: "$ticketPriority",
-                        style: AppTextStyle.yellowFF9Semi16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.location_on_outlined,
-                          color: AppColors.black191Color,
-                        ),
-                        Text(
-                          "$ticketLocation",
-                          style: AppTextStyle.black191medium16,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              color: AppColors.whiteColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "#$ticketId",
+                    style: AppTextStyle.grey646semi16,
+                  ),
+                  Text(
+                    "$ticketTitle",
+                    style: AppTextStyle.black191medium16,
+                  ),
+                  10.sizedBoxHeight,
+                  commonRow(
+                      title: "Time : ",
+                      value: "$ticketTime",
+                      style: AppTextStyle.black323semi16),
+                  commonRow(
+                      title: "Status : ",
+                      value: "$ticketStatus",
+                      style: AppTextStyle.green47cSemi16),
+                  commonRow(
+                      title: "Priority : ",
+                      value: "$ticketPriority",
+                      style: AppTextStyle.yellowFF9Semi16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.location_on_outlined,
+                        color: AppColors.black191Color,
+                      ),
+                      Text(
+                        "$ticketLocation",
+                        style: AppTextStyle.black191medium16,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                color: AppColors.whiteColor,
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              color: AppColors.whiteColor,
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -130,13 +130,13 @@ class TicketDetails extends StatelessWidget {
                   ],
                 ),
               ),
-              const Spacer(),
-              CommonMaterialButton(
-                  buttonText: "Stock Request", onTap: () {
-                    Get.to(() => const StockRequest());
-              }),
-            ],
-          ),
+            ),
+            const Spacer(),
+            CommonMaterialButton(
+                buttonText: "Stock Request", onTap: () {
+                  Get.to(() => const StockRequest());
+            }),
+          ],
         ));
   }
 

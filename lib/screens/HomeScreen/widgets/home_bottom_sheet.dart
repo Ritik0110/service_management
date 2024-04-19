@@ -8,11 +8,11 @@ import '../../../utils/app_colors.dart';
 
 class HomeFilterBottomSheet extends StatelessWidget {
    const HomeFilterBottomSheet({
-    super.key, required this.homeController,
+    super.key,
   });
-  final HomeControler homeController;
   @override
   Widget build(BuildContext context) {
+    HomeControler homeController = Get.find();
     homeController.tempStatus.value = homeController.status.value;
     homeController.tempPriority.value = homeController.priority.value;
     return Container(
@@ -125,82 +125,7 @@ class HomeFilterBottomSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Text(
-                //   "Priority",
-                //   style: AppTextStyle.mediumTS
-                //       .copyWith(color: AppColors.black191Color, fontSize: 16),
-                // ),
-                // Obx(
-                //   () =>  Wrap(
-                //     alignment: WrapAlignment.spaceBetween,
-                //     spacing: 16.0, // Adjust spacing as needed
-                //     children: [
-                //       Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Radio(
-                //             value: Priority.all,
-                //             groupValue: homeController.tempPriority.value,
-                //             onChanged: (value) {
-                //               homeController.tempPriority.value = Priority.all;
-                //             },
-                //           ),
-                //           Text("All",
-                //               style: AppTextStyle.mediumTS.copyWith(
-                //                   color: AppColors.blue2F6Color, fontSize: 18))
-                //         ],
-                //       ),
-                //       Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Radio(
-                //             value: Priority.high,
-                //             groupValue: homeController.tempPriority.value,
-                //             onChanged: (value) {
-                //               homeController.tempPriority.value = Priority.high;
-                //             },
-                //           ),
-                //           Text("High",
-                //               style: AppTextStyle.mediumTS.copyWith(
-                //                   color: AppColors.blue2F6Color, fontSize: 18))
-                //         ],
-                //       ),
-                //       Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Radio(
-                //             value: Priority.medium,
-                //             groupValue: homeController.tempPriority.value,
-                //             onChanged: (value) {
-                //               homeController.tempPriority.value = Priority.medium;
-                //             },
-                //           ),
-                //           Text("Medium",
-                //               style: AppTextStyle.mediumTS.copyWith(
-                //                   color: AppColors.blue2F6Color, fontSize: 18))
-                //         ],
-                //       ),
-                //       Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: [
-                //           Radio(
-                //             value: Priority.low,
-                //             groupValue: homeController.tempPriority.value,
-                //             onChanged: (value) {
-                //               homeController.tempPriority.value = Priority.low;
-                //             },
-                //           ),
-                //           Text("Low",
-                //               style: AppTextStyle.mediumTS.copyWith(
-                //                   color: AppColors.blue2F6Color, fontSize: 18))
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 16,
-                // ),
+
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.green33AColor,

@@ -5,14 +5,22 @@ import 'package:service_call_management/screens/purchase_request/purchase_reques
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TicketDetails extends StatelessWidget {
-  const TicketDetails({super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketStatus,  required this.ticketLocation});
+  const TicketDetails({super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketStatus,  required this.ticketLocation, required this.ticketPriority, required this.customerName, required this.contactPerson, required this.startDate, required this.endDate, required this.contactNumber});
   final String ticketId;
   final String ticketTitle;
   final String ticketTime;
   final String ticketStatus;
   final String ticketLocation;
+  final String ticketPriority;
+  final String customerName;
+  final String contactPerson;
+  final String contactNumber;
+  final String startDate;
+  final String endDate;
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +59,7 @@ class TicketDetails extends StatelessWidget {
                       style: AppTextStyle.green47cSemi16),
                   commonRow(
                       title: "Priority : ",
-                      value: "",
+                      value: "$ticketPriority",
                       style: AppTextStyle.yellowFF9Semi16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -82,14 +90,19 @@ class TicketDetails extends StatelessWidget {
                     children: [
                       commonRow(
                           title: "Customer Name",
-                          value: "\nAquant Systems",
+                          value: "\n$customerName",
                           style: AppTextStyle.black323semi16),
-                      const CircleAvatar(
-                        radius: 20,
-                        backgroundColor: AppColors.whiteF2FColor,
-                        child: Icon(
-                          Icons.call,
-                          color: AppColors.green33AColor,
+                      InkWell(
+                        onTap: () {
+                          launchUrl(Uri.parse("tel:${contactNumber??""}"));
+                        },
+                        child: const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: AppColors.whiteF2FColor,
+                          child: Icon(
+                            Icons.call,
+                            color: AppColors.green33AColor,
+                          ),
                         ),
                       )
                     ],
@@ -97,17 +110,17 @@ class TicketDetails extends StatelessWidget {
                   10.sizedBoxHeight,
                   commonRow(
                       title: "Contact Person",
-                      value: "\nTroy Brown",
+                      value: "\n$contactPerson",
                       style: AppTextStyle.black323semi16),
                   10.sizedBoxHeight,
                   commonRow(
                       title: "Start Date",
-                      value: "\n22-March-2024,2:00 PM",
+                      value: "\n$startDate",
                       style: AppTextStyle.black323semi16),
                   10.sizedBoxHeight,
                   commonRow(
                       title: "End Date",
-                      value: "\n22-March-2024,3:30 PM",
+                      value: "\n$endDate",
                       style: AppTextStyle.black323semi16),
                   24.sizedBoxHeight,
                   CommonMaterialButton(

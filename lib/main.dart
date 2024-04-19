@@ -34,16 +34,16 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-     /* builder: (context, child) {
+     builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             // Change this value to adjust scaling
-            textScaleFactor: 1.0,
+            textScaler: const TextScaler.linear(1.0),
             //textScaler: const TextScaler.linear(1.5)
           ),
           child: child!,
         );
-      },*/
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(

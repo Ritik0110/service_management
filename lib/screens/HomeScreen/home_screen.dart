@@ -70,34 +70,34 @@ class HomeScreen extends StatelessWidget {
                 AppAssets.searchIcon,
                 height: 20,
               )),
-          Stack(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
-
-                  },
-                  icon: Image.asset(
-                    AppAssets.notificationIcon,
-                    color: AppColors.whiteColor,
-                    height: 22,
-                  )),
-              Positioned(
-                top: 2,
-                right: 2,
-                child: CircleAvatar(
-                  backgroundColor: Colors.red.shade700,
-                  foregroundColor: Colors.white,
-                  radius: 10,
-                  child: const Center(
-                      child: FittedBox(
-                          child: Text(
-                    '5',
-                  ))),
-                ),
-              ),
-            ],
-          )
+          // Stack(
+          //   children: [
+          //     IconButton(
+          //         onPressed: () {
+          //           Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
+          //
+          //         },
+          //         icon: Image.asset(
+          //           AppAssets.notificationIcon,
+          //           color: AppColors.whiteColor,
+          //           height: 22,
+          //         )),
+          //     Positioned(
+          //       top: 2,
+          //       right: 2,
+          //       child: CircleAvatar(
+          //         backgroundColor: Colors.red.shade700,
+          //         foregroundColor: Colors.white,
+          //         radius: 10,
+          //         child: const Center(
+          //             child: FittedBox(
+          //                 child: Text(
+          //           '5',
+          //         ))),
+          //       ),
+          //     ),
+          //   ],
+          // )
         ],
       ),
       body: Column(
@@ -116,10 +116,7 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () {
-                      if(controller.ticketsModel==null){
-                        return const SizedBox();
-                      }
-                      int count = controller.ticketsModel?.value.serviceData?.where((element) {
+                      int count = controller.ticketList.where((element) {
                         if (element.generateDate == null) {
                           if (kDebugMode) {
                             print("Skipping element with null date: $element");
@@ -174,7 +171,7 @@ class HomeScreen extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return HomeFilterBottomSheet(
-                          homeController: controller,
+
                         );
                       },
                     );
@@ -208,15 +205,21 @@ class HomeScreen extends StatelessWidget {
                   itemCount: controller.listElementCount.value,
                   itemBuilder: (context, index) {
                     return TicketCard(
-                      ticketId: controller.ticketList[index].serviceCallNo ?? '',
-                      ticketTitle: controller.ticketList[index].subject ?? "",
-                      ticketTime: controller.ticketList[index].time ?? "",
-                      model: "8453548042",
-                      manuSN: "04982093",
+                      ticketId: controller.ticketList[index].serviceCallNo ?? 'N/A',
+                      ticketTitle: controller.ticketList[index].subject ?? "N/A",
+                      ticketTime: controller.ticketList[index].time ?? "N/A",
+                      model: controller.ticketList[index].model ?? "N/A",
+                      manuSN: controller.ticketList[index].manuSN ?? "N/A",
                       ticketLocation:
-                          controller.ticketList[index].address ?? '',
+                          controller.ticketList[index].address ?? 'N/A',
                       ticketStatus:
-                          controller.ticketList[index].callStatus ?? "",
+                          controller.ticketList[index].callStatus ?? "N/A",
+                      ticketPriority: controller.ticketList[index].priority ?? "N/A",
+                      contactNumber: controller.ticketList[index].contactNumber ?? "",
+                      contactPerson: controller.ticketList[index].contactPerson ?? "N/A",
+                      customerName: controller.ticketList[index].customerName ?? "N/A",
+                      endDate: controller.ticketList[index].endDate ?? "N/A",
+                      startDate: controller.ticketList[index].generateDate ?? "N/A",
                     );
                   },
                 ),

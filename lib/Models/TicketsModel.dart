@@ -13,18 +13,18 @@ class TicketsModel {
     if (json['Service_Data'] != null) {
       serviceData = <ServiceData>[];
       json['Service_Data'].forEach((v) {
-        serviceData!.add(ServiceData.fromJson(v));
+        serviceData!.add(new ServiceData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['Result'] = result;
-    data['Message'] = message;
-    data['Count'] = count;
-    if (serviceData != null) {
-      data['Service_Data'] = serviceData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Result'] = this.result;
+    data['Message'] = this.message;
+    data['Count'] = this.count;
+    if (this.serviceData != null) {
+      data['Service_Data'] = this.serviceData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -44,10 +44,12 @@ class ServiceData {
   String? itemCode;
   String? itemName;
   String? address;
+  String? model;
+  String? manuSN;
+  String? endDate;
   String? time;
   String? contactPerson;
   String? contactNumber;
-  String? endDate;
 
   ServiceData(
       {this.serviceCallNo,
@@ -63,10 +65,12 @@ class ServiceData {
         this.itemCode,
         this.itemName,
         this.address,
+        this.model,
+        this.manuSN,
+        this.endDate,
         this.time,
         this.contactPerson,
-        this.contactNumber,
-        this.endDate});
+        this.contactNumber});
 
   ServiceData.fromJson(Map<String, dynamic> json) {
     serviceCallNo = json['ServiceCallNo'];
@@ -82,31 +86,35 @@ class ServiceData {
     itemCode = json['ItemCode'];
     itemName = json['ItemName'];
     address = json['Address'];
+    model = json['Model'];
+    manuSN = json['ManuSN'];
+    endDate = json['EndDate'];
     time = json['Time'];
     contactPerson = json['ContactPerson'];
     contactNumber = json['ContactNumber'];
-    endDate = json['EndDate'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['ServiceCallNo'] = serviceCallNo;
-    data['Subject'] = subject;
-    data['CallStatus'] = callStatus;
-    data['Priority'] = priority;
-    data['ProblemType'] = problemType;
-    data['CallType'] = callType;
-    data['CustomerCode'] = customerCode;
-    data['CustomerName'] = customerName;
-    data['IssueType'] = issueType;
-    data['GenerateDate'] = generateDate;
-    data['ItemCode'] = itemCode;
-    data['ItemName'] = itemName;
-    data['Address'] = address;
-    data['Time'] = time;
-    data['ContactPerson'] = contactPerson;
-    data['ContactNumber'] = contactNumber;
-    data['EndDate'] = endDate;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ServiceCallNo'] = this.serviceCallNo;
+    data['Subject'] = this.subject;
+    data['CallStatus'] = this.callStatus;
+    data['Priority'] = this.priority;
+    data['ProblemType'] = this.problemType;
+    data['CallType'] = this.callType;
+    data['CustomerCode'] = this.customerCode;
+    data['CustomerName'] = this.customerName;
+    data['IssueType'] = this.issueType;
+    data['GenerateDate'] = this.generateDate;
+    data['ItemCode'] = this.itemCode;
+    data['ItemName'] = this.itemName;
+    data['Address'] = this.address;
+    data['Model'] = this.model;
+    data['ManuSN'] = this.manuSN;
+    data['EndDate'] = this.endDate;
+    data['Time'] = this.time;
+    data['ContactPerson'] = this.contactPerson;
+    data['ContactNumber'] = this.contactNumber;
     return data;
   }
 }

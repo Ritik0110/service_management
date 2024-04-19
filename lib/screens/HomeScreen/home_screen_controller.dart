@@ -1,8 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:intl/intl.dart';
 import 'package:service_call_management/Models/TicketsModel.dart';
 import 'package:service_call_management/utils/api_helper.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
@@ -25,9 +25,10 @@ class HomeControler extends GetxController {
   final searchText = "".obs;
   final Rx<TicketsModel> ticketsModel = TicketsModel().obs;
 
-  void setSelectDate(DateTime date) {
+  Future<void> setSelectDate(DateTime date) async {
     selectedDate.value = date;
-    applyFilter();
+    await loadApiData();
+    //applyFilter();
   }
 @override
   void onReady() {
@@ -45,7 +46,9 @@ class HomeControler extends GetxController {
 
   Future<void> loadApiData() async {
     Get.dialog(Center(child: CircularProgressIndicator(),),barrierDismissible: false);
-    String result = await ApiHelper.getTickets()??"";
+    String result = await ApiHelper.getTickets(
+      DateFormat("yyyy-MM-dd").format(selectedDate.value),
+    )??"";
     if(Get.isDialogOpen??false){
       Get.back();
     }
@@ -110,18 +113,7 @@ class HomeControler extends GetxController {
       filteredList.removeWhere(
           (element) => element.callStatus?.toLowerCase() != "close");
     }
-    // if (priority.value == Priority.low) {
-    //   filteredList
-    //       .removeWhere((element) => element.priority?.toLowerCase() != "low");
-    // }
-    // if (priority.value == Priority.medium) {
-    //   filteredList.removeWhere(
-    //       (element) => element.priority?.toLowerCase() != "medium");
-    // }
-    // if (priority.value == Priority.high) {
-    //   filteredList
-    //       .removeWhere((element) => element.priority?.toLowerCase() != "high");
-    // }
+
     ticketList.value = filteredList;
     if (listElementCount.value == ticketList.length) {
       listElementCount.value = 0;

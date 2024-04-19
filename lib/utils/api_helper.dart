@@ -2,24 +2,24 @@ import 'dart:convert';
 
 
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
+
 import 'package:service_call_management/Models/employee_model.dart';
 import 'package:service_call_management/Models/TicketsModel.dart';
-import 'package:service_call_management/utils/app_preferences.dart';
-import 'package:service_call_management/utils/app_variables.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../screens/HomeScreen/home_screen.dart';
+import 'package:service_call_management/utils/app_variables.dart';
+
+
+
 import 'app_url.dart';
 
 
 class ApiHelper {
   static Dio dio = Dio(BaseOptions(baseUrl:AppUrl.baseUrl,));
-  static Future<String?> getTickets() async {
+  static Future<String?> getTickets(String date) async {
+    print(date);
 
     try {
-      print(AppVariables.employeeModel.employeeData?[0].employeeCode);
-      final response = await dio.post(AppUrl.getTickets,data: {"EmpCode":AppVariables.employeeModel.employeeData?[0].employeeCode,"Page":0});
+      final response = await dio.post(AppUrl.getTickets,data: {"EmpCode":AppVariables.employeeModel.employeeData?[0].employeeCode,"Date":date});
 
         AppVariables.ticketsModel =  TicketsModel.fromJson(json.decode(response.toString()));
         return "1";

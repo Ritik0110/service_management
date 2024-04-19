@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/common_widgets/common_button.dart';
-import 'package:service_call_management/screens/purchase_request/purchase_request.dart';
+import 'package:service_call_management/screens/stock_request/stock_request.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
@@ -29,112 +29,114 @@ class TicketDetails extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Ticket Details'),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-              color: AppColors.whiteColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "#$ticketId",
-                    style: AppTextStyle.grey646semi16,
-                  ),
-                  Text(
-                    "$ticketTitle",
-                    style: AppTextStyle.black191medium16,
-                  ),
-                  10.sizedBoxHeight,
-                  commonRow(
-                      title: "Time : ",
-                      value: "$ticketTime",
-                      style: AppTextStyle.black323semi16),
-                  commonRow(
-                      title: "Status : ",
-                      value: "$ticketStatus",
-                      style: AppTextStyle.green47cSemi16),
-                  commonRow(
-                      title: "Priority : ",
-                      value: "$ticketPriority",
-                      style: AppTextStyle.yellowFF9Semi16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.location_on_outlined,
-                        color: AppColors.black191Color,
-                      ),
-                      Text(
-                        "$ticketLocation",
-                        style: AppTextStyle.black191medium16,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              color: AppColors.whiteColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      commonRow(
-                          title: "Customer Name",
-                          value: "\n$customerName",
-                          style: AppTextStyle.black323semi16),
-                      InkWell(
-                        onTap: () {
-                          launchUrl(Uri.parse("tel:${contactNumber??""}"));
-                        },
-                        child: const CircleAvatar(
-                          radius: 20,
-                          backgroundColor: AppColors.whiteF2FColor,
-                          child: Icon(
-                            Icons.call,
-                            color: AppColors.green33AColor,
-                          ),
+        body: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                color: AppColors.whiteColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "#$ticketId",
+                      style: AppTextStyle.grey646semi16,
+                    ),
+                    Text(
+                      "$ticketTitle",
+                      style: AppTextStyle.black191medium16,
+                    ),
+                    10.sizedBoxHeight,
+                    commonRow(
+                        title: "Time : ",
+                        value: "$ticketTime",
+                        style: AppTextStyle.black323semi16),
+                    commonRow(
+                        title: "Status : ",
+                        value: "$ticketStatus",
+                        style: AppTextStyle.green47cSemi16),
+                    commonRow(
+                        title: "Priority : ",
+                        value: "$ticketPriority",
+                        style: AppTextStyle.yellowFF9Semi16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          Icons.location_on_outlined,
+                          color: AppColors.black191Color,
                         ),
-                      )
-                    ],
-                  ),
-                  10.sizedBoxHeight,
-                  commonRow(
-                      title: "Contact Person",
-                      value: "\n$contactPerson",
-                      style: AppTextStyle.black323semi16),
-                  10.sizedBoxHeight,
-                  commonRow(
-                      title: "Start Date",
-                      value: "\n$startDate",
-                      style: AppTextStyle.black323semi16),
-                  10.sizedBoxHeight,
-                  commonRow(
-                      title: "End Date",
-                      value: "\n$endDate",
-                      style: AppTextStyle.black323semi16),
-                  24.sizedBoxHeight,
-                  CommonMaterialButton(
-                      buttonText: "Close Ticket", onTap: () {}),
-                ],
+                        Text(
+                          "$ticketLocation",
+                          style: AppTextStyle.black191medium16,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            20.sizedBoxHeight,
-            Text("Stock Request", style: AppTextStyle.grey7A7medium16),
-            colorButton("Stock Transfer Request", AppColors.blue24Color, () {}),
-            colorButton("Stock Purchase Request", AppColors.pinkC42Color, () {
-              Get.to(const PurchaseRequest());
-            }),
-          ],
+              Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                color: AppColors.whiteColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        commonRow(
+                            title: "Customer Name",
+                            value: "\n$customerName",
+                            style: AppTextStyle.black323semi16),
+                        InkWell(
+                          onTap: () {
+                            launchUrl(Uri.parse("tel:${contactNumber??""}"));
+                          },
+                          child: const CircleAvatar(
+                            radius: 20,
+                            backgroundColor: AppColors.whiteF2FColor,
+                            child: Icon(
+                              Icons.call,
+                              color: AppColors.green33AColor,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    10.sizedBoxHeight,
+                    commonRow(
+                        title: "Contact Person",
+                        value: "\n$contactPerson",
+                        style: AppTextStyle.black323semi16),
+                    10.sizedBoxHeight,
+                    commonRow(
+                        title: "Start Date",
+                        value: "\n$startDate",
+                        style: AppTextStyle.black323semi16),
+                    10.sizedBoxHeight,
+                    commonRow(
+                        title: "End Date",
+                        value: "\n$endDate",
+                        style: AppTextStyle.black323semi16),
+                    24.sizedBoxHeight,
+                    CommonMaterialButton(
+                        buttonText: "Close Ticket", onTap: () {}),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              CommonMaterialButton(
+                  buttonText: "Stock Request", onTap: () {
+                    Get.to(() => const StockRequest());
+              }),
+            ],
+          ),
         ));
   }
 

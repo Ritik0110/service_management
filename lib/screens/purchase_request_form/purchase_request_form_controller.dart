@@ -1,22 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service_call_management/repository/models/product_model.dart';
+import 'package:service_call_management/Models/warehouse_model.dart';
+import 'package:service_call_management/utils/app_url.dart';
+
+import '../../services/network_api_services.dart';
 
 class PurchaseFormController extends GetxController {
-  List seriesList = [];
-  List wareHouseList = [];
+  WarehouseModel warehouses = WarehouseModel();
+  List<DropdownMenuItem<String>>? warehouseList = <DropdownMenuItem<String>>[].obs;
+  final _api = NetWorkApiService();
+  RxBool isLoading = false.obs;
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+
+  }
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    seriesList = DataList.productList;
-    wareHouseList = DataList.warehouseList;
+    getWareHouse();
   }
 
-  RxInt selectedSeriesNo = 0.obs;
-  RxInt selectedToWareHouse = 0.obs;
-  RxInt selectedFromWareHouse = 0.obs;
+
+  getWareHouse() async {
+    isLoading.value = true;
+    var data = await _api.getApi(AppUrl.getWarehouses);
+    warehouses = WarehouseModel.fromJson(data);
+    print(data);
+
+    warehouseList = warehouses.wareHouse!.map((e) => DropdownMenuItem<String>(
+      child: Text(e.whsName!),
+      value: e.whsCode.toString(),
+
+    )).toList();
+    warehouseList;
+    print("series list ${warehouseList?[0].value}");
+    isLoading.value = false;
+    update();
+
+  }
+
+
   DateTime selectedDate = DateTime.now();
   final TextEditingController dateController = TextEditingController();
 

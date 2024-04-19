@@ -32,13 +32,10 @@ class PurchaseRequestForm extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                /*Text(
                   'Item Code',
                   style: AppTextStyle.black323regular14,
                 ),
-                CommonDropdownField(
-                    hintText: 'Enter Item Code',
-                    dropdownList: formController.seriesList),
                 Text("Item Code Description",
                     style: AppTextStyle.black323regular14),
                 5.sizedBoxHeight,
@@ -51,7 +48,7 @@ class PurchaseRequestForm extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
                   ),
-                ),
+                ),*/
                 Text(
                   'Requirement Date',
                   style: AppTextStyle.black323regular14,
@@ -78,53 +75,23 @@ class PurchaseRequestForm extends StatelessWidget {
                   'To Warehouse',
                   style: AppTextStyle.black323regular14,
                 ),
-                CommonDropdownField(
-                    hintText: 'Select Warehouse',
-                    dropdownList: formController.wareHouseList),
+                Obx(() => CommonDropdownField(
+                      hintText: 'Select Warehouse',
+                      dropdownList: !formController.isLoading.value
+                          ? formController.warehouseList
+                          : null,
+                    )),
               ],
             ),
           ),
-          /*Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text("If Inventory Transfer has Based",
-                      style: AppTextStyle.grey7A7medium14),
-                ),
-                20.sizedBoxHeight,
-                Text(
-                  'From Warehouse',
-                  style: AppTextStyle.black323regular14,
-                ),
-                CommonDropdownField(
-                    hintText: 'Select Warehouse',
-                    dropdownList: formController.wareHouseList),
-
-              ],
-            ),
-          )*/
           const Spacer(),
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 20,
-            ),
-            child: CommonMaterialButton(
-                buttonText: "Choose Item",
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
-                        return ChooseItems();
-                      }));
-                }),
-          )
+          CommonMaterialButton(
+              buttonText: "Choose Item",
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ChooseItems();
+                }));
+              })
         ],
       ),
     );

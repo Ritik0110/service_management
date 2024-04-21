@@ -31,42 +31,51 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.1,
                   width: double.infinity,
                   child: colorButton(
-                      "Add More Items", AppColors.blue24Color, () {}),
+                      title: "Add More Items",
+                      color: AppColors.blue24Color,
+                      onPressed: () {
+                        Get.back();
+                      }),
                 ),
                 10.sizedBoxHeight,
                 Expanded(
-                    child:GetBuilder(
-                      init: ChooseItemController(),
-                      builder: (items)=>ListView.separated(
-                          itemBuilder: (context, index) {
-                            return CommonItemView(
-                              title: items.selectedItemsList[index].itemCode
-                                  .toString(),
-                              subTitle: items.selectedItemsList[index].itemName.toString(),
-                              increment: ()=>items.increaseItem1(items.selectedItemsList[index]),
-                              decrement: ()=>items.decreaseItem1(items.selectedItemsList[index]),
-                              subQty: items.subQty[items
-                                  .selectedItemsList[index].itemCode
-                                  .toString()]?.toInt() ?? 0,
-                              quantity:(items.selectedItemsList[index]
-                                  .quantity ??
-                                  0)
-                                  .toInt(),
-                              remove: (){
-                                items.removeItem(items.selectedItemsList[index]);
-                              },
-                              //remove: items.removeItem(items.selectedItemsList[index]),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider(
-                              height: 1,
-                              color: AppColors.grey848Color,
-                            );
-                          },
-                          itemCount: items.selectedItemsList.length)
-                    )
-                  )
+                    child: GetBuilder(
+                        init: ChooseItemController(),
+                        builder: (items) => ListView.separated(
+                            itemBuilder: (context, index) {
+                              return CommonItemView(
+                                title: items.selectedItemsList[index].itemCode
+                                    .toString(),
+                                subTitle: items
+                                    .selectedItemsList[index].itemName
+                                    .toString(),
+                                increment: () => items.increaseItem1(
+                                    items.selectedItemsList[index]),
+                                decrement: () => items.decreaseItem1(
+                                    items.selectedItemsList[index]),
+                                subQty: items.subQty[items
+                                            .selectedItemsList[index].itemCode
+                                            .toString()]
+                                        ?.toInt() ??
+                                    0,
+                                quantity:
+                                    (items.selectedItemsList[index].quantity ??
+                                            0)
+                                        .toInt(),
+                                remove: () {
+                                  items.removeItem(
+                                      items.selectedItemsList[index]);
+                                },
+                                //remove: items.removeItem(items.selectedItemsList[index]),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const Divider(
+                                height: 1,
+                                color: AppColors.grey848Color,
+                              );
+                            },
+                            itemCount: items.selectedItemsList.length)))
               ],
             ),
             Positioned(
@@ -74,13 +83,24 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                 child: Container(
                     width: MediaQuery.of(context).size.width,
                     color: AppColors.whiteColor,
-                    child: colorButton("StockTransfer Request",
-                        AppColors.blue24Color, () {}))),
+                    child: colorButton(
+                        title: items.toWarehouse.isEmpty
+                            ? "Purchase Request"
+                            : "Inventory Transfer Request",
+                        color: items.toWarehouse.isEmpty
+                            ? AppColors.green33AColor
+                            : AppColors.blue24Color,
+                        onPressed: items.toWarehouse.isEmpty
+                            ? items.submitForPurchase
+                            : items.submitForInventory))),
           ],
         ));
   }
 
-  Widget colorButton(String title, Color color, void Function() onPressed) {
+  Widget colorButton(
+      {required String title,
+      required Color color,
+      required void Function() onPressed}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: InkWell(

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/warehouse_model.dart';
+import 'package:service_call_management/screens/choose_items/choose_items.dart';
 import 'package:service_call_management/utils/app_url.dart';
 
 import '../../services/network_api_services.dart';
 
 class PurchaseFormController extends GetxController {
   WarehouseModel warehouses = WarehouseModel();
-  List<DropdownMenuItem<String>>? warehouseList = <DropdownMenuItem<String>>[].obs;
+  List<DropdownMenuItem<String>>? warehouseList =
+      <DropdownMenuItem<String>>[].obs;
   final _api = NetWorkApiService();
   RxBool isLoading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -15,49 +17,58 @@ class PurchaseFormController extends GetxController {
   RxString selectedToWarehouse = "".obs;
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
     getWareHouse();
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
-
-  onfromWarehouseChange(String? value) {
+  onFromWarehouseChange(String? value) {
     selectedFromWarehouse.value = value!;
     update();
   }
-  ontoWarehouseChange(String? value) {
+
+  onToWarehouseChange(String? value) {
     selectedToWarehouse.value = value!;
     update();
   }
 
+  submitForm() {
+    if (formKey.currentState!.validate()) {
+      if (selectedToWarehouse.value == selectedFromWarehouse.value) {
+        Get.snackbar("Please Select Different warehouse", "",
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 3));
+      } else {
+        Get.to(ChooseItems(
+          fromWarehouse: selectedFromWarehouse.value,
+          toWarehouse: selectedToWarehouse.value,
+          requirementDate: selectedDate,
+        ));
+      }
+    }
+  }
 
   getWareHouse() async {
-    Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
+    Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+        barrierDismissible: false);
     isLoading.value = true;
     var data = await _api.getApi(AppUrl.getWarehouses);
     warehouses = WarehouseModel.fromJson(data);
-    print(data);
-
-    warehouseList = warehouses.wareHouse!.map((e) => DropdownMenuItem<String>(
-      child: Text(e.whsName!),
-      value: e.whsCode.toString(),
-
-    )).toList();
+    warehouseList = warehouses.wareHouse!
+        .map((e) => DropdownMenuItem<String>(
+              value: e.whsCode.toString(),
+              child: Text(e.whsName!),
+            ))
+        .toList();
     warehouseList;
-    print("series list ${warehouseList?[0].value}");
     isLoading.value = false;
-    if(Get.isDialogOpen??false){
+    if (Get.isDialogOpen ?? false) {
       Get.back();
     }
     update();
-
   }
-
 
   DateTime selectedDate = DateTime.now();
   final TextEditingController dateController = TextEditingController();
@@ -72,7 +83,7 @@ class PurchaseFormController extends GetxController {
     if (picked != null && picked != selectedDate) {
       selectedDate = picked;
       dateController.text =
-          "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}";
+          "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
     }
   }
 }

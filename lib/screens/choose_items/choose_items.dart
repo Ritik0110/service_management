@@ -8,10 +8,30 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_test_style.dart';
 import '../../utils/extension/size_extension.dart';
 
-class ChooseItems extends StatelessWidget {
-  ChooseItems({super.key,required this.warehouse});
-  String warehouse;
+class ChooseItems extends StatefulWidget {
+  const ChooseItems(
+      {super.key,
+      required this.fromWarehouse,
+      this.toWarehouse,
+      this.requirementDate});
+  final String fromWarehouse;
+  final String? toWarehouse;
+  final DateTime? requirementDate;
+  @override
+  State<ChooseItems> createState() => _ChooseItemsState();
+}
+
+class _ChooseItemsState extends State<ChooseItems> {
   final chooseController = Get.put(ChooseItemController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    chooseController.fromWarehouse.value = widget.fromWarehouse;
+    chooseController.toWarehouse = widget.toWarehouse ?? "";
+    chooseController.requireDate = widget.requirementDate;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +55,35 @@ class ChooseItems extends StatelessWidget {
             icon: const Icon(Icons.qr_code_scanner),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              chooseController.getItems();
+            },
             icon: const Icon(Icons.sync_rounded),
           ),
         ],
       ),
       body: Column(
         children: [
+          Container(
+            height: 60,
+            padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
+            decoration: const BoxDecoration(
+              color: AppColors.blue2E6Color,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.whiteColor,
+                borderRadius: BorderRadius.circular(8)
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8)
+                  )
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: Obx(() => ListView.separated(
                   itemCount: chooseController.groupItems.length,
@@ -81,14 +123,16 @@ class ChooseItems extends StatelessWidget {
                                               0)
                                           .toInt(),
                                       subQty: control.subQty[control
-                                          .groupItems[index][j].itemCode
-                                          .toString()]?.toInt() ?? 0,
+                                                  .groupItems[index][j].itemCode
+                                                  .toString()]
+                                              ?.toInt() ??
+                                          0,
                                       increment: () =>
-                                          chooseController.increaseItem1(control
-                                              .groupItems[index][j]),
+                                          chooseController.increaseItem1(
+                                              control.groupItems[index][j]),
                                       decrement: () =>
-                                          chooseController.decreaseItem1(control
-                                              .groupItems[index][j]),
+                                          chooseController.decreaseItem1(
+                                              control.groupItems[index][j]),
                                     );
                                   });
                             },
@@ -112,27 +156,29 @@ class ChooseItems extends StatelessWidget {
                   },
                 )),
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 14),
-            width: MediaQuery.of(context).size.width,
-            color: AppColors.whiteColor,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Obx(() => Text(
+          Obx(() => Container(
+                padding: const EdgeInsets.only(left: 14),
+                width: MediaQuery.of(context).size.width,
+                color: AppColors.whiteColor,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
                       "Total Items: (${chooseController.totalItems.value})",
                       style: AppTextStyle.black191medium16,
-                    )),
-                CommonMaterialButton(
-                  buttonText: "Review Order",
-                  onTap: () {
-                    Get.to(PurchaseOrderReviewPage());
-                  },
-                  width: 200,
-                )
-              ],
-            ),
-          ),
+                    ),
+                    CommonMaterialButton(
+                      enable:
+                          chooseController.totalItems.value > 0 ? true : false,
+                      buttonText: "Review Order",
+                      onTap: () {
+                        Get.to(PurchaseOrderReviewPage());
+                      },
+                      width: 200,
+                    )
+                  ],
+                ),
+              )),
         ],
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/common_widgets/common_dropdown.dart';
-import 'package:service_call_management/screens/choose_items/choose_items.dart';
 import 'package:service_call_management/screens/purchase_request_form/purchase_request_form_controller.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
@@ -12,14 +11,14 @@ import '../../utils/app_colors.dart';
 class PurchaseRequestForm extends StatelessWidget {
   PurchaseRequestForm({super.key, required this.isPurchase});
 
-  bool isPurchase;
+  final bool isPurchase;
   final formController = Get.put(PurchaseFormController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Purchase Request Form'),
+        title: Text(isPurchase?'Purchase Request Form':"Inventory Transfer Form"),
       ),
       body: Form(
         key: formController.formKey,
@@ -41,6 +40,7 @@ class PurchaseRequestForm extends StatelessWidget {
                   ),
                   10.sizedBoxHeight,
                   TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: formController.dateController,
                     decoration: InputDecoration(
                       hintText: "DD/MM/YYYY",
@@ -68,7 +68,7 @@ class PurchaseRequestForm extends StatelessWidget {
                     style: AppTextStyle.black323regular14,
                   ),
                   Obx(() => CommonDropdownField(
-                    onChange:formController.onfromWarehouseChange,
+                    onChange:formController.onFromWarehouseChange,
                     hintText: 'Select Warehouse',
                     dropdownList: !formController.isLoading.value
                         ? formController.warehouseList
@@ -82,7 +82,7 @@ class PurchaseRequestForm extends StatelessWidget {
                       : const SizedBox(),
                   !isPurchase
                       ? Obx(() => CommonDropdownField(
-                          onChange: formController.ontoWarehouseChange,
+                          onChange: formController.onToWarehouseChange,
                             hintText: 'Select Warehouse',
                             dropdownList: !formController.isLoading.value
                                 ? formController.warehouseList
@@ -96,11 +96,8 @@ class PurchaseRequestForm extends StatelessWidget {
             const Spacer(),
             CommonMaterialButton(
                 buttonText: "Choose Item",
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return ChooseItems(warehouse: formController.selectedFromWarehouse.value,);
-                  }));
-                })
+                onTap:formController.submitForm
+            )
           ],
         ),
       ),

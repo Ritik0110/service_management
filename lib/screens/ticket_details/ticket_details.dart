@@ -124,10 +124,7 @@ class TicketDetails extends StatelessWidget {
                         title: "End Date",
                         value: "\n$endDate",
                         style: AppTextStyle.black323semi16),
-                    24.sizedBoxHeight,
-                    CommonMaterialButton(
-                        buttonText: "Close Ticket", onTap: () {}),
-                  ],
+                    24.sizedBoxHeight,],
                 ),
               ),
             ),

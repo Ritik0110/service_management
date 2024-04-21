@@ -10,9 +10,9 @@ import '../purchase_request_form/purchase_request_form.dart';
 import 'stock_request_controller.dart';
 
 class StockRequest extends StatefulWidget {
-  StockRequest({super.key, required this.callId});
+  const StockRequest({super.key, required this.callId});
 
-  String callId;
+  final String callId;
   @override
   State<StockRequest> createState() => _StockRequestState();
 }

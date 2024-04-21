@@ -7,9 +7,10 @@ import '../utils/app_test_style.dart';
 
 class CommonMaterialButton extends StatelessWidget {
   CommonMaterialButton(
-      {required this.buttonText, required this.onTap,this.width, super.key});
+      {required this.buttonText,this.enable = true, required this.onTap,this.width, super.key});
   String buttonText;
   double? width;
+  bool enable;
   void Function() onTap;
 
   @override
@@ -21,10 +22,11 @@ class CommonMaterialButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),
         ),
+        disabledColor: AppColors.grey848Color,
         color: AppColors.green33AColor,
         minWidth: width ?? double.maxFinite,
         height: 50,
-        onPressed: onTap,
+        onPressed: enable?onTap:null,
         child: Text(buttonText, style: AppTextStyle.white16medium),
       ),
     );

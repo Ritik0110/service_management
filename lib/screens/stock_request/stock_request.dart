@@ -189,12 +189,14 @@ class _StockRequestState extends State<StockRequest>
       color: AppColors.whiteColor,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           commonRow(
               title: headerText,
               value: " ($count)",
               style: AppTextStyle.black323regular16),
+          const Spacer(),
+          Text("Status : ",style: AppTextStyle.grey84regular16,),
           DropdownButton(
             style: AppTextStyle.green47cSemi16,
             value: stockControl.dropdownValue.value,

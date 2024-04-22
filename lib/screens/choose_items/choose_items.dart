@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/screens/choose_items/scanner_page.dart';
 import '../../common_widgets/common_button.dart';
 import '../../common_widgets/common_item_view.dart';
 import '../purchase_order_review/purhcase_order_review.dart';
@@ -47,11 +48,13 @@ class _ChooseItemsState extends State<ChooseItems> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: chooseController.setSearch,
             icon: const Icon(Icons.search),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(const ScanCodePage());
+            },
             icon: const Icon(Icons.qr_code_scanner),
           ),
           IconButton(
@@ -64,97 +67,117 @@ class _ChooseItemsState extends State<ChooseItems> {
       ),
       body: Column(
         children: [
-          Container(
-            height: 60,
-            padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 10),
-            decoration: const BoxDecoration(
-              color: AppColors.blue2E6Color,
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(8)
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8)
-                  )
-                ),
-              ),
-            ),
-          ),
+          Obx(() => (chooseController.isSearch.value)
+              ? Container(
+                  height: 60,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: const BoxDecoration(
+                    color: AppColors.blue2E6Color,
+                  ),
+                  child: TextField(
+                    controller: chooseController.searchController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      fillColor: AppColors.whiteColor,
+                      filled: true,
+                    ),
+                    onChanged: chooseController.searchedList,
+                    textAlign: TextAlign.start,
+                    cursorWidth: 1,
+                    textAlignVertical: TextAlignVertical.center,
+                  ),
+                )
+              : Container()),
           Expanded(
-            child: Obx(() => ListView.separated(
-                  itemCount: chooseController.groupItems.length,
-                  itemBuilder: (context, index) {
-                    return ExpansionTile(
-                        backgroundColor: AppColors.whiteColor,
-                        collapsedBackgroundColor: AppColors.whiteColor,
-                        title: Text(
-                          chooseController.groupItems[index][0].groupName
-                              .toString(),
-                          style: AppTextStyle.black323semi14,
-                        ),
-                        iconColor: AppColors.grey848Color,
-                        collapsedIconColor: AppColors.grey848Color,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
-                        ),
-                        children: [
-                          ListView.separated(
-                            itemCount:
-                                chooseController.groupItems[index].length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, j) {
-                              return GetBuilder(
-                                  init: chooseController,
-                                  builder: (control) {
-                                    return CommonItemView(
-                                      title: control
-                                          .groupItems[index][j].itemCode
-                                          .toString(),
-                                      subTitle: control
-                                          .groupItems[index][j].itemName
-                                          .toString(),
-                                      quantity: (control.groupItems[index][j]
-                                                  .quantity ??
-                                              0)
-                                          .toInt(),
-                                      subQty: control.subQty[control
-                                                  .groupItems[index][j].itemCode
-                                                  .toString()]
-                                              ?.toInt() ??
-                                          0,
-                                      increment: () =>
-                                          chooseController.increaseItem1(
-                                              control.groupItems[index][j]),
-                                      decrement: () =>
-                                          chooseController.decreaseItem1(
-                                              control.groupItems[index][j]),
-                                    );
-                                  });
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: Divider(
-                                  color:
-                                      AppColors.grey848Color.withOpacity(0.5),
-                                  height: 1,
-                                ),
-                              );
-                            },
-                          )
-                        ]);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return 2.sizedBoxHeight;
-                  },
-                )),
+            child: Obx(() => (chooseController.searchItems.isEmpty)
+                ? const Center(
+                    child: Center(
+                      child: Text("No Data Found"),
+                    ),
+                  )
+                : ListView.separated(
+                    itemCount: chooseController.searchItems.length,
+                    itemBuilder: (context, index) {
+                      print("searchItems: ${chooseController.searchItems}");
+                      return(chooseController.searchItems[index].isEmpty)?
+                          Container():
+                      ExpansionTile(
+                          backgroundColor: AppColors.whiteColor,
+                          collapsedBackgroundColor: AppColors.whiteColor,
+                          title: Text(
+                            chooseController.searchItems[index][0].groupName
+                                .toString(),
+                            style: AppTextStyle.black323semi14,
+                          ),
+                          iconColor: AppColors.grey848Color,
+                          collapsedIconColor: AppColors.grey848Color,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                          children: [
+                            chooseController.searchItems[index].isEmpty
+                                ? Container()
+                                : ListView.separated(
+                                    itemCount: chooseController
+                                        .searchItems[index].length,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, j) {
+                                      return GetBuilder(
+                                          init: chooseController,
+                                          builder: (control) {
+                                            return CommonItemView(
+                                              title: control
+                                                  .searchItems[index][j]
+                                                  .itemCode
+                                                  .toString(),
+                                              subTitle: control
+                                                  .searchItems[index][j]
+                                                  .itemName
+                                                  .toString(),
+                                              quantity: (control
+                                                          .searchItems[index][j]
+                                                          .quantity ??
+                                                      0)
+                                                  .toInt(),
+                                              subQty: control.subQty[control
+                                                          .searchItems[index][j]
+                                                          .itemCode
+                                                          .toString()]
+                                                      ?.toInt() ??
+                                                  0,
+                                              increment: () => chooseController
+                                                  .increaseItem1(control
+                                                      .searchItems[index][j]),
+                                              decrement: () => chooseController
+                                                  .decreaseItem1(control
+                                                      .searchItems[index][j]),
+                                            );
+                                          });
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Divider(
+                                          color: AppColors.grey848Color
+                                              .withOpacity(0.5),
+                                          height: 1,
+                                        ),
+                                      );
+                                    },
+                                  )
+                          ]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return 2.sizedBoxHeight;
+                    },
+                  )),
           ),
           Obx(() => Container(
                 padding: const EdgeInsets.only(left: 14),

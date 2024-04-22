@@ -39,7 +39,7 @@ class StockController extends GetxController {
   Future<void> getPurchaseRequestList() async {
     Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
     var data = await _api.postApi(AppUrl.prList, {
-      "CallId": "${callId.value}",
+      "CallId": callId.value,
       "Page": 0,
     });
     if(Get.isDialogOpen??false){
@@ -59,7 +59,7 @@ class StockController extends GetxController {
   Future<void> getTransferRequestList() async {
     Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
     var data = await _api.postApi(AppUrl.itList, {
-      "CallId": "${callId.value}",
+      "CallId": callId.value,
       "Page": 0,
     });
     if(Get.isDialogOpen??false){

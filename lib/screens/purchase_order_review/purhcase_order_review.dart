@@ -79,20 +79,23 @@ class PurchaseOrderReviewPage extends StatelessWidget {
               ],
             ),
             Positioned(
-                bottom: 0,
-                child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: AppColors.whiteColor,
-                    child: colorButton(
-                        title: items.toWarehouse.isEmpty
-                            ? "Purchase Request"
-                            : "Inventory Transfer Request",
-                        color: items.toWarehouse.isEmpty
-                            ? AppColors.green33AColor
-                            : AppColors.blue24Color,
-                        onPressed: items.toWarehouse.isEmpty
-                            ? items.submitForPurchase
-                            : items.submitForInventory))),
+              bottom: 0,
+              child: Obx(() => items.selectedItemsList.isNotEmpty
+                  ? Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: AppColors.whiteColor,
+                      child: colorButton(
+                          title: items.toWarehouse.isEmpty
+                              ? "Purchase Request"
+                              : "Inventory Transfer Request",
+                          color: items.toWarehouse.isEmpty
+                              ? AppColors.green33AColor
+                              : AppColors.blue24Color,
+                          onPressed: items.toWarehouse.isEmpty
+                              ? items.submitForPurchase
+                              : items.submitForInventory))
+                  : const SizedBox()),
+            ),
           ],
         ));
   }

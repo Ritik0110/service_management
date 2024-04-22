@@ -5,20 +5,28 @@ import 'package:get/get.dart';
 import 'package:service_call_management/Models/Inventory_transfer_model.dart';
 import 'package:service_call_management/Models/ItemModel.dart';
 import 'package:service_call_management/Models/purchase_model.dart';
+import 'package:service_call_management/common_widgets/common_button.dart';
+import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
 import 'package:service_call_management/services/network_api_services.dart';
+import 'package:service_call_management/utils/app_colors.dart';
+import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/app_url.dart';
+import 'package:service_call_management/utils/extension/size_extension.dart';
 
 class ChooseItemController extends GetxController {
   RxInt totalItems = 0.obs;
   List<ItemData> selectedItemsList = <ItemData>[].obs;
   final _api = NetWorkApiService();
   ItemModel model = ItemModel();
+  final searchController = TextEditingController();
   // Map contains data where groupCode marks as key
   var subLists = <String, List<ItemData>>{}.obs;
   //contains sublist of each groupCode
   RxList<List<ItemData>> groupItems = <List<ItemData>>[].obs;
+  RxList<List<ItemData>> searchItems = <List<ItemData>>[].obs;
   late TransferModel iTModel;
   late PurchaseModel pRModel;
+  RxBool isSearch = false.obs;
   var subQty = <String, num>{}.obs;
   RxString fromWarehouse = "02".obs;
   String toWarehouse = "";
@@ -54,6 +62,11 @@ class ChooseItemController extends GetxController {
     });
     //converting map into list of grouped item list
     groupItems.value = subLists.values.toList();
+    searchItems.addAll(groupItems);
+  }
+
+  void setSearch() {
+    isSearch.value = isSearch.value ? false : true;
   }
 
   totalItemsCount() {
@@ -61,6 +74,24 @@ class ChooseItemController extends GetxController {
     subQty.forEach((key, value) {
       totalItems.value += value.toInt();
     });
+  }
+
+  void searchedList(String? searchValue) {
+    if (searchController.text.isNotEmpty) {
+      searchItems.clear();
+      for (var element in groupItems) {
+        List<ItemData> temp = [];
+        for (var e in element) {
+          if (e.itemName!.toLowerCase().contains(searchValue!.toLowerCase())) {
+            temp.add(e);
+          }
+        }
+        searchItems.add(temp);
+      }
+    } else {
+      searchItems.clear();
+      searchItems.addAll(groupItems);
+    }
   }
 
   increaseItem1(ItemData data) {
@@ -111,6 +142,41 @@ class ChooseItemController extends GetxController {
     if (Get.isDialogOpen ?? false) {
       Get.back();
     }
+    Get.dialog(
+      Center(
+        child: Card(
+          margin: const EdgeInsets.all(16),
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              15.sizedBoxHeight,
+              const Icon(
+                Icons.check_circle_outline,
+                color: AppColors.green33AColor,
+                size: 80,
+              ),
+              Text(
+                data["error"] ??
+                    "Your Request hase been submitted successfully!",
+                style: AppTextStyle.black191medium16,
+                textAlign: TextAlign.center,
+              ),
+              20.sizedBoxHeight,
+              CommonMaterialButton(
+                buttonText: "Back to Home",
+                onTap: () {
+                  Get.offAll(const HomeScreen());
+                },
+                width: 200,
+              )
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
   }
 
   Future submitForPurchase() async {
@@ -136,5 +202,40 @@ class ChooseItemController extends GetxController {
     if (Get.isDialogOpen ?? false) {
       Get.back();
     }
+    Get.dialog(
+      Center(
+        child: Card(
+          margin: const EdgeInsets.all(16),
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              15.sizedBoxHeight,
+              const Icon(
+                Icons.check_circle_outline,
+                color: AppColors.green33AColor,
+                size: 80,
+              ),
+              Text(
+                data["error"] ??
+                    "Your Request hase been submitted successfully!",
+                style: AppTextStyle.black191medium16,
+                textAlign: TextAlign.center,
+              ),
+              20.sizedBoxHeight,
+              CommonMaterialButton(
+                buttonText: "Back to Home",
+                onTap: () {
+                  Get.offAll(const HomeScreen());
+                },
+                width: 200,
+              )
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service_call_management/screens/choose_items/scanner_page.dart';
 import '../../common_widgets/common_button.dart';
 import '../../common_widgets/common_item_view.dart';
 import '../purchase_order_review/purhcase_order_review.dart';
@@ -51,12 +50,12 @@ class _ChooseItemsState extends State<ChooseItems> {
             onPressed: chooseController.setSearch,
             icon: const Icon(Icons.search),
           ),
-          IconButton(
+          /*IconButton(
             onPressed: () {
               Get.to(const ScanCodePage());
             },
             icon: const Icon(Icons.qr_code_scanner),
-          ),
+          ),*/
           IconButton(
             onPressed: () {
               chooseController.getItems();
@@ -78,6 +77,8 @@ class _ChooseItemsState extends State<ChooseItems> {
                   child: TextField(
                     controller: chooseController.searchController,
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -101,78 +102,86 @@ class _ChooseItemsState extends State<ChooseItems> {
                 : ListView.separated(
                     itemCount: chooseController.searchItems.length,
                     itemBuilder: (context, index) {
-                      print("searchItems: ${chooseController.searchItems}");
-                      return(chooseController.searchItems[index].isEmpty)?
-                          Container():
-                      ExpansionTile(
-                          backgroundColor: AppColors.whiteColor,
-                          collapsedBackgroundColor: AppColors.whiteColor,
-                          title: Text(
-                            chooseController.searchItems[index][0].groupName
-                                .toString(),
-                            style: AppTextStyle.black323semi14,
-                          ),
-                          iconColor: AppColors.grey848Color,
-                          collapsedIconColor: AppColors.grey848Color,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          children: [
-                            chooseController.searchItems[index].isEmpty
-                                ? Container()
-                                : ListView.separated(
-                                    itemCount: chooseController
-                                        .searchItems[index].length,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, j) {
-                                      return GetBuilder(
-                                          init: chooseController,
-                                          builder: (control) {
-                                            return CommonItemView(
-                                              title: control
-                                                  .searchItems[index][j]
-                                                  .itemCode
-                                                  .toString(),
-                                              subTitle: control
-                                                  .searchItems[index][j]
-                                                  .itemName
-                                                  .toString(),
-                                              quantity: (control
-                                                          .searchItems[index][j]
-                                                          .quantity ??
-                                                      0)
-                                                  .toInt(),
-                                              subQty: control.subQty[control
-                                                          .searchItems[index][j]
-                                                          .itemCode
-                                                          .toString()]
-                                                      ?.toInt() ??
-                                                  0,
-                                              increment: () => chooseController
-                                                  .increaseItem1(control
-                                                      .searchItems[index][j]),
-                                              decrement: () => chooseController
-                                                  .decreaseItem1(control
-                                                      .searchItems[index][j]),
+                      return (chooseController.searchItems[index].isEmpty)
+                          ? Container()
+                          : ExpansionTile(
+                              backgroundColor: AppColors.whiteColor,
+                              collapsedBackgroundColor: AppColors.whiteColor,
+                              title: Text(
+                                chooseController.searchItems[index][0].groupName
+                                    .toString(),
+                                style: AppTextStyle.black323semi14,
+                              ),
+                              iconColor: AppColors.grey848Color,
+                              collapsedIconColor: AppColors.grey848Color,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(0),
+                              ),
+                              children: [
+                                  chooseController.searchItems[index].isEmpty
+                                      ? Container()
+                                      : ListView.separated(
+                                          itemCount: chooseController
+                                              .searchItems[index].length,
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, j) {
+                                            return GetBuilder(
+                                                init: chooseController,
+                                                builder: (control) {
+                                                  return CommonItemView(
+                                                    title: control
+                                                        .searchItems[index][j]
+                                                        .itemCode
+                                                        .toString(),
+                                                    subTitle: control
+                                                        .searchItems[index][j]
+                                                        .itemName
+                                                        .toString(),
+                                                    quantity: (control
+                                                                .searchItems[
+                                                                    index][j]
+                                                                .quantity ??
+                                                            0)
+                                                        .toInt(),
+                                                    subQty: control
+                                                            .subQty[control
+                                                                .searchItems[
+                                                                    index][j]
+                                                                .itemCode
+                                                                .toString()]
+                                                            ?.toInt() ??
+                                                        0,
+                                                    increment: () =>
+                                                        chooseController
+                                                            .increaseItem1(control
+                                                                    .searchItems[
+                                                                index][j]),
+                                                    decrement: () =>
+                                                        chooseController
+                                                            .decreaseItem1(control
+                                                                    .searchItems[
+                                                                index][j]),
+                                                  );
+                                                });
+                                          },
+                                          separatorBuilder:
+                                              (BuildContext context,
+                                                  int index) {
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16.0),
+                                              child: Divider(
+                                                color: AppColors.grey848Color
+                                                    .withOpacity(0.5),
+                                                height: 1,
+                                              ),
                                             );
-                                          });
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        child: Divider(
-                                          color: AppColors.grey848Color
-                                              .withOpacity(0.5),
-                                          height: 1,
-                                        ),
-                                      );
-                                    },
-                                  )
-                          ]);
+                                          },
+                                        )
+                                ]);
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return 2.sizedBoxHeight;

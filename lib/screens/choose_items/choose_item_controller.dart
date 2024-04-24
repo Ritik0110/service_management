@@ -39,18 +39,11 @@ class ChooseItemController extends GetxController {
   }
 
   Future getItems() async {
-    Get.dialog(
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-        barrierDismissible: false);
     var data = await _api.postApi(AppUrl.getItems, {
       "WhsCode": fromWarehouse.value,
     });
-    if (Get.isDialogOpen ?? false) {
-      Get.back();
-    }
     model = ItemModel.fromJson(data);
+    searchItems.clear();
     subLists.clear();
     //mapping data into sub list using each group code
     model.itemData?.forEach((element) {
@@ -131,17 +124,9 @@ class ChooseItemController extends GetxController {
     print(items);
     iTModel = TransferModel(docDate: DateTime.now(), stockTransferLines: items);
     print(iTModel.toJson());
-    Get.dialog(
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-        barrierDismissible: false);
     var data = await _api.postApi(
         AppUrl.inventoryTransfer, jsonEncode(iTModel.toJson()));
     print(data);
-    if (Get.isDialogOpen ?? false) {
-      Get.back();
-    }
     Get.dialog(
       Center(
         child: Card(
@@ -191,17 +176,9 @@ class ChooseItemController extends GetxController {
       requriedDate: requireDate!,
       documentLines: items,
     );
-    Get.dialog(
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-        barrierDismissible: false);
     var data = await _api.postApi(
         AppUrl.purchaseRequest, jsonEncode(pRModel.toJson()));
     print(data);
-    if (Get.isDialogOpen ?? false) {
-      Get.back();
-    }
     Get.dialog(
       Center(
         child: Card(

@@ -53,11 +53,6 @@ class PurchaseFormController extends GetxController {
   }
 
   getWareHouse() async {
-    Get.dialog(
-        const Center(
-          child: CircularProgressIndicator(),
-        ),
-        barrierDismissible: false);
     isLoading.value = true;
     var data = await _api.getApi(AppUrl.getWarehouses);
     warehouses = WarehouseModel.fromJson(data);
@@ -67,11 +62,7 @@ class PurchaseFormController extends GetxController {
               child: Text(e.whsName!),
             ))
         .toList();
-    warehouseList;
     isLoading.value = false;
-    if (Get.isDialogOpen ?? false) {
-      Get.back();
-    }
     update();
   }
 

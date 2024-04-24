@@ -25,8 +25,12 @@ class StockController extends GetxController {
   }
 
   void changeIndex(int index) {
-    index ==0?getPurchaseRequestList():getTransferRequestList();
-    selectedIndex.value = index;
+    if(index == selectedIndex.value){
+      return;
+    }else {
+      index == 0 ? getPurchaseRequestList() : getTransferRequestList();
+      selectedIndex.value = index;
+    }
   }
 
   void changeDropDownValue(String? value) {
@@ -37,15 +41,10 @@ class StockController extends GetxController {
   }
 
   Future<void> getPurchaseRequestList() async {
-    Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
     var data = await _api.postApi(AppUrl.prList, {
       "CallId": callId.value,
       "Page": 0,
     });
-    if(Get.isDialogOpen??false){
-      Get.back();
-    }
-
     if (data["Result"] == 0) {
       productModel = null;
     } else {
@@ -57,14 +56,10 @@ class StockController extends GetxController {
   }
 
   Future<void> getTransferRequestList() async {
-    Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
     var data = await _api.postApi(AppUrl.itList, {
       "CallId": callId.value,
       "Page": 0,
     });
-    if(Get.isDialogOpen??false){
-      Get.back();
-    }
     if (data["Result"] == 0) {
       productModel = null;
     } else {

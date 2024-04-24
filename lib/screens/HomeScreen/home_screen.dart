@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +10,8 @@ import 'package:service_call_management/screens/HomeScreen/widgets/ticket_card.d
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
 import 'package:service_call_management/utils/app_preferences.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
+import 'package:service_call_management/utils/extension/size_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
@@ -25,36 +24,68 @@ class HomeScreen extends StatelessWidget {
     HomeControler controller = Get.put(HomeControler());
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      drawer:  Drawer(
-         child: Column(
-           children: [
-              DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: AppColors.blue2F6Color,
-                ),
-                child: Center(
-                  child: Text(
-                    'Service Call Management',
-                    style: AppTextStyle.white16medium,
-                  ),
-                ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+              margin: EdgeInsets.zero,
+              decoration: const BoxDecoration(
+                color: AppColors.blue2F6Color,
               ),
-              ListTile(
-                title: const Text('Home'),
-                onTap: () {
-                  Get.back();
-                },
-              ),
-              ListTile(
-                title: const Text('Sign Out'),
-                onTap: () async {
-                  SharedPreferences preferences  = await SharedPreferences.getInstance();
-                  preferences.remove(AppPreferences.isLoggedIn);
-                  Get.offAll(() => const SignInScreen());
-                },
-              ),
-           ],
-         ),
+              child: Obx(() => SizedBox(
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            'Service Call Management',
+                            style: AppTextStyle.white16medium,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          "Welcome",
+                          style: AppTextStyle.mediumTS.copyWith(
+                              fontSize: 14, color: AppColors.whiteColor),
+                        ),
+                        Text(
+                          controller.empName.value,
+                          style: AppTextStyle.white14semiBold,
+                        ),
+                        5.sizedBoxHeight,
+                        Text(
+                          'Mobile : ${controller.empNumber.value}',
+                          style: AppTextStyle.white14semiBold,
+                        ),
+                        5.sizedBoxHeight,
+                        Text(
+                          'Email : ${controller.empEmail.value}',
+                          style: AppTextStyle.white14semiBold,
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                Get.back();
+              },
+            ),
+            ListTile(
+              title: const Text('Sign Out'),
+              onTap: () async {
+                SharedPreferences preferences =
+                    await SharedPreferences.getInstance();
+                preferences.remove(AppPreferences.isLoggedIn);
+                Get.offAll(() => const SignInScreen());
+              },
+            ),
+          ],
+        ),
       ),
       appBar: AppBar(
         title: const Text('Home'),
@@ -62,9 +93,10 @@ class HomeScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 controller.searchText.value = '';
-                Get.dialog(useSafeArea: false,Dialog.fullscreen(
-                  child: SearchTicketsDialog(controller: controller)
-                ));
+                Get.dialog(
+                    useSafeArea: false,
+                    Dialog.fullscreen(
+                        child: SearchTicketsDialog(controller: controller)));
               },
               icon: Image.asset(
                 AppAssets.searchIcon,
@@ -116,51 +148,59 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () {
-                      int count = controller.ticketList.where((element) {
-                        if (element.generateDate == null) {
-                          if (kDebugMode) {
-                            print("Skipping element with null date: $element");
-                          }
-                          return false;
-                        }
+                      int count = controller.ticketList
+                          .where((element) {
+                            if (element.generateDate == null) {
+                              if (kDebugMode) {
+                                print(
+                                    "Skipping element with null date: $element");
+                              }
+                              return false;
+                            }
 
-                        // Remove any extra whitespace
-                        String cleanedDate = element.generateDate!.trim();
+                            // Remove any extra whitespace
+                            String cleanedDate = element.generateDate!.trim();
 
-                        // Split the date string into day, month, and year
-                        List<String> dateParts = cleanedDate.split('/');
-                        if (dateParts.length != 3) {
-                          if (kDebugMode) {
-                            print("Skipping element with invalid date format: $element");
-                          }
-                          return false;
-                        }
+                            // Split the date string into day, month, and year
+                            List<String> dateParts = cleanedDate.split('/');
+                            if (dateParts.length != 3) {
+                              if (kDebugMode) {
+                                print(
+                                    "Skipping element with invalid date format: $element");
+                              }
+                              return false;
+                            }
 
-                        // Reconstruct the date string in "yyyy-MM-dd" format
-                        String formattedDate = '${dateParts[2]}-${dateParts[0]}-${dateParts[1]}';
+                            // Reconstruct the date string in "yyyy-MM-dd" format
+                            String formattedDate =
+                                '${dateParts[2]}-${dateParts[0]}-${dateParts[1]}';
 
-                        // Try to parse the formatted date string into a DateTime object
-                        DateTime? date = DateTime.tryParse(formattedDate);
+                            // Try to parse the formatted date string into a DateTime object
+                            DateTime? date = DateTime.tryParse(formattedDate);
 
-                        if (date == null) {
-                          if (kDebugMode) {
-                            print("Skipping element due to parsing error: $element");
-                          }
-                          return false;
-                        }
+                            if (date == null) {
+                              if (kDebugMode) {
+                                print(
+                                    "Skipping element due to parsing error: $element");
+                              }
+                              return false;
+                            }
 
-                        // Check if the parsed date matches the selectedDate
-                        return date.day == controller.selectedDate.value.day &&
-                            date.month == controller.selectedDate.value.month &&
-                            date.year == controller.selectedDate.value.year;
-                      }).toList().length;
-
+                            // Check if the parsed date matches the selectedDate
+                            return date.day ==
+                                    controller.selectedDate.value.day &&
+                                date.month ==
+                                    controller.selectedDate.value.month &&
+                                date.year == controller.selectedDate.value.year;
+                          })
+                          .toList()
+                          .length;
 
                       return Text(
-                      "($count)",
-                      style: AppTextStyle.mediumTS
-                          .copyWith(color: AppColors.black333Color, fontSize: 16),
-                    );
+                        "($count)",
+                        style: AppTextStyle.mediumTS.copyWith(
+                            color: AppColors.black333Color, fontSize: 16),
+                      );
                     },
                   ),
                 ),
@@ -170,9 +210,7 @@ class HomeScreen extends StatelessWidget {
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return const HomeFilterBottomSheet(
-
-                        );
+                        return const HomeFilterBottomSheet();
                       },
                     );
                   },
@@ -198,31 +236,55 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () =>Container(
+              () => Container(
                 color: AppColors.blueEFFColor,
-                child: controller.listElementCount.value == 0? Center(child: Text("No Data Found.",style: AppTextStyle.semiBoldTS.copyWith(color: AppColors.grey848Color),),):ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: controller.listElementCount.value,
-                  itemBuilder: (context, index) {
-                    return TicketCard(
-                      ticketId: controller.ticketList[index].serviceCallNo ?? 'N/A',
-                      ticketTitle: controller.ticketList[index].subject ?? "N/A",
-                      ticketTime: controller.ticketList[index].time ?? "N/A",
-                      model: controller.ticketList[index].model ?? "N/A",
-                      manuSN: controller.ticketList[index].manuSN ?? "N/A",
-                      ticketLocation:
-                          controller.ticketList[index].address ?? 'N/A',
-                      ticketStatus:
-                          controller.ticketList[index].callStatus ?? "N/A",
-                      ticketPriority: controller.ticketList[index].priority ?? "N/A",
-                      contactNumber: controller.ticketList[index].contactNumber ?? "",
-                      contactPerson: controller.ticketList[index].contactPerson ?? "N/A",
-                      customerName: controller.ticketList[index].customerName ?? "N/A",
-                      endDate: controller.ticketList[index].endDate ?? "N/A",
-                      startDate: controller.ticketList[index].generateDate ?? "N/A",
-                    );
-                  },
-                ),
+                child: controller.listElementCount.value == 0
+                    ? Center(
+                        child: Text(
+                          "No Data Found.",
+                          style: AppTextStyle.semiBoldTS
+                              .copyWith(color: AppColors.grey848Color),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.all(16),
+                        itemCount: controller.listElementCount.value,
+                        itemBuilder: (context, index) {
+                          return TicketCard(
+                            ticketId:
+                                controller.ticketList[index].serviceCallNo ??
+                                    'N/A',
+                            ticketTitle:
+                                controller.ticketList[index].subject ?? "N/A",
+                            ticketTime:
+                                controller.ticketList[index].time ?? "N/A",
+                            model: controller.ticketList[index].model ?? "N/A",
+                            manuSN:
+                                controller.ticketList[index].manuSN ?? "N/A",
+                            ticketLocation:
+                                controller.ticketList[index].address ?? 'N/A',
+                            ticketStatus:
+                                controller.ticketList[index].callStatus ??
+                                    "N/A",
+                            ticketPriority:
+                                controller.ticketList[index].priority ?? "N/A",
+                            contactNumber:
+                                controller.ticketList[index].contactNumber ??
+                                    "",
+                            contactPerson:
+                                controller.ticketList[index].contactPerson ??
+                                    "N/A",
+                            customerName:
+                                controller.ticketList[index].customerName ??
+                                    "N/A",
+                            endDate:
+                                controller.ticketList[index].endDate ?? "N/A",
+                            startDate:
+                                controller.ticketList[index].generateDate ??
+                                    "N/A",
+                          );
+                        },
+                      ),
               ),
             ),
           )
@@ -231,5 +293,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-

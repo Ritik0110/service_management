@@ -39,62 +39,58 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                 ),
                 10.sizedBoxHeight,
                 Expanded(
-                    child: GetBuilder(
-                        init: ChooseItemController(),
-                        builder: (items) => ListView.separated(
-                            itemBuilder: (context, index) {
-                              return CommonItemView(
-                                title: items.selectedItemsList[index].itemCode
-                                    .toString(),
-                                subTitle: items
-                                    .selectedItemsList[index].itemName
-                                    .toString(),
-                                increment: () => items.increaseItem1(
-                                    items.selectedItemsList[index]),
-                                decrement: () => items.decreaseItem1(
-                                    items.selectedItemsList[index]),
-                                subQty: items.subQty[items
-                                            .selectedItemsList[index].itemCode
-                                            .toString()]
-                                        ?.toInt() ??
-                                    0,
-                                quantity:
-                                    (items.selectedItemsList[index].quantity ??
-                                            0)
-                                        .toInt(),
-                                remove: () {
-                                  items.removeItem(
-                                      items.selectedItemsList[index]);
-                                },
-                                //remove: items.removeItem(items.selectedItemsList[index]),
-                              );
+                  child: GetBuilder(
+                    init: ChooseItemController(),
+                    builder: (items) => ListView.separated(
+                        itemBuilder: (context, index) {
+                          return CommonItemView(
+                            title: items.selectedItemsList[index].itemCode
+                                .toString(),
+                            subTitle: items.selectedItemsList[index].itemName
+                                .toString(),
+                            increment: () => items
+                                .increaseItem1(items.selectedItemsList[index]),
+                            decrement: () => items
+                                .decreaseItem1(items.selectedItemsList[index]),
+                            subQty: items.subQty[items
+                                        .selectedItemsList[index].itemCode
+                                        .toString()]
+                                    ?.toInt() ??
+                                0,
+                            quantity:
+                                (items.selectedItemsList[index].quantity ?? 0)
+                                    .toInt(),
+                            remove: () {
+                              items.removeItem(items.selectedItemsList[index]);
                             },
-                            separatorBuilder: (context, index) {
-                              return const Divider(
-                                height: 1,
-                                color: AppColors.grey848Color,
-                              );
-                            },
-                            itemCount: items.selectedItemsList.length)))
+                            //remove: items.removeItem(items.selectedItemsList[index]),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider(
+                            height: 1,
+                            color: AppColors.grey848Color,
+                          );
+                        },
+                        itemCount: items.selectedItemsList.length),
+                  ),
+                ),
+                Obx(() => items.selectedItemsList.isNotEmpty
+                    ? Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: AppColors.whiteColor,
+                        child: colorButton(
+                            title: items.toWarehouse.isEmpty
+                                ? "Purchase Request"
+                                : "Inventory Transfer Request",
+                            color: items.toWarehouse.isEmpty
+                                ? AppColors.green33AColor
+                                : AppColors.blue24Color,
+                            onPressed: items.toWarehouse.isEmpty
+                                ? items.submitForPurchase
+                                : items.submitForInventory))
+                    : const SizedBox()),
               ],
-            ),
-            Positioned(
-              bottom: 0,
-              child: Obx(() => items.selectedItemsList.isNotEmpty
-                  ? Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: AppColors.whiteColor,
-                      child: colorButton(
-                          title: items.toWarehouse.isEmpty
-                              ? "Purchase Request"
-                              : "Inventory Transfer Request",
-                          color: items.toWarehouse.isEmpty
-                              ? AppColors.green33AColor
-                              : AppColors.blue24Color,
-                          onPressed: items.toWarehouse.isEmpty
-                              ? items.submitForPurchase
-                              : items.submitForInventory))
-                  : const SizedBox()),
             ),
           ],
         ));

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import 'package:service_call_management/screens/SignInScreen/sign_in_controller.dart';
-import 'package:service_call_management/utils/api_helper.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
+import 'package:service_call_management/utils/extension/size_extension.dart';
 import 'package:service_call_management/utils/form_validators.dart';
 
 import '../../utils/app_colors.dart';
@@ -30,13 +28,12 @@ class SignInScreen extends StatelessWidget {
 
                   Text("Welcome To",style:  AppTextStyle.regularTS.copyWith(
                      color: AppColors.whiteColor,
-                      fontSize: 28, fontWeight: FontWeight.w200),),
+                      fontSize: 25),),
                   Text("SAP Business One\nService Call Parts\nRequests",style: AppTextStyle.boldTS.copyWith(
-                      fontSize: 28, color: AppColors.whiteColor),),
-
-                  const SizedBox(
-                    height: 36,
-                  ),
+                      fontSize: 25, color: AppColors.whiteColor),),
+                  12.sizedBoxHeight,
+                 const Image(image: AssetImage("assets/images/app_logo.png"),height: 50,),
+                  36.sizedBoxHeight,
                   Container(
                     alignment: Alignment.center,
                     decoration: BoxDecoration(

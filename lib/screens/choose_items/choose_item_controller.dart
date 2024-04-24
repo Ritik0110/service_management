@@ -121,12 +121,9 @@ class ChooseItemController extends GetxController {
           fromWarehouseCode: fromWarehouse.value,
           warehouseCode: toWarehouse));
     }
-    print(items);
     iTModel = TransferModel(docDate: DateTime.now(), stockTransferLines: items);
-    print(iTModel.toJson());
     var data = await _api.postApi(
         AppUrl.inventoryTransfer, jsonEncode(iTModel.toJson()));
-    print(data);
     Get.dialog(
       Center(
         child: Card(
@@ -150,12 +147,14 @@ class ChooseItemController extends GetxController {
               ),
               20.sizedBoxHeight,
               CommonMaterialButton(
+                spacing: false,
                 buttonText: "Back to Home",
                 onTap: () {
                   Get.offAll(const HomeScreen());
                 },
                 width: 200,
-              )
+              ),
+              10.sizedBoxHeight
             ],
           ),
         ),
@@ -202,12 +201,14 @@ class ChooseItemController extends GetxController {
               ),
               20.sizedBoxHeight,
               CommonMaterialButton(
+                spacing: false,
                 buttonText: "Back to Home",
                 onTap: () {
                   Get.offAll(const HomeScreen());
                 },
                 width: 200,
-              )
+              ),
+              10.sizedBoxHeight
             ],
           ),
         ),

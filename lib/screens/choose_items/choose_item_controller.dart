@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/Inventory_transfer_model.dart';
@@ -125,37 +125,40 @@ class ChooseItemController extends GetxController {
     var data = await _api.postApi(
         AppUrl.inventoryTransfer, jsonEncode(iTModel.toJson()));
     Get.dialog(
-      Center(
-        child: Card(
-          margin: const EdgeInsets.all(16),
-          color: Colors.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              15.sizedBoxHeight,
-              const Icon(
-                Icons.check_circle_outline,
-                color: AppColors.green33AColor,
-                size: 80,
-              ),
-              Text(
-                data["error"] ??
-                    "Your Request hase been submitted successfully!",
-                style: AppTextStyle.black191medium16,
-                textAlign: TextAlign.center,
-              ),
-              20.sizedBoxHeight,
-              CommonMaterialButton(
-                spacing: false,
-                buttonText: "Back to Home",
-                onTap: () {
-                  Get.offAll(const HomeScreen());
-                },
-                width: 200,
-              ),
-              10.sizedBoxHeight
-            ],
+      PopScope(
+      canPop: false,
+        child: Center(
+          child: Card(
+            margin: const EdgeInsets.all(16),
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                15.sizedBoxHeight,
+                const Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.green33AColor,
+                  size: 80,
+                ),
+                Text(
+                  data["error"] ??
+                      "Your Request hase been submitted successfully!",
+                  style: AppTextStyle.black191medium16,
+                  textAlign: TextAlign.center,
+                ),
+                20.sizedBoxHeight,
+                CommonMaterialButton(
+                  spacing: false,
+                  buttonText: "Back to Home",
+                  onTap: () {
+                    Get.offAll(const HomeScreen());
+                  },
+                  width: 200,
+                ),
+                10.sizedBoxHeight
+              ],
+            ),
           ),
         ),
       ),
@@ -177,39 +180,41 @@ class ChooseItemController extends GetxController {
     );
     var data = await _api.postApi(
         AppUrl.purchaseRequest, jsonEncode(pRModel.toJson()));
-    print(data);
     Get.dialog(
-      Center(
-        child: Card(
-          margin: const EdgeInsets.all(16),
-          color: Colors.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              15.sizedBoxHeight,
-              const Icon(
-                Icons.check_circle_outline,
-                color: AppColors.green33AColor,
-                size: 80,
-              ),
-              Text(
-                data["error"] ??
-                    "Your Request hase been submitted successfully!",
-                style: AppTextStyle.black191medium16,
-                textAlign: TextAlign.center,
-              ),
-              20.sizedBoxHeight,
-              CommonMaterialButton(
-                spacing: false,
-                buttonText: "Back to Home",
-                onTap: () {
-                  Get.offAll(const HomeScreen());
-                },
-                width: 200,
-              ),
-              10.sizedBoxHeight
-            ],
+      PopScope(
+      canPop: false,
+        child: Center(
+          child: Card(
+            margin: const EdgeInsets.all(16),
+            color: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                15.sizedBoxHeight,
+                const Icon(
+                  Icons.check_circle_outline,
+                  color: AppColors.green33AColor,
+                  size: 80,
+                ),
+                Text(
+                  data["error"] ??
+                      "Your Request hase been submitted successfully!",
+                  style: AppTextStyle.black191medium16,
+                  textAlign: TextAlign.center,
+                ),
+                20.sizedBoxHeight,
+                CommonMaterialButton(
+                  spacing: false,
+                  buttonText: "Back to Home",
+                  onTap: () {
+                    Get.offAll(const HomeScreen());
+                  },
+                  width: 200,
+                ),
+                10.sizedBoxHeight
+              ],
+            ),
           ),
         ),
       ),

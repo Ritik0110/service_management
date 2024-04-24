@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -18,8 +17,11 @@ class NetWorkApiService extends BaseApiServices {
     dynamic data;
     try {
       Get.dialog(
-          const Center(
-            child: CircularProgressIndicator(),
+          const PopScope(
+            canPop: false,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
           barrierDismissible: false);
       final response = await dio.get(url, queryParameters: queryParameters);
@@ -51,8 +53,11 @@ class NetWorkApiService extends BaseApiServices {
     dynamic data;
     try {
       Get.dialog(
-          const Center(
-            child: CircularProgressIndicator(),
+          const PopScope(
+            canPop: false,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
           barrierDismissible: false);
       final response = await dio

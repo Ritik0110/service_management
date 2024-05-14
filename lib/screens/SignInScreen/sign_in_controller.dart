@@ -48,7 +48,12 @@ class SignInController extends GetxController {
     isRememberMe.value = !isRememberMe.value;
   }
   Future<void> signIn() async {
-    Get.dialog(const Center(child: CircularProgressIndicator(),),barrierDismissible: false);
+    Get.dialog(const PopScope(
+      canPop: false,
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    ),barrierDismissible: false,);
     String loginResult = await ApiHelper.SignIn(emailController.text, passwordController.text);
     if(Get.isDialogOpen??false){
       Get.back();

@@ -254,6 +254,7 @@ class HomeScreen extends StatelessWidget {
                             ticketId:
                                 controller.ticketList[index].serviceCallNo ??
                                     'N/A',
+                            ticketSubStatus: controller.ticketList[index].subStatus ?? "N/A",
                             ticketTitle:
                                 controller.ticketList[index].subject ?? "N/A",
                             ticketTime:

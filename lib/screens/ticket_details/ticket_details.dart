@@ -7,8 +7,23 @@ import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class TicketDetails extends StatelessWidget {
-  const TicketDetails({super.key, required this.ticketId, required this.ticketTitle, required this.ticketTime, required this.ticketStatus,  required this.ticketLocation, required this.ticketPriority, required this.customerName, required this.contactPerson, required this.startDate, required this.endDate, required this.contactNumber});
+import 'ticket_details_controller.dart';
+
+class TicketDetails extends StatefulWidget {
+  const TicketDetails(
+      {super.key,
+      required this.ticketId,
+      required this.ticketTitle,
+      required this.ticketTime,
+      required this.ticketStatus,
+      required this.ticketLocation,
+      required this.ticketPriority,
+      required this.customerName,
+      required this.contactPerson,
+      required this.startDate,
+      required this.endDate,
+      required this.contactNumber,
+      required this.subStatus});
   final String ticketId;
   final String ticketTitle;
   final String ticketTime;
@@ -20,7 +35,21 @@ class TicketDetails extends StatelessWidget {
   final String contactNumber;
   final String startDate;
   final String endDate;
+  final String subStatus;
 
+  @override
+  State<TicketDetails> createState() => _TicketDetailsState();
+}
+
+class _TicketDetailsState extends State<TicketDetails> {
+  final ticketController = Get.put(TicketDetailsController());
+
+  @override
+  void initState() {
+    super.initState();
+    ticketController.selectedSubStatus.value = widget.subStatus;
+    ticketController.callId.value = widget.ticketId;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,26 +70,57 @@ class TicketDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "#$ticketId",
+                    "#${widget.ticketId}",
                     style: AppTextStyle.grey646semi16,
                   ),
                   Text(
-                    "$ticketTitle",
+                    "${widget.ticketTitle}",
                     style: AppTextStyle.black191medium16,
                   ),
                   10.sizedBoxHeight,
-                  commonRow(
-                      title: "Time : ",
-                      value: "$ticketTime",
-                      style: AppTextStyle.black323semi16),
-                  commonRow(
-                      title: "Status : ",
-                      value: "$ticketStatus",
-                      style: AppTextStyle.green47cSemi16),
-                  commonRow(
-                      title: "Priority : ",
-                      value: "$ticketPriority",
-                      style: AppTextStyle.yellowFF9Semi16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          commonRow(
+                              title: "Time : ",
+                              value: "${widget.ticketTime}",
+                              style: AppTextStyle.black323semi16),
+                          5.sizedBoxHeight,
+                          commonRow(
+                              title: "Status : ",
+                              value: "${widget.ticketStatus}",
+                              style: AppTextStyle.green47cSemi16),
+                          5.sizedBoxHeight,
+                          commonRow(
+                            title: "subStatus : ",
+                            value: "${widget.subStatus}",
+                            style:AppTextStyle.semiBoldTS.copyWith(
+                                color: AppColors.black323Color, fontSize: 16),
+                          ),
+                          12.sizedBoxHeight,
+                        ],
+                      ),
+                      MaterialButton(
+                        onPressed: ticketController.changeStatus,
+                        height: 25,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                        color: AppColors.grey7A7Color.withOpacity(0.25),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: const BorderSide(color: AppColors.grey848Color),
+                        ),
+                        child: Text(
+                          "Change",
+                          style: AppTextStyle.black323semi14,
+                        ),
+                      ),
+                    ],
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -69,7 +129,7 @@ class TicketDetails extends StatelessWidget {
                         color: AppColors.black191Color,
                       ),
                       Text(
-                        "$ticketLocation",
+                        "${widget.ticketLocation}",
                         style: AppTextStyle.black191medium16,
                       ),
                     ],
@@ -92,11 +152,12 @@ class TicketDetails extends StatelessWidget {
                       children: [
                         commonRow(
                             title: "Customer Name",
-                            value: "\n$customerName",
+                            value: "\n${widget.customerName}",
                             style: AppTextStyle.black323semi16),
                         InkWell(
                           onTap: () {
-                            launchUrl(Uri.parse("tel:${contactNumber??""}"));
+                            launchUrl(
+                                Uri.parse("tel:${widget.contactNumber}"));
                           },
                           child: const CircleAvatar(
                             radius: 20,
@@ -112,27 +173,31 @@ class TicketDetails extends StatelessWidget {
                     10.sizedBoxHeight,
                     commonRow(
                         title: "Contact Person",
-                        value: "\n$contactPerson",
+                        value: "\n${widget.contactPerson}",
                         style: AppTextStyle.black323semi16),
                     10.sizedBoxHeight,
                     commonRow(
                         title: "Start Date",
-                        value: "\n$startDate",
+                        value: "\n${widget.startDate}",
                         style: AppTextStyle.black323semi16),
                     10.sizedBoxHeight,
                     commonRow(
                         title: "End Date",
-                        value: "\n$endDate",
+                        value: "\n${widget.endDate}",
                         style: AppTextStyle.black323semi16),
-                    24.sizedBoxHeight,],
+                    24.sizedBoxHeight,
+                  ],
                 ),
               ),
             ),
             const Spacer(),
             CommonMaterialButton(
-                buttonText: "Stock Request", onTap: () {
-                  Get.to(() => StockRequest(callId: ticketId,));
-            }),
+                buttonText: "Stock Request",
+                onTap: () {
+                  Get.to(() => StockRequest(
+                        callId: widget.ticketId,
+                      ));
+                }),
           ],
         ));
   }

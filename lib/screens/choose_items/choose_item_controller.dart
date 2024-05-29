@@ -88,12 +88,10 @@ class ChooseItemController extends GetxController {
   }
 
   increaseItem1(ItemData data) {
-    if (subQty[data.itemCode]! < data.quantity!) {
       !selectedItemsList.contains(data) ? selectedItemsList.add(data) : null;
       subQty[data.itemCode!] = (subQty[data.itemCode]! + 1);
       totalItemsCount();
       update();
-    }
   }
 
   decreaseItem1(ItemData data) {

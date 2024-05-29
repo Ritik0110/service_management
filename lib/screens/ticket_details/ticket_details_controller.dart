@@ -1,6 +1,90 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/Models/sub_status_model.dart';
+import 'package:service_call_management/common_widgets/common_button.dart';
+import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
+import 'package:service_call_management/utils/app_test_style.dart';
+import 'package:service_call_management/utils/extension/size_extension.dart';
+
+import '../../services/network_api_services.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_url.dart';
 
 class TicketDetailsController extends GetxController {
+  @override
+  void onReady() {
+    super.onReady();
+    getStatus();
+  }
 
+  StatusModel statusModel = StatusModel();
+  final _api = NetWorkApiService();
+  var selectedSubStatus = "".obs;
+  var callId = "".obs;
+  void changeStatus() async {
+    Get.dialog(Center(
+      child: SizedBox(
+        width: double.infinity,
+        child: Card(
+          elevation: 0,
+          margin: const EdgeInsets.all(16),
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              10.sizedBoxHeight,
+              Text(
+                'Change Sub Status',
+                style: AppTextStyle.boldTS.copyWith(
+                  fontSize: 20,
+                  color: AppColors.black323Color,
+                ),
+              ),
+              10.sizedBoxHeight,
+              ListView.builder(
+                itemBuilder: (context, index) {
+                  return Obx(() => RadioListTile(
+                      value: statusModel.subStatus?[index].subStatus,
+                      groupValue: selectedSubStatus.value,
+                      title: Text(statusModel.subStatus![index].subStatus!,style: AppTextStyle.black323semi14,),
+                      onChanged: (value) {
+                        selectedSubStatus.value = value!;
+                        update();
+                      }));
+                },
+                itemCount: statusModel.subStatus!.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
+              CommonMaterialButton(buttonText: "Update Sub Status",
+                onTap: ()async{
+                  var data = await _api.postApi(AppUrl.updateStatus,jsonEncode( {
+                    "SubStatus": selectedSubStatus.value,
+                    "CallId": callId.value.toString()
+                  }));
+                  if(data["Result"]==1){
+                    Fluttertoast.showToast(msg: "SubStatus Updated successfully");
+                    Get.offAll(()=>const HomeScreen());
+                    Get.deleteAll();
+                  }else{
+                    Fluttertoast.showToast(msg: "${data["Message"]} ");
+                  }
+                },
+              ),
+              10.sizedBoxHeight
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
 
+  void getStatus() async {
+    var data = await _api.getApi(AppUrl.subStatus);
+    statusModel = StatusModel.fromJson(data);
+    print(statusModel.subStatus![0].subStatus);
+  }
 }

@@ -10,7 +10,7 @@ import 'app_exceptions.dart';
 
 class NetWorkApiService extends BaseApiServices {
   static Dio dio = Dio(BaseOptions(
-    baseUrl: AppUrl.baseUrl,
+    baseUrl: AppUrl.mainBaseUrl,
   ));
   @override
   Future getApi(String url, {Map<String, dynamic>? queryParameters}) async {
@@ -79,7 +79,7 @@ class NetWorkApiService extends BaseApiServices {
         Get.back();
       }
       throw RequestTimeOut();
-    } catch (e) {
+    }on DioException catch (e) {
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }

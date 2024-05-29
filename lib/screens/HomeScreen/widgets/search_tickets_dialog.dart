@@ -79,6 +79,7 @@ class SearchTicketsDialog extends StatelessWidget {
                         itemCount: searchResult.length,
                         itemBuilder: (context, index) {
                           return TicketCard(
+                            ticketSubStatus: searchResult[index].subStatus ?? "N/A",
                             ticketId: searchResult[index].serviceCallNo ?? "",
                             ticketTitle: searchResult[index].subject ?? "N/A",
                             ticketTime: searchResult[index].time ?? "N/A",

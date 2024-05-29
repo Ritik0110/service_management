@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:service_call_management/screens/ticket_details/ticket_details.dart';
 import 'package:service_call_management/utils/app_assets.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,6 +17,7 @@ class TicketCard extends StatelessWidget {
     required this.ticketStatus,
     required this.model,
     required this.manuSN,
+    required this.ticketSubStatus,
     required this.ticketPriority,
     required this.customerName,
     required this.contactPerson,
@@ -30,6 +32,7 @@ class TicketCard extends StatelessWidget {
   final String manuSN;
   final String ticketLocation;
   final String ticketStatus;
+  final String ticketSubStatus;
   final String ticketPriority;
   final String customerName;
   final String contactPerson;
@@ -60,24 +63,20 @@ class TicketCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TicketDetails(
-                ticketId: ticketId,
-                ticketTitle: ticketTitle,
-                ticketStatus: ticketStatus,
-                ticketLocation: ticketLocation,
-                ticketTime: ticketTime,
-                ticketPriority: ticketPriority,
-                contactNumber: contactNumber,
-                contactPerson: contactPerson,
-                customerName: customerName,
-                startDate: startDate,
-                endDate: endDate,
-              ),
-            ),
-          );
+          Get.to(() => TicketDetails(
+            subStatus: ticketSubStatus,
+            ticketId: ticketId,
+            ticketTitle: ticketTitle,
+            ticketStatus: ticketStatus,
+            ticketLocation: ticketLocation,
+            ticketTime: ticketTime,
+            ticketPriority: ticketPriority,
+            contactNumber: contactNumber,
+            contactPerson: contactPerson,
+            customerName: customerName,
+            startDate: startDate,
+            endDate: endDate,
+          ));
         },
         child: Container(
           margin: const EdgeInsets.only(left: 6),
@@ -152,6 +151,22 @@ class TicketCard extends StatelessWidget {
                               ? AppColors.redE25Color
                               : Colors.grey,
                     ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "subStatus : ",
+                    style: AppTextStyle.regularTS.copyWith(
+                      fontSize: 16,
+                      color: AppColors.grey848Color,
+                    ),
+                  ),
+                  Text(
+                    ticketSubStatus,
+                    style: AppTextStyle.semiBoldTS
+                        .copyWith(color: AppColors.black323Color, fontSize: 16),
                   ),
                 ],
               ),

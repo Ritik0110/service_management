@@ -14,9 +14,8 @@ import 'app_url.dart';
 
 
 class ApiHelper {
-  static Dio dio = Dio(BaseOptions(baseUrl:AppUrl.baseUrl,));
+  static Dio dio = Dio(BaseOptions(baseUrl:AppUrl.mainBaseUrl,));
   static Future<String?> getTickets(String date) async {
-    print(date);
 
     try {
       final response = await dio.post(AppUrl.getTickets,data: {"EmpCode":AppVariables.employeeModel.employeeData?[0].employeeCode,"Date":date});

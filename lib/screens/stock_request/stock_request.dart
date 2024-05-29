@@ -78,17 +78,18 @@ class _StockRequestState extends State<StockRequest>
                       list: stockControl.subTransferList)
                 ]),
           )),
-          Obx(() => CommonMaterialButton(
-              buttonText: stockControl.selectedIndex.value == 0
-                  ? "New Purchase Request"
-                  : "New Transfer Request",
+          CommonMaterialButton(
+              /*buttonText: stockControl.selectedIndex.value == 0
+                  ? "New Part Requests?"
+                  : "New Part Requests?",*/
+              buttonText: "New Part Requests?",
               onTap: () {
-                stockControl.selectedIndex.value == 0
+                /* stockControl.selectedIndex.value == 0
                     ? Get.to(() => PurchaseRequestForm(isPurchase: true))
                     : Get.to(() => PurchaseRequestForm(
-                          isPurchase: false,
-                        ));
-              }))
+                          isPurchase: false,*/
+                Get.to(() => PurchaseRequestForm(isPurchase: true));
+              })
         ],
       ),
     );
@@ -196,7 +197,10 @@ class _StockRequestState extends State<StockRequest>
               value: " ($count)",
               style: AppTextStyle.black323regular16),
           const Spacer(),
-          Text("Status : ",style: AppTextStyle.grey84regular16,),
+          Text(
+            "Status : ",
+            style: AppTextStyle.grey84regular16,
+          ),
           DropdownButton(
             style: AppTextStyle.green47cSemi16,
             value: stockControl.dropdownValue.value,

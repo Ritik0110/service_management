@@ -50,6 +50,7 @@ class ServiceData {
   String? time;
   String? contactPerson;
   String? contactNumber;
+  String? subStatus;
 
   ServiceData(
       {this.serviceCallNo,
@@ -70,12 +71,14 @@ class ServiceData {
         this.endDate,
         this.time,
         this.contactPerson,
+        this.subStatus,
         this.contactNumber});
 
   ServiceData.fromJson(Map<String, dynamic> json) {
     serviceCallNo = json['ServiceCallNo'];
     subject = json['Subject'];
     callStatus = json['CallStatus'];
+    subStatus = json['SubStatus'];
     priority = json['Priority'];
     problemType = json['ProblemType'];
     callType = json['CallType'];
@@ -98,6 +101,7 @@ class ServiceData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ServiceCallNo'] = this.serviceCallNo;
     data['Subject'] = this.subject;
+    data['SubStatus'] = this.subStatus;
     data['CallStatus'] = this.callStatus;
     data['Priority'] = this.priority;
     data['ProblemType'] = this.problemType;

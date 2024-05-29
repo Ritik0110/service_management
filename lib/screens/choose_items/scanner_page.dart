@@ -1,7 +1,7 @@
-import 'dart:typed_data';
+
 
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+//import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScanCodePage extends StatefulWidget {
   const ScanCodePage({super.key});
@@ -17,7 +17,8 @@ class _ScanCodePageState extends State<ScanCodePage> {
         appBar: AppBar(
           title: const Text('Scan QR Code'),
         ),
-        body: MobileScanner(
+        body: Container(),
+        /*body: MobileScanner(
           controller: MobileScannerController(
               detectionSpeed: DetectionSpeed.noDuplicates, returnImage: true),
           onDetect: (onDetect) {
@@ -49,6 +50,6 @@ class _ScanCodePageState extends State<ScanCodePage> {
               }
             }
           },
-        ));
+        )*/);
   }
 }

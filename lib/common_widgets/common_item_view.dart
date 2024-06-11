@@ -11,12 +11,14 @@ class CommonItemView extends StatefulWidget {
     required this.subTitle,
     required this.increment,
     required this.decrement,
+    required this.groupName,
     this.remove,
     required this.subQty,
     required this.quantity,
   });
   String title;
   String subTitle;
+  String groupName;
   int quantity;
   int subQty;
   Function()? remove;
@@ -57,6 +59,10 @@ class _CommonItemViewState extends State<CommonItemView> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    5.sizedBoxHeight,
+                    Text(
+                      widget.groupName,style: AppTextStyle.grey84regular14,
+                    ),
                   ],
                 ),
               ),
@@ -67,7 +73,8 @@ class _CommonItemViewState extends State<CommonItemView> {
                   Container(
                     height: 28,
                     decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.grey848Color, width: 1),
+                      border:
+                          Border.all(color: AppColors.grey848Color, width: 1),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Row(
@@ -79,8 +86,8 @@ class _CommonItemViewState extends State<CommonItemView> {
                           child: Container(
                             decoration: const BoxDecoration(
                               color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.horizontal(left: Radius.circular(5)),
+                              borderRadius: BorderRadius.horizontal(
+                                  left: Radius.circular(5)),
                             ),
                             width: 25,
                             child: const Center(
@@ -136,7 +143,7 @@ class _CommonItemViewState extends State<CommonItemView> {
                   ),
                   10.sizedBoxHeight,
                   commonRow(
-                      title: "Available QTY : ",
+                      title: "In Stock Qty : ",
                       value: "${widget.quantity}",
                       style: AppTextStyle.black323semi14)
                 ],
@@ -144,14 +151,27 @@ class _CommonItemViewState extends State<CommonItemView> {
               10.sizedBoxWidth,
             ],
           ),
-          widget.remove != null ? Row(
-            children: [
-            MaterialButton(onPressed: widget.remove,child: Row(children: [
-              Text("Remove",style: AppTextStyle.grey84regular14,),
-              const Icon(Icons.delete,color: AppColors.grey848Color,)
-            ],),)
-            ],
-          ):const SizedBox(),
+          widget.remove != null
+              ? Row(
+                  children: [
+                    MaterialButton(
+                      onPressed: widget.remove,
+                      child: Row(
+                        children: [
+                          Text(
+                            "Remove",
+                            style: AppTextStyle.grey84regular14,
+                          ),
+                          const Icon(
+                            Icons.delete,
+                            color: AppColors.grey848Color,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
     );

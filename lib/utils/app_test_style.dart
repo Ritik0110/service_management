@@ -7,22 +7,25 @@ class AppTextStyle{
 
   static TextStyle regularTS = const TextStyle(
     fontFamily: "Montserrat",
+    overflow: TextOverflow.ellipsis,
   );
 
   static TextStyle mediumTS = const TextStyle(
     fontFamily: "Montserrat",
     fontWeight: FontWeight.w300,
+    overflow: TextOverflow.ellipsis,
   );
 
   static TextStyle semiBoldTS = const TextStyle(
     fontFamily: "Montserrat",
     fontWeight: FontWeight.w600,
-
+    overflow: TextOverflow.ellipsis,
   );
 
   static TextStyle boldTS = const TextStyle(
     fontFamily: "Montserrat",
     fontWeight: FontWeight.w700,
+    overflow: TextOverflow.ellipsis,
   );
 
 

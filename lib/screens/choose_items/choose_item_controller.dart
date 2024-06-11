@@ -77,9 +77,13 @@ class ChooseItemController extends GetxController {
         for (var e in element) {
           if (e.itemName!.toLowerCase().contains(searchValue!.toLowerCase())) {
             temp.add(e);
+          }else if(e.itemCode!.toLowerCase().contains(searchValue.toLowerCase())){
+            temp.add(e);
           }
         }
-        searchItems.add(temp);
+        if(temp.isNotEmpty){
+          searchItems.add(temp);
+        }
       }
     } else {
       searchItems.clear();

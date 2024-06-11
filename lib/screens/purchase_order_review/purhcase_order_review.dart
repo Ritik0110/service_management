@@ -14,7 +14,7 @@ class PurchaseOrderReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Purchase Order Review'),
+          title: const Text('Review'),
           leading: IconButton(
             onPressed: () {
               Get.back();
@@ -44,6 +44,8 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                     builder: (items) => ListView.separated(
                         itemBuilder: (context, index) {
                           return CommonItemView(
+                            groupName: items.selectedItemsList[index].groupName
+                                .toString(),
                             title: items.selectedItemsList[index].itemCode
                                 .toString(),
                             subTitle: items.selectedItemsList[index].itemName
@@ -80,12 +82,8 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                         width: MediaQuery.of(context).size.width,
                         color: AppColors.whiteColor,
                         child: colorButton(
-                            title: items.toWarehouse.isEmpty
-                                ? "Purchase Request"
-                                : "Inventory Transfer Request",
-                            color: items.toWarehouse.isEmpty
-                                ? AppColors.green33AColor
-                                : AppColors.blue24Color,
+                            title: "Submit",
+                            color:AppColors.green33AColor,
                             onPressed: items.toWarehouse.isEmpty
                                 ? items.submitForPurchase
                                 : items.submitForInventory))

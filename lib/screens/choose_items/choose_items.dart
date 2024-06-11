@@ -94,11 +94,9 @@ class _ChooseItemsState extends State<ChooseItems> {
               : Container()),
           Expanded(
             child: Obx(() => (chooseController.searchItems.isEmpty)
-                ? const Center(
-                    child: Center(
-                      child: Text("No Data Found"),
-                    ),
-                  )
+                ? Center(
+                  child: Text("No Items Found",style:AppTextStyle.black323semi16 ,),
+                )
                 : ListView.separated(
                     itemCount: chooseController.searchItems.length,
                     itemBuilder: (context, index) {
@@ -131,6 +129,10 @@ class _ChooseItemsState extends State<ChooseItems> {
                                                 init: chooseController,
                                                 builder: (control) {
                                                   return CommonItemView(
+                                                    groupName: control
+                                                        .searchItems[index][j]
+                                                        .groupName
+                                                        .toString(),
                                                     title: control
                                                         .searchItems[index][j]
                                                         .itemCode
@@ -202,7 +204,7 @@ class _ChooseItemsState extends State<ChooseItems> {
                     CommonMaterialButton(
                       enable:
                           chooseController.totalItems.value > 0 ? true : false,
-                      buttonText: "Review Order",
+                      buttonText: "Review",
                       onTap: () {
                         Get.to(PurchaseOrderReviewPage());
                       },

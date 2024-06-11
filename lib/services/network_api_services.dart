@@ -10,7 +10,7 @@ import 'app_exceptions.dart';
 
 class NetWorkApiService extends BaseApiServices {
   static Dio dio = Dio(BaseOptions(
-    baseUrl: AppUrl.mainBaseUrl,
+    baseUrl: AppUrl.baseUrl,
   ));
   @override
   Future getApi(String url, {Map<String, dynamic>? queryParameters}) async {

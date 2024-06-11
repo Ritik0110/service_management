@@ -18,7 +18,7 @@ class PurchaseRequestForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(isPurchase?'Purchase Request Form':"Inventory Transfer Form"),
+        title: const Text("Parts Request"),
       ),
       body: Form(
         key: formController.formKey,
@@ -95,7 +95,7 @@ class PurchaseRequestForm extends StatelessWidget {
             ),
             const Spacer(),
             CommonMaterialButton(
-                buttonText: "Choose Item",
+                buttonText: "Choose Item(s)",
                 onTap:formController.submitForm
             )
           ],

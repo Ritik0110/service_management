@@ -22,6 +22,8 @@ class TicketDetails extends StatefulWidget {
       required this.contactPerson,
       required this.startDate,
       required this.endDate,
+      required this.model,
+      required this.manuSN,
       required this.contactNumber,
       required this.subStatus});
   final String ticketId;
@@ -36,6 +38,8 @@ class TicketDetails extends StatefulWidget {
   final String startDate;
   final String endDate;
   final String subStatus;
+  final String model;
+  final String manuSN;
 
   @override
   State<TicketDetails> createState() => _TicketDetailsState();
@@ -59,12 +63,12 @@ class _TicketDetailsState extends State<TicketDetails> {
           title: const Text('Ticket Details'),
         ),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              padding: const EdgeInsets.only(left: 16, right: 16,top: 16, bottom: 0),
               color: AppColors.whiteColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,38 +81,42 @@ class _TicketDetailsState extends State<TicketDetails> {
                     "${widget.ticketTitle}",
                     style: AppTextStyle.black191medium16,
                   ),
-                  10.sizedBoxHeight,
+                  5.sizedBoxHeight,
+                  commonRow(
+                      title: "Duration : ",
+                      value: "${widget.ticketTime}",
+                      style: AppTextStyle.black323semi16),
+                  5.sizedBoxHeight,
+                  commonRow(
+                      title: "Status : ",
+                      value: "${widget.ticketStatus}",
+                      style: AppTextStyle.green47cSemi16),
+                  5.sizedBoxHeight,
+                  commonRow(
+                      title: "Model : ",
+                      value: "${widget.model}",
+                      style: AppTextStyle.black323semi16),
+                  5.sizedBoxHeight,
+                  commonRow(
+                      title: "ManuSN : ",
+                      value: "${widget.manuSN}",
+                      style: AppTextStyle.black323semi16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonRow(
-                              title: "Time : ",
-                              value: "${widget.ticketTime}",
-                              style: AppTextStyle.black323semi16),
-                          5.sizedBoxHeight,
-                          commonRow(
-                              title: "Status : ",
-                              value: "${widget.ticketStatus}",
-                              style: AppTextStyle.green47cSemi16),
-                          5.sizedBoxHeight,
-                          commonRow(
-                            title: "subStatus : ",
-                            value: "${widget.subStatus}",
-                            style:AppTextStyle.semiBoldTS.copyWith(
-                                color: AppColors.black323Color, fontSize: 16),
-                          ),
-                          12.sizedBoxHeight,
-                        ],
+                      commonRow(
+                        title: "subStatus : ",
+                        value: "${widget.subStatus}",
+                        style: AppTextStyle.semiBoldTS.copyWith(
+                            color: AppColors.black323Color, fontSize: 16),
                       ),
+
                       MaterialButton(
                         onPressed: ticketController.changeStatus,
                         height: 25,
                         elevation: 0,
-                        padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 0),
                         color: AppColors.grey7A7Color.withOpacity(0.25),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -118,20 +126,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                           "Change",
                           style: AppTextStyle.black323semi14,
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.location_on_outlined,
-                        color: AppColors.black191Color,
-                      ),
-                      Text(
-                        "${widget.ticketLocation}",
-                        style: AppTextStyle.black191medium16,
-                      ),
+                      )
                     ],
                   ),
                 ],
@@ -142,52 +137,52 @@ class _TicketDetailsState extends State<TicketDetails> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               color: AppColors.whiteColor,
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        commonRow(
-                            title: "Customer Name",
-                            value: "\n${widget.customerName}",
-                            style: AppTextStyle.black323semi16),
-                        InkWell(
-                          onTap: () {
-                            launchUrl(
-                                Uri.parse("tel:${widget.contactNumber}"));
-                          },
-                          child: const CircleAvatar(
-                            radius: 20,
-                            backgroundColor: AppColors.whiteF2FColor,
-                            child: Icon(
-                              Icons.call,
-                              color: AppColors.green33AColor,
-                            ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      commonRow(
+                          title: "Customer Name",
+                          value: "\n${widget.customerName}",
+                          style: AppTextStyle.black323semi16),
+                      InkWell(
+                        onTap: () {
+                          launchUrl(Uri.parse("tel:${widget.contactNumber}"));
+                        },
+                        child: const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: AppColors.whiteF2FColor,
+                          child: Icon(
+                            Icons.call,
+                            color: AppColors.green33AColor,
                           ),
-                        )
-                      ],
-                    ),
-                    10.sizedBoxHeight,
-                    commonRow(
-                        title: "Contact Person",
-                        value: "\n${widget.contactPerson}",
-                        style: AppTextStyle.black323semi16),
-                    10.sizedBoxHeight,
-                    commonRow(
-                        title: "Start Date",
-                        value: "\n${widget.startDate}",
-                        style: AppTextStyle.black323semi16),
-                    10.sizedBoxHeight,
-                    commonRow(
-                        title: "End Date",
-                        value: "\n${widget.endDate}",
-                        style: AppTextStyle.black323semi16),
-                    24.sizedBoxHeight,
-                  ],
-                ),
+                        ),
+                      )
+                    ],
+                  ),
+                  10.sizedBoxHeight,
+                  commonRow(
+                      title: "Phone",
+                      value: "\n${widget.contactNumber}",
+                      style: AppTextStyle.black323semi16),
+                  10.sizedBoxHeight,
+                  commonRow(
+                      title: "Address",
+                      value: "\n${widget.ticketLocation}",
+                      style: AppTextStyle.black323semi16),
+                  10.sizedBoxHeight,
+                  commonRow(
+                      title: "Start Date",
+                      value: "\n${widget.startDate}",
+                      style: AppTextStyle.black323semi16),
+                  10.sizedBoxHeight,
+                  commonRow(
+                      title: "Remarks :",
+                      value: "\n${widget.ticketLocation}",
+                      style: AppTextStyle.black323semi16),
+                ],
               ),
             ),
             const Spacer(),

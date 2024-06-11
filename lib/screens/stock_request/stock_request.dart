@@ -32,7 +32,7 @@ class _StockRequestState extends State<StockRequest>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stock Request'),
+        title: const Text('Parts Request'),
       ),
       body: Column(
         children: [

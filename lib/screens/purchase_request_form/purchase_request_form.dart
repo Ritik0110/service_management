@@ -8,12 +8,23 @@ import 'package:service_call_management/utils/extension/size_extension.dart';
 import '../../common_widgets/common_button.dart';
 import '../../utils/app_colors.dart';
 
-class PurchaseRequestForm extends StatelessWidget {
-  PurchaseRequestForm({super.key, required this.isPurchase});
+class PurchaseRequestForm extends StatefulWidget {
+  const PurchaseRequestForm({super.key, required this.isPurchase,required this.callId});
 
   final bool isPurchase;
+  final String callId;
+
+  @override
+  State<PurchaseRequestForm> createState() => _PurchaseRequestFormState();
+}
+
+class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
   final formController = Get.put(PurchaseFormController());
 
+  @override
+  void initState() {    super.initState();
+    formController.callID = widget.callId;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +74,7 @@ class PurchaseRequestForm extends StatelessWidget {
                     onTap: () => formController.selectDate(context),
                   ),
                   10.sizedBoxHeight,
-                  Text(
+                  /*Text(
                     'from Warehouse',
                     style: AppTextStyle.black323regular14,
                   ),
@@ -73,8 +84,8 @@ class PurchaseRequestForm extends StatelessWidget {
                     dropdownList: !formController.isLoading.value
                         ? formController.warehouseList
                         : null,
-                  )),
-                  !isPurchase
+                  )),*/
+                  /*!isPurchase
                       ? Text(
                           'to Warehouse',
                           style: AppTextStyle.black323regular14,
@@ -88,7 +99,7 @@ class PurchaseRequestForm extends StatelessWidget {
                                 ? formController.warehouseList
                                 : null,
                           ))
-                      : const SizedBox(),
+                      : const SizedBox(),*/
 
                 ],
               ),

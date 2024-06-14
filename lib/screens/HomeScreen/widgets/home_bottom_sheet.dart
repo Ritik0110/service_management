@@ -53,7 +53,7 @@ class HomeFilterBottomSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("  Status",
+                Text("  Triage",
                     style: AppTextStyle.mediumTS.copyWith(
                         color: AppColors.black191Color, fontSize: 16)),
                 Obx(
@@ -88,7 +88,7 @@ class HomeFilterBottomSheet extends StatelessWidget {
                               homeController.tempStatus.value = Status.open;
                             },
                           ),
-                          Text("Open",
+                          Text("Yes",
                               style: AppTextStyle.mediumTS.copyWith(
                                   color: homeController.tempStatus.value == Status.open?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
                         ],
@@ -103,7 +103,7 @@ class HomeFilterBottomSheet extends StatelessWidget {
                               homeController.tempStatus.value = Status.close;
                             },
                           ),
-                          Text("Close",
+                          Text("No",
                               style: AppTextStyle.mediumTS.copyWith(
                                   color: homeController.tempStatus.value == Status.close?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
                         ],

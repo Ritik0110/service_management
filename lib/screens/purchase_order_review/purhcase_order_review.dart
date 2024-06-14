@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/common_widgets/common_item_view.dart';
 import 'package:service_call_management/screens/choose_items/choose_item_controller.dart';
+import 'package:service_call_management/screens/purchase_order_review/order_review_controller.dart';
 import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 
 class PurchaseOrderReviewPage extends StatelessWidget {
   PurchaseOrderReviewPage({super.key});
+  final reviewController = Get.put(OrderReviewController());
   final ChooseItemController items = Get.find();
 
   @override
@@ -44,6 +46,8 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                     builder: (items) => ListView.separated(
                         itemBuilder: (context, index) {
                           return CommonItemView(
+                            warehouse: items.selectedItemsList[index].warehouse
+                                .toString(),
                             groupName: items.selectedItemsList[index].groupName
                                 .toString(),
                             title: items.selectedItemsList[index].itemCode
@@ -54,9 +58,8 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                                 .increaseItem1(items.selectedItemsList[index]),
                             decrement: () => items
                                 .decreaseItem1(items.selectedItemsList[index]),
-                            subQty: items.subQty[items
-                                        .selectedItemsList[index].itemCode
-                                        .toString()]
+                            subQty: items.subQty[
+                                        '${items.selectedItemsList[index].itemCode}-${items.selectedItemsList[index].warehouse}']
                                     ?.toInt() ??
                                 0,
                             quantity:
@@ -83,7 +86,7 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                         color: AppColors.whiteColor,
                         child: colorButton(
                             title: "Submit",
-                            color:AppColors.green33AColor,
+                            color: AppColors.green33AColor,
                             onPressed: items.toWarehouse.isEmpty
                                 ? items.submitForPurchase
                                 : items.submitForInventory))

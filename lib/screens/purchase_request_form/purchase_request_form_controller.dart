@@ -16,6 +16,7 @@ class PurchaseFormController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   RxString selectedFromWarehouse = "".obs;
   RxString selectedToWarehouse = "".obs;
+  String callID = "";
   @override
   void onReady() {
     super.onReady();
@@ -34,7 +35,7 @@ class PurchaseFormController extends GetxController {
 
   submitForm() {
     if (formKey.currentState!.validate()) {
-      if (selectedToWarehouse.value == selectedFromWarehouse.value) {
+      /*if (selectedToWarehouse.value == selectedFromWarehouse.value) {
         Get.snackbar("Please Select Different warehouses", "",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: AppColors.black191Color,
@@ -42,13 +43,14 @@ class PurchaseFormController extends GetxController {
             borderRadius: 0,
             colorText: AppColors.whiteColor,
             duration: const Duration(seconds: 3));
-      } else {
+      } else {*/
         Get.to(ChooseItems(
-          fromWarehouse: selectedFromWarehouse.value,
-          toWarehouse: selectedToWarehouse.value,
+          /*fromWarehouse: selectedFromWarehouse.value,
+          toWarehouse: selectedToWarehouse.value,*/
+          callID: callID,
           requirementDate: selectedDate,
         ));
-      }
+      //}
     }
   }
 

@@ -88,7 +88,7 @@ class _StockRequestState extends State<StockRequest>
                     ? Get.to(() => PurchaseRequestForm(isPurchase: true))
                     : Get.to(() => PurchaseRequestForm(
                           isPurchase: false,*/
-                Get.to(() => PurchaseRequestForm(isPurchase: true));
+                Get.to(() => PurchaseRequestForm(isPurchase: true,callId: widget.callId,));
               })
         ],
       ),

@@ -25,6 +25,7 @@ class TicketDetails extends StatefulWidget {
       required this.model,
       required this.manuSN,
       required this.contactNumber,
+      required this.remark,
       required this.subStatus});
   final String ticketId;
   final String ticketTitle;
@@ -40,6 +41,7 @@ class TicketDetails extends StatefulWidget {
   final String subStatus;
   final String model;
   final String manuSN;
+  final String remark;
 
   @override
   State<TicketDetails> createState() => _TicketDetailsState();
@@ -68,7 +70,8 @@ class _TicketDetailsState extends State<TicketDetails> {
             Container(
               margin: const EdgeInsets.only(bottom: 10),
               width: double.infinity,
-              padding: const EdgeInsets.only(left: 16, right: 16,top: 16, bottom: 0),
+              padding: const EdgeInsets.only(
+                  left: 16, right: 16, top: 16, bottom: 0),
               color: AppColors.whiteColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +113,6 @@ class _TicketDetailsState extends State<TicketDetails> {
                         style: AppTextStyle.semiBoldTS.copyWith(
                             color: AppColors.black323Color, fontSize: 16),
                       ),
-
                       MaterialButton(
                         onPressed: ticketController.changeStatus,
                         height: 25,
@@ -180,7 +182,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                   10.sizedBoxHeight,
                   commonRow(
                       title: "Remarks :",
-                      value: "\n${widget.ticketLocation}",
+                      value: "\n${widget.remark}",
                       style: AppTextStyle.black323semi16),
                 ],
               ),

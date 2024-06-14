@@ -25,6 +25,9 @@ class TicketCard extends StatelessWidget {
     required this.contactNumber,
     required this.startDate,
     required this.endDate,
+    required this.triage,
+    required this.duration,
+    required this.remark,
   });
   final String ticketId;
   final String ticketTitle;
@@ -40,6 +43,9 @@ class TicketCard extends StatelessWidget {
   final String contactNumber;
   final String startDate;
   final String endDate;
+  final String triage;
+  final String duration;
+  final String remark;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +86,7 @@ class TicketCard extends StatelessWidget {
                 endDate: endDate,
                 model: model,
                 manuSN: manuSN,
+                remark: remark,
               ));
         },
         child: Container(
@@ -132,26 +139,26 @@ class TicketCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonRow(
-                        size: size,
+                          size: size,
                           title: "Duration : ",
                           value: ticketTime,
                           style: AppTextStyle.black323semi16),
                       4.sizedBoxHeight,
                       commonRow(
-                        size: size,
+                          size: size,
                           title: "Model : ",
                           value: model,
                           style: AppTextStyle.black323semi16),
                       4.sizedBoxHeight,
                       commonRow(
-                        size: size,
+                          size: size,
                           title: "manuSN : ",
                           value: manuSN,
                           style: AppTextStyle.black323semi16),
                       commonRow(
                           size: size,
                           title: "Triage : ",
-                          value: ticketSubStatus,
+                          value: triage,
                           style: AppTextStyle.black323semi16),
                     ],
                   ),
@@ -160,7 +167,7 @@ class TicketCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonRow(
-                        size: size,
+                          size: size,
                           title: "Status : ",
                           value: ticketStatus,
                           style: AppTextStyle.semiBoldTS.copyWith(
@@ -168,15 +175,14 @@ class TicketCard extends StatelessWidget {
                             color: ticketStatus.toLowerCase() == "open"
                                 ? AppColors.green47CColor
                                 : ticketStatus.toLowerCase() == "close"
-                                ? AppColors.redE25Color
-                                : Colors.grey,
+                                    ? AppColors.redE25Color
+                                    : Colors.grey,
                           )),
                       commonRow(
-                        size: size,
+                          size: size,
                           title: "subStatus : ",
                           value: ticketSubStatus,
                           style: AppTextStyle.black323semi16),
-
                     ],
                   )
                 ],
@@ -211,18 +217,18 @@ class TicketCard extends StatelessWidget {
   Widget commonRow(
       {required String title,
       required String value,
-        required Size size,
+      required Size size,
       required TextStyle style,
       bool reversed = false}) {
     return SizedBox(
-      width: size.width*0.4,
+      width: size.width * 0.4,
       child: RichText(
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
         text: TextSpan(
             text: title,
             style: reversed ? style : AppTextStyle.grey84regular16,
-             spellOut: true,
+            spellOut: true,
             children: [
               TextSpan(
                   text: value,

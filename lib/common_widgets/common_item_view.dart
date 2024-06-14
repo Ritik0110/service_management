@@ -13,6 +13,7 @@ class CommonItemView extends StatefulWidget {
     required this.decrement,
     required this.groupName,
     this.remove,
+    required this.warehouse,
     required this.subQty,
     required this.quantity,
   });
@@ -21,6 +22,7 @@ class CommonItemView extends StatefulWidget {
   String groupName;
   int quantity;
   int subQty;
+  String warehouse;
   Function()? remove;
   Function() increment;
   Function() decrement;
@@ -142,6 +144,10 @@ class _CommonItemViewState extends State<CommonItemView> {
                     ),
                   ),
                   10.sizedBoxHeight,
+                  commonRow(
+                      title: "Warehouse : ",
+                      value: "${widget.warehouse}",
+                      style: AppTextStyle.black323semi14),
                   commonRow(
                       title: "In Stock Qty : ",
                       value: "${widget.quantity}",

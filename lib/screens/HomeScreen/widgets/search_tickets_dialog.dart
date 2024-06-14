@@ -96,7 +96,9 @@ class SearchTicketsDialog extends StatelessWidget {
                             customerName: searchResult[index].customerName ?? "N/A",
                             contactPerson: searchResult[index].contactPerson ?? "N/A",
                             contactNumber: searchResult[index].contactNumber ?? "",
-
+                            triage: searchResult[index].triage ?? "N/A",
+                            duration: searchResult[index].duration ?? "N/A",
+                            remark: searchResult[index].remarks ?? "N/A",
                           );
                         },
                       ),

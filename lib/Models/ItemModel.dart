@@ -32,6 +32,8 @@ class ItemData {
   String? itemName;
   String? groupCode;
   String? groupName;
+  String? firmName;
+  String? warehouse;
   num? quantity;
 
   ItemData(
@@ -39,6 +41,8 @@ class ItemData {
         this.itemName,
         this.groupCode,
         this.groupName,
+        this.firmName,
+        this.warehouse,
         this.quantity});
 
   ItemData.fromJson(Map<String, dynamic> json) {
@@ -47,6 +51,8 @@ class ItemData {
     groupCode = json['GroupCode'];
     groupName = json['GroupName'];
     quantity = json['Quantity'];
+    firmName = json['FirmName'];
+    warehouse = json['Warehouse'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +62,8 @@ class ItemData {
     data['GroupCode'] = groupCode;
     data['GroupName'] = groupName;
     data['Quantity'] = quantity;
+    data['FirmName'] = firmName;
+    data['Warehouse'] = warehouse;
     return data;
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/Inventory_transfer_model.dart';
@@ -28,9 +27,9 @@ class ChooseItemController extends GetxController {
   late PurchaseModel pRModel;
   RxBool isSearch = false.obs;
   var subQty = <String, num>{}.obs;
-  RxString fromWarehouse = "02".obs;
   String toWarehouse = "";
   DateTime? requireDate;
+  String callId = "";
 
   @override
   void onReady() {
@@ -39,19 +38,17 @@ class ChooseItemController extends GetxController {
   }
 
   Future getItems() async {
-    var data = await _api.postApi(AppUrl.getItems, {
-      "WhsCode": fromWarehouse.value,
-    });
+    var data = await _api.postApi(AppUrl.getItems, {});
     model = ItemModel.fromJson(data);
     searchItems.clear();
     subLists.clear();
     //mapping data into sub list using each group code
     model.itemData?.forEach((element) {
-      if (!subLists.containsKey(element.groupName)) {
-        subLists[element.groupName.toString()] = [];
+      if (!subLists.containsKey(element.firmName)) {
+        subLists[element.firmName.toString()] = [];
       }
-      subLists[element.groupName]!.add(element);
-      subQty['${element.itemCode}'] = 0;
+      subLists[element.firmName]!.add(element);
+      subQty['${element.itemCode}-${element.warehouse}'] = 0;
     });
     //converting map into list of grouped item list
     groupItems.value = subLists.values.toList();
@@ -77,11 +74,13 @@ class ChooseItemController extends GetxController {
         for (var e in element) {
           if (e.itemName!.toLowerCase().contains(searchValue!.toLowerCase())) {
             temp.add(e);
-          }else if(e.itemCode!.toLowerCase().contains(searchValue.toLowerCase())){
+          } else if (e.itemCode!
+              .toLowerCase()
+              .contains(searchValue.toLowerCase())) {
             temp.add(e);
           }
         }
-        if(temp.isNotEmpty){
+        if (temp.isNotEmpty) {
           searchItems.add(temp);
         }
       }
@@ -92,23 +91,27 @@ class ChooseItemController extends GetxController {
   }
 
   increaseItem1(ItemData data) {
-      !selectedItemsList.contains(data) ? selectedItemsList.add(data) : null;
-      subQty[data.itemCode!] = (subQty[data.itemCode]! + 1);
-      totalItemsCount();
-      update();
+    !selectedItemsList.contains(data) ? selectedItemsList.add(data) : null;
+    subQty['${data.itemCode}-${data.warehouse}'] =
+        (subQty['${data.itemCode}-${data.warehouse}']! + 1);
+    totalItemsCount();
+    update();
   }
 
   decreaseItem1(ItemData data) {
-    if (subQty[data.itemCode]! > 0) {
-      subQty[data.itemCode!] = (subQty[data.itemCode]! - 1);
-      subQty[data.itemCode] == 0 ? selectedItemsList.remove(data) : null;
+    if (subQty['${data.itemCode}-${data.warehouse}']! > 0) {
+      subQty['${data.itemCode}-${data.warehouse}'] =
+          (subQty['${data.itemCode}-${data.warehouse}']! - 1);
+      subQty['${data.itemCode}-${data.warehouse}'] == 0
+          ? selectedItemsList.remove(data)
+          : null;
       totalItemsCount();
       update();
     }
   }
 
   removeItem(ItemData data) {
-    subQty[data.itemCode!] = 0;
+    subQty['${data.itemCode}-${data.warehouse}'] = 0;
     selectedItemsList.remove(data);
     totalItemsCount();
     update();
@@ -119,8 +122,8 @@ class ChooseItemController extends GetxController {
     for (var element in selectedItemsList) {
       items.add(StockTransferLine(
           itemCode: element.itemCode!,
-          quantity: subQty[element.itemCode!]!.toInt(),
-          fromWarehouseCode: fromWarehouse.value,
+          quantity: subQty['${element.itemCode}-${element.warehouse}']!.toInt(),
+          fromWarehouseCode: element.warehouse!,
           warehouseCode: toWarehouse));
     }
     iTModel = TransferModel(docDate: DateTime.now(), stockTransferLines: items);
@@ -128,7 +131,7 @@ class ChooseItemController extends GetxController {
         AppUrl.inventoryTransfer, jsonEncode(iTModel.toJson()));
     Get.dialog(
       PopScope(
-      canPop: false,
+        canPop: false,
         child: Center(
           child: Card(
             margin: const EdgeInsets.all(16),
@@ -173,8 +176,8 @@ class ChooseItemController extends GetxController {
     for (var element in selectedItemsList) {
       items.add(DocumentLine(
           itemCode: element.itemCode!,
-          quantity: subQty[element.itemCode!]!.toInt(),
-          warehouseCode: fromWarehouse.value));
+          quantity: subQty['${element.itemCode}-${element.warehouse}']!.toInt(),
+          warehouseCode: element.warehouse!));
     }
     pRModel = PurchaseModel(
       requriedDate: requireDate!,
@@ -184,7 +187,7 @@ class ChooseItemController extends GetxController {
         AppUrl.purchaseRequest, jsonEncode(pRModel.toJson()));
     Get.dialog(
       PopScope(
-      canPop: false,
+        canPop: false,
         child: Center(
           child: Card(
             margin: const EdgeInsets.all(16),

@@ -283,6 +283,10 @@ class HomeScreen extends StatelessWidget {
                             startDate:
                                 controller.ticketList[index].generateDate ??
                                     "N/A",
+                            triage: controller.ticketList[index].triage ?? "N/A",
+                            duration:
+                                controller.ticketList[index].duration ?? "N/A",
+                            remark: controller.ticketList[index].remarks ?? "N/A",
                           );
                         },
                       ),

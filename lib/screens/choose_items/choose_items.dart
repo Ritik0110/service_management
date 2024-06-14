@@ -9,14 +9,11 @@ import '../../utils/app_test_style.dart';
 import '../../utils/extension/size_extension.dart';
 
 class ChooseItems extends StatefulWidget {
-  const ChooseItems(
-      {super.key,
-      required this.fromWarehouse,
-      this.toWarehouse,
-      this.requirementDate});
-  final String fromWarehouse;
-  final String? toWarehouse;
+  const ChooseItems({super.key, this.requirementDate,required this.callID});
+  /*final String fromWarehouse;
+  final String? toWarehouse;*/
   final DateTime? requirementDate;
+  final String callID;
   @override
   State<ChooseItems> createState() => _ChooseItemsState();
 }
@@ -28,9 +25,10 @@ class _ChooseItemsState extends State<ChooseItems> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    chooseController.fromWarehouse.value = widget.fromWarehouse;
-    chooseController.toWarehouse = widget.toWarehouse ?? "";
+    /*chooseController.fromWarehouse.value = widget.fromWarehouse;
+    chooseController.toWarehouse = widget.toWarehouse ?? "";*/
     chooseController.requireDate = widget.requirementDate;
+    chooseController.callId = widget.callID;
   }
 
   @override
@@ -95,8 +93,11 @@ class _ChooseItemsState extends State<ChooseItems> {
           Expanded(
             child: Obx(() => (chooseController.searchItems.isEmpty)
                 ? Center(
-                  child: Text("No Items Found",style:AppTextStyle.black323semi16 ,),
-                )
+                    child: Text(
+                      "No Items Found",
+                      style: AppTextStyle.black323semi16,
+                    ),
+                  )
                 : ListView.separated(
                     itemCount: chooseController.searchItems.length,
                     itemBuilder: (context, index) {
@@ -106,7 +107,7 @@ class _ChooseItemsState extends State<ChooseItems> {
                               backgroundColor: AppColors.whiteColor,
                               collapsedBackgroundColor: AppColors.whiteColor,
                               title: Text(
-                                chooseController.searchItems[index][0].groupName
+                                chooseController.searchItems[index][0].firmName
                                     .toString(),
                                 style: AppTextStyle.black323semi14,
                               ),
@@ -129,6 +130,10 @@ class _ChooseItemsState extends State<ChooseItems> {
                                                 init: chooseController,
                                                 builder: (control) {
                                                   return CommonItemView(
+                                                    warehouse: control
+                                                        .searchItems[index][j]
+                                                        .warehouse
+                                                        .toString(),
                                                     groupName: control
                                                         .searchItems[index][j]
                                                         .groupName
@@ -147,12 +152,8 @@ class _ChooseItemsState extends State<ChooseItems> {
                                                                 .quantity ??
                                                             0)
                                                         .toInt(),
-                                                    subQty: control
-                                                            .subQty[control
-                                                                .searchItems[
-                                                                    index][j]
-                                                                .itemCode
-                                                                .toString()]
+                                                    subQty: control.subQty[
+                                                                '${control.searchItems[index][j].itemCode}-${control.searchItems[index][j].warehouse}']
                                                             ?.toInt() ??
                                                         0,
                                                     increment: () =>

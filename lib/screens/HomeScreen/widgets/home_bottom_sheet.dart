@@ -14,6 +14,7 @@ class HomeFilterBottomSheet extends StatelessWidget {
     HomeControler homeController = Get.find();
     homeController.tempStatus.value = homeController.status.value;
     homeController.tempPriority.value = homeController.priority.value;
+    homeController.tempTriage.value = homeController.triage.value;
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
@@ -67,45 +68,45 @@ class HomeFilterBottomSheet extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Radio(
-                            value: Status.all,
-                            groupValue: homeController.tempStatus.value,
+                            value: Triage.all,
+                            groupValue: homeController.tempTriage.value,
                             onChanged: (value) {
-                              homeController.tempStatus.value = Status.all;
+                              homeController.tempTriage.value = Triage.all;
                             },
                           ),
                           Text("All",
                               style: AppTextStyle.mediumTS.copyWith(
-                                  color: homeController.tempStatus.value == Status.all?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                                  color: homeController.triage.value == Triage.all?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
                         ],
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Radio(
-                            value: Status.open,
-                            groupValue: homeController.tempStatus.value,
+                            value: Triage.yes,
+                            groupValue: homeController.tempTriage.value,
                             onChanged: (value) {
-                              homeController.tempStatus.value = Status.open;
+                              homeController.tempTriage.value = Triage.yes;
                             },
                           ),
                           Text("Yes",
                               style: AppTextStyle.mediumTS.copyWith(
-                                  color: homeController.tempStatus.value == Status.open?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                                  color: homeController.tempTriage.value == Triage.yes?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
                         ],
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Radio(
-                            value: Status.close,
-                            groupValue: homeController.tempStatus.value,
+                            value: Triage.no,
+                            groupValue: homeController.tempTriage.value,
                             onChanged: (value) {
-                              homeController.tempStatus.value = Status.close;
+                              homeController.tempTriage.value = Triage.no;
                             },
                           ),
                           Text("No",
                               style: AppTextStyle.mediumTS.copyWith(
-                                  color: homeController.tempStatus.value == Status.close?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                                  color: homeController.tempTriage.value == Triage.no?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
                         ],
                       ),
                     ],
@@ -135,6 +136,7 @@ class HomeFilterBottomSheet extends StatelessWidget {
                     onPressed: () {
                       homeController.status.value = homeController.tempStatus.value;
                       homeController.priority.value = homeController.tempPriority.value;
+                      homeController.triage.value = homeController.tempTriage.value;
                       homeController.applyFilter();
                       Navigator.pop(context);
                     },

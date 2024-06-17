@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_colors.dart';
 
 enum Status { all, open, close }
-
+enum Triage {all,yes,no}
 enum Priority { all, low, medium, high }
 
 class HomeControler extends GetxController {
@@ -24,8 +24,10 @@ class HomeControler extends GetxController {
   final RxInt listElementCount = 0.obs;
   final status = Status.all.obs;
   final priority = Priority.all.obs;
+  final triage = Triage.all.obs;
   final tempStatus = Status.all.obs;
   final tempPriority = Priority.all.obs;
+  final tempTriage = Triage.all.obs;
   final searchText = "".obs;
   final empName = "".obs;
   final empNumber = " - ".obs;
@@ -149,13 +151,13 @@ class HomeControler extends GetxController {
             }).toList() ??
             [];
     // List<Data> filteredList = ticketsModel.data??[];
-    if (status.value == Status.open) {
+    if (triage.value == Triage.yes) {
       filteredList.removeWhere(
-          (element) => element.callStatus?.toLowerCase() != "open");
+          (element) => element.triage?.toLowerCase() != "yes");
     }
-    if (status.value == Status.close) {
+    if (triage.value == Triage.no) {
       filteredList.removeWhere(
-          (element) => element.callStatus?.toLowerCase() != "close");
+          (element) => element.triage?.toLowerCase() != "no");
     }
 
     ticketList.value = filteredList;

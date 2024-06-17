@@ -1,29 +1,37 @@
 // To parse this JSON data, do
 //
-//     final transferModel = transferModelFromJson(jsonString);
+//     final inventoryTransferModel = inventoryTransferModelFromJson(jsonString);
 
 import 'dart:convert';
 
-TransferModel transferModelFromJson(String str) => TransferModel.fromJson(json.decode(str));
+InventoryTransferModel inventoryTransferModelFromJson(String str) => InventoryTransferModel.fromJson(json.decode(str));
 
-String transferModelToJson(TransferModel data) => json.encode(data.toJson());
+String inventoryTransferModelToJson(InventoryTransferModel data) => json.encode(data.toJson());
 
-class TransferModel {
+class InventoryTransferModel {
   DateTime docDate;
+  String uCallid;
+  String uAisitrsplit;
   List<StockTransferLine> stockTransferLines;
 
-  TransferModel({
+  InventoryTransferModel({
     required this.docDate,
+    required this.uCallid,
+    required this.uAisitrsplit,
     required this.stockTransferLines,
   });
 
-  factory TransferModel.fromJson(Map<String, dynamic> json) => TransferModel(
+  factory InventoryTransferModel.fromJson(Map<String, dynamic> json) => InventoryTransferModel(
     docDate: DateTime.parse(json["DocDate"]),
+    uCallid: json["U_CALLID"],
+    uAisitrsplit: json["U_AISITRSPLIT"],
     stockTransferLines: List<StockTransferLine>.from(json["StockTransferLines"].map((x) => StockTransferLine.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "DocDate": "${docDate.year.toString().padLeft(4, '0')}-${docDate.month.toString().padLeft(2, '0')}-${docDate.day.toString().padLeft(2, '0')}",
+    "U_CALLID": uCallid,
+    "U_AISITRSPLIT": uAisitrsplit,
     "StockTransferLines": List<dynamic>.from(stockTransferLines.map((x) => x.toJson())),
   };
 }

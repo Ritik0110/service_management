@@ -254,11 +254,14 @@ class HomeScreen extends StatelessWidget {
                             ticketId:
                                 controller.ticketList[index].serviceCallNo ??
                                     'N/A',
-                            ticketSubStatus: controller.ticketList[index].subStatus ?? "N/A",
+                            ticketSubStatus:
+                                controller.ticketList[index].subStatus ?? "N/A",
                             ticketTitle:
                                 controller.ticketList[index].subject ?? "N/A",
-                            ticketTime:
-                                controller.ticketList[index].time ?? "N/A",
+                            ticketTime: double.parse(
+                                    controller.ticketList[index].duration ??
+                                        "0.0")
+                                .toStringAsFixed(2),
                             model: controller.ticketList[index].model ?? "N/A",
                             manuSN:
                                 controller.ticketList[index].manuSN ?? "N/A",
@@ -270,8 +273,7 @@ class HomeScreen extends StatelessWidget {
                             ticketPriority:
                                 controller.ticketList[index].priority ?? "N/A",
                             contactNumber:
-                                controller.ticketList[index].contactNumber ??
-                                    "",
+                                controller.ticketList[index].contactMobNo ?? "",
                             contactPerson:
                                 controller.ticketList[index].contactPerson ??
                                     "N/A",
@@ -283,10 +285,14 @@ class HomeScreen extends StatelessWidget {
                             startDate:
                                 controller.ticketList[index].generateDate ??
                                     "N/A",
-                            triage: controller.ticketList[index].triage ?? "N/A",
-                            duration:
-                                controller.ticketList[index].duration ?? "N/A",
-                            remark: controller.ticketList[index].remarks ?? "N/A",
+                            triage:
+                                controller.ticketList[index].triage ?? "N/A",
+                            duration: double.parse(
+                                    controller.ticketList[index].duration ??
+                                        "0.0")
+                                .toStringAsFixed(2),
+                            remark:
+                                controller.ticketList[index].remarks ?? "N/A",
                           );
                         },
                       ),

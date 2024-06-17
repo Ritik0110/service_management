@@ -87,9 +87,7 @@ class PurchaseOrderReviewPage extends StatelessWidget {
                         child: colorButton(
                             title: "Submit",
                             color: AppColors.green33AColor,
-                            onPressed: items.toWarehouse.isEmpty
-                                ? items.submitForPurchase
-                                : items.submitForInventory))
+                            onPressed: reviewController.submitOrder))
                     : const SizedBox()),
               ],
             ),

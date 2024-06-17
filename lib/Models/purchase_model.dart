@@ -1,29 +1,33 @@
 // To parse this JSON data, do
 //
-//     final purchaseModel = purchaseModelFromJson(jsonString);
+//     final purchaseRequestModel = purchaseRequestModelFromJson(jsonString);
 
 import 'dart:convert';
 
-PurchaseModel purchaseModelFromJson(String str) => PurchaseModel.fromJson(json.decode(str));
+PurchaseRequestModel purchaseRequestModelFromJson(String str) => PurchaseRequestModel.fromJson(json.decode(str));
 
-String purchaseModelToJson(PurchaseModel data) => json.encode(data.toJson());
+String purchaseRequestModelToJson(PurchaseRequestModel data) => json.encode(data.toJson());
 
-class PurchaseModel {
+class PurchaseRequestModel {
   DateTime requriedDate;
+  String uCallid;
   List<DocumentLine> documentLines;
 
-  PurchaseModel({
+  PurchaseRequestModel({
     required this.requriedDate,
+    required this.uCallid,
     required this.documentLines,
   });
 
-  factory PurchaseModel.fromJson(Map<String, dynamic> json) => PurchaseModel(
+  factory PurchaseRequestModel.fromJson(Map<String, dynamic> json) => PurchaseRequestModel(
     requriedDate: DateTime.parse(json["RequriedDate"]),
+    uCallid: json["U_CALLID"],
     documentLines: List<DocumentLine>.from(json["DocumentLines"].map((x) => DocumentLine.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "RequriedDate": "${requriedDate.year.toString().padLeft(4, '0')}-${requriedDate.month.toString().padLeft(2, '0')}-${requriedDate.day.toString().padLeft(2, '0')}",
+    "U_CALLID": uCallid,
     "DocumentLines": List<dynamic>.from(documentLines.map((x) => x.toJson())),
   };
 }

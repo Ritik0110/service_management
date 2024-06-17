@@ -1,16 +1,11 @@
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/Inventory_transfer_model.dart';
 import 'package:service_call_management/Models/ItemModel.dart';
 import 'package:service_call_management/Models/purchase_model.dart';
-import 'package:service_call_management/common_widgets/common_button.dart';
-import 'package:service_call_management/screens/HomeScreen/home_screen.dart';
 import 'package:service_call_management/services/network_api_services.dart';
-import 'package:service_call_management/utils/app_colors.dart';
-import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/app_url.dart';
-import 'package:service_call_management/utils/extension/size_extension.dart';
 
 class ChooseItemController extends GetxController {
   RxInt totalItems = 0.obs;
@@ -23,8 +18,8 @@ class ChooseItemController extends GetxController {
   //contains sublist of each groupCode
   RxList<List<ItemData>> groupItems = <List<ItemData>>[].obs;
   RxList<List<ItemData>> searchItems = <List<ItemData>>[].obs;
-  late TransferModel iTModel;
-  late PurchaseModel pRModel;
+  late InventoryTransferModel iTModel;
+  late PurchaseRequestModel pRModel;
   RxBool isSearch = false.obs;
   var subQty = <String, num>{}.obs;
   String toWarehouse = "";
@@ -117,7 +112,7 @@ class ChooseItemController extends GetxController {
     update();
   }
 
-  Future submitForInventory() async {
+ /* Future submitForInventory() async {
     List<StockTransferLine> items = [];
     for (var element in selectedItemsList) {
       items.add(StockTransferLine(
@@ -126,7 +121,7 @@ class ChooseItemController extends GetxController {
           fromWarehouseCode: element.warehouse!,
           warehouseCode: toWarehouse));
     }
-    iTModel = TransferModel(docDate: DateTime.now(), stockTransferLines: items);
+    iTModel = InventoryTransferModel(docDate: DateTime.now(), stockTransferLines: items, uCallid: '', uAisitrsplit: '');
     var data = await _api.postApi(
         AppUrl.inventoryTransfer, jsonEncode(iTModel.toJson()));
     Get.dialog(
@@ -179,9 +174,10 @@ class ChooseItemController extends GetxController {
           quantity: subQty['${element.itemCode}-${element.warehouse}']!.toInt(),
           warehouseCode: element.warehouse!));
     }
-    pRModel = PurchaseModel(
+    pRModel = PurchaseRequestModel(
       requriedDate: requireDate!,
       documentLines: items,
+      uCallid: ""
     );
     var data = await _api.postApi(
         AppUrl.purchaseRequest, jsonEncode(pRModel.toJson()));
@@ -225,5 +221,5 @@ class ChooseItemController extends GetxController {
       ),
       barrierDismissible: false,
     );
-  }
+  }*/
 }

@@ -207,7 +207,7 @@ class _ChooseItemsState extends State<ChooseItems> {
                           chooseController.totalItems.value > 0 ? true : false,
                       buttonText: "Review",
                       onTap: () {
-                        Get.to(PurchaseOrderReviewPage());
+                        Get.to(PurchaseOrderReviewPage(),arguments: []);
                       },
                       width: 200,
                     )

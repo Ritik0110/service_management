@@ -25,9 +25,9 @@ class StockController extends GetxController {
   }
 
   void changeIndex(int index) {
-    if(index == selectedIndex.value){
+    if (index == selectedIndex.value) {
       return;
-    }else {
+    } else {
       index == 0 ? getPurchaseRequestList() : getTransferRequestList();
       selectedIndex.value = index;
     }
@@ -73,7 +73,8 @@ class StockController extends GetxController {
   void getSubProductList() {
     subProductList.clear();
     for (var element in productData) {
-      if (element.docStatus == dropdownValue.value) {
+      if (element.docStatus == dropdownValue.value ||
+          dropdownValue.value == 'All') {
         subProductList.add(element);
       }
     }
@@ -82,7 +83,8 @@ class StockController extends GetxController {
   void getSubTransferList() {
     subTransferList.clear();
     for (var element in transferData) {
-      if (element.docStatus == dropdownValue.value ||dropdownValue.value == 'All') {
+      if (element.docStatus == dropdownValue.value ||
+          dropdownValue.value == 'All') {
         subTransferList.add(element);
       }
     }

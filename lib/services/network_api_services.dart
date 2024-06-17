@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:service_call_management/services/base_api_services.dart';
@@ -30,17 +30,8 @@ class NetWorkApiService extends BaseApiServices {
         Get.back();
       }
       return data;
-    } on SocketException {
-      if (Get.isDialogOpen ?? false) {
-        Get.back();
-      }
-      throw InternetException();
-    } on RequestTimeOut {
-      if (Get.isDialogOpen ?? false) {
-        Get.back();
-      }
-      throw RequestTimeOut();
     }on DioException catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }
@@ -62,24 +53,15 @@ class NetWorkApiService extends BaseApiServices {
           barrierDismissible: false);
       final response = await dio
           .post(url,
-          data: body) // if body of api is written in raw form then encoded it otherwise send only body to the api
-          .timeout(const Duration(seconds: 15));
+          data: body); // if body of api is written in raw form then encoded it otherwise send only body to the api
+
       data = responseData(response);
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }
       return data;
-    } on SocketException {
-      if (Get.isDialogOpen ?? false) {
-        Get.back();
-      }
-      throw InternetException();
-    } on RequestTimeOut {
-      if (Get.isDialogOpen ?? false) {
-        Get.back();
-      }
-      throw RequestTimeOut();
     }on DioException catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }

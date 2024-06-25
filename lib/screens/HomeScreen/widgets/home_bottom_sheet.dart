@@ -11,7 +11,7 @@ class HomeFilterBottomSheet extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    HomeControler homeController = Get.find();
+    HomeController homeController = Get.find();
     homeController.tempStatus.value = homeController.status.value;
     homeController.tempPriority.value = homeController.priority.value;
     homeController.tempTriage.value = homeController.triage.value;
@@ -54,7 +54,65 @@ class HomeFilterBottomSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("  Triage",
+                Text("  Status",
+                    style: AppTextStyle.mediumTS.copyWith(
+                        color: AppColors.black191Color, fontSize: 16)),
+                Obx(
+                      () =>  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    direction: Axis.horizontal,
+                    spacing: 16,
+                    runAlignment: WrapAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio(
+                            value: Status.all,
+                            groupValue: homeController.tempStatus.value,
+                            onChanged: (value) {
+                              homeController.tempStatus.value = Status.all;
+                            },
+                          ),
+                          Text("All",
+                              style: AppTextStyle.mediumTS.copyWith(
+                                  color: homeController.tempStatus.value == Status.all?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio(
+                            value: Status.open,
+                            groupValue: homeController.tempStatus.value,
+                            onChanged: (value) {
+                              homeController.tempStatus.value = Status.open;
+                            },
+                          ),
+                          Text("Open",
+                              style: AppTextStyle.mediumTS.copyWith(
+                                  color: homeController.tempStatus.value == Status.open?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio(
+                            value: Status.close,
+                            groupValue: homeController.tempStatus.value,
+                            onChanged: (value) {
+                              homeController.tempStatus.value = Status.close;
+                            },
+                          ),
+                          Text("Close",
+                              style: AppTextStyle.mediumTS.copyWith(
+                                  color: homeController.tempStatus.value == Status.close?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Text("  SubStatus",
                     style: AppTextStyle.mediumTS.copyWith(
                         color: AppColors.black191Color, fontSize: 16)),
                 Obx(
@@ -111,7 +169,65 @@ class HomeFilterBottomSheet extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
+                Text("  Triage",
+                    style: AppTextStyle.mediumTS.copyWith(
+                        color: AppColors.black191Color, fontSize: 16)),
+                Obx(
+                      () =>  Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    direction: Axis.horizontal,
+                    spacing: 16,
+                    runAlignment: WrapAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio(
+                            value: Triage.all,
+                            groupValue: homeController.tempTriage.value,
+                            onChanged: (value) {
+                              homeController.tempTriage.value = Triage.all;
+                            },
+                          ),
+                          Text("All",
+                              style: AppTextStyle.mediumTS.copyWith(
+                                  color: homeController.triage.value == Triage.all?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio(
+                            value: Triage.yes,
+                            groupValue: homeController.tempTriage.value,
+                            onChanged: (value) {
+                              homeController.tempTriage.value = Triage.yes;
+                            },
+                          ),
+                          Text("Yes",
+                              style: AppTextStyle.mediumTS.copyWith(
+                                  color: homeController.tempTriage.value == Triage.yes?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Radio(
+                            value: Triage.no,
+                            groupValue: homeController.tempTriage.value,
+                            onChanged: (value) {
+                              homeController.tempTriage.value = Triage.no;
+                            },
+                          ),
+                          Text("No",
+                              style: AppTextStyle.mediumTS.copyWith(
+                                  color: homeController.tempTriage.value == Triage.no?AppColors.blue2F6Color:AppColors.grey848Color, fontSize: 18))
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

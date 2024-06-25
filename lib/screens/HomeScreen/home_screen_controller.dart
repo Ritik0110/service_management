@@ -18,7 +18,7 @@ enum Status { all, open, close }
 enum Triage {all,yes,no}
 enum Priority { all, low, medium, high }
 
-class HomeControler extends GetxController {
+class HomeController extends GetxController {
   final selectedDate = DateTime.now().obs;
   final RxList<ServiceData> ticketList = <ServiceData>[].obs;
   final RxInt listElementCount = 0.obs;

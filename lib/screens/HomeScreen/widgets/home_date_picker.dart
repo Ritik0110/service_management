@@ -9,7 +9,7 @@ import '../home_screen_controller.dart';
 
 class HomeDatePicker extends StatelessWidget {
   const HomeDatePicker({super.key, required this.homeController});
-  final HomeControler homeController;
+  final HomeController homeController;
   @override
   Widget build(BuildContext context) {
     String calenderKey = "calenderKey";

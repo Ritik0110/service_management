@@ -15,13 +15,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
+import 'calendar_view_page.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    HomeControler controller = Get.put(HomeControler());
+    HomeController controller = Get.put(HomeController());
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       drawer: Drawer(
@@ -70,7 +71,14 @@ class HomeScreen extends StatelessWidget {
                   )),
             ),
             ListTile(
-              title: const Text('Home'),
+              title: const Text('Calender View'),
+              onTap: () {
+                Get.back();
+                Get.to(() => CalendarViewPage());
+              },
+            ),
+            ListTile(
+              title: const Text('List View'),
               onTap: () {
                 Get.back();
               },

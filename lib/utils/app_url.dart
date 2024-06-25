@@ -11,4 +11,5 @@ class AppUrl {
   static const String itList = "ListIT";
   static const String subStatus = "SubStatus";
   static const String updateStatus = "UpdateStatus";
+  static const String dateOfMonth = "DateofMonth";
 }

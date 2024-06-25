@@ -54,7 +54,7 @@ class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: formController.dateController,
                     decoration: InputDecoration(
-                      hintText: "DD/MM/YYYY",
+                      hintText: "MM/DD/YYYY",
                       hintStyle: AppTextStyle.grey84regular16,
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),

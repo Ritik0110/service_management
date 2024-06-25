@@ -16,7 +16,7 @@ class SearchTicketsDialog extends StatelessWidget {
     required this.controller,
   });
 
-  final HomeControler controller;
+  final HomeController controller;
 
   @override
   Widget build(BuildContext context) {

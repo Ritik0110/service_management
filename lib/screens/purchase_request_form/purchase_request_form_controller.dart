@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/warehouse_model.dart';
 import 'package:service_call_management/screens/choose_items/choose_items.dart';
-import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_url.dart';
 
 import '../../services/network_api_services.dart';
@@ -81,7 +80,7 @@ class PurchaseFormController extends GetxController {
     if (picked != null && picked != selectedDate) {
       selectedDate = picked;
       dateController.text =
-          "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+          "${selectedDate.month}/${selectedDate.day}/${selectedDate.year}";
     }
   }
 }

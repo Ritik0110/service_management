@@ -2,18 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:service_call_management/common_widgets/common_card.dart';
 import 'package:service_call_management/screens/choose_items/choose_item_controller.dart';
-import 'package:service_call_management/utils/extension/size_extension.dart';
+
 
 import '../../Models/Inventory_transfer_model.dart';
 import '../../Models/purchase_model.dart';
 import '../../Models/warehouse_model.dart';
-import '../../common_widgets/common_button.dart';
-import '../../common_widgets/common_dropdown.dart';
 import '../../services/network_api_services.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/app_test_style.dart';
 import '../../utils/app_url.dart';
 
 class OrderReviewController extends GetxController {
@@ -33,7 +30,7 @@ class OrderReviewController extends GetxController {
   List<DropdownMenuItem<String>>? warehouseList =
       <DropdownMenuItem<String>>[].obs;
   String selectedWarehouse = "";
-  String wCode = "";
+  bool wCode = false;
 
   getWareHouse() async {
     var data = await _api.getApi(AppUrl.getWarehouses);
@@ -59,13 +56,12 @@ class OrderReviewController extends GetxController {
                     .subQty['${element.itemCode}-${element.warehouse}']!
                     .toInt() -
                 element.quantity!;
-
+            wCode = element.warehouse == "DA" ? true : false;
             transferItems.add(StockTransferLine(
                 itemCode: element.itemCode!,
                 quantity: element.quantity!.toInt(),
                 fromWarehouseCode: element.warehouse!,
                 warehouseCode: ""));
-
             purchaseItems.add(DocumentLine(
                 itemCode: element.itemCode!,
                 quantity: purchaseQty.toInt(),
@@ -79,62 +75,18 @@ class OrderReviewController extends GetxController {
                 warehouseCode: element.warehouse!));
           }
         } else {
+          wCode = element.warehouse == "DA" ? true : false;
           transferItems.add(StockTransferLine(
               itemCode: element.itemCode!,
               quantity: controller
                   .subQty['${element.itemCode}-${element.warehouse}']!
                   .toInt(),
               fromWarehouseCode: element.warehouse!,
-              warehouseCode: ""));
+              warehouseCode: "SW"));
         }
       }
     }
-    if(transferItems.isNotEmpty){
-      Get.dialog(Center(
-        child: SizedBox(
-          width: double.infinity,
-          child: Card(
-            elevation: 0,
-            margin: const EdgeInsets.all(16),
-            color: Colors.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                10.sizedBoxHeight,
-                Text(
-                  'Select Warehouse',
-                  style: AppTextStyle.boldTS.copyWith(
-                    fontSize: 20,
-                    color: AppColors.black323Color,
-                  ),
-                ),
-                CommonDropdownField(
-                  onChange: (value) {
-                    wCode = value!;
-                  },
-                  hintText: 'Select Warehouse',
-                  dropdownList: warehouseList,
-                ),
-                CommonMaterialButton(
-                  buttonText: "Select Warehouse",
-                  onTap: ()  {
-                    selectedWarehouse = wCode;
-                    for(var element in transferItems){
-                      element.warehouseCode = selectedWarehouse;
-                    }
-                    Get.back();
-                    submitReview();
-                  },
-                ),
-                10.sizedBoxHeight
-              ],
-            ),
-          ),
-        ),
-      ));
-    }else{
-      submitReview();
-    }
+    submitReview();
   }
 
   submitReview() async {
@@ -165,7 +117,7 @@ class OrderReviewController extends GetxController {
           docDate: controller.requireDate!,
           stockTransferLines: transferItems,
           uCallid: controller.callId,
-          uAisitrsplit: selectedWarehouse == "DA" ? "Y" : "N");
+          uAisitrsplit: wCode ? "Y" : "N");
       var data = await _api.postApi(AppUrl.inventoryTransfer,
           jsonEncode(transferModel.toJson()));
       return data;

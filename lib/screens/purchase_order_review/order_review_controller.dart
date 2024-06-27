@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:service_call_management/common_widgets/common_card.dart';
 import 'package:service_call_management/screens/choose_items/choose_item_controller.dart';
 
@@ -61,7 +60,7 @@ class OrderReviewController extends GetxController {
                 itemCode: element.itemCode!,
                 quantity: element.quantity!.toInt(),
                 fromWarehouseCode: element.warehouse!,
-                warehouseCode: ""));
+                warehouseCode: "SW"));
             purchaseItems.add(DocumentLine(
                 itemCode: element.itemCode!,
                 quantity: purchaseQty.toInt(),

@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/screens/HomeScreen/home_screen_controller.dart';
 
 import 'package:service_call_management/screens/HomeScreen/widgets/search_tickets_dialog.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/home_bottom_sheet.dart';
-import 'package:service_call_management/screens/HomeScreen/widgets/home_date_picker.dart';
 import 'package:service_call_management/screens/HomeScreen/widgets/ticket_card.dart';
 import 'package:service_call_management/screens/SignInScreen/sign_in_screen.dart';
 import 'package:service_call_management/utils/app_preferences.dart';
@@ -142,7 +141,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          HomeDatePicker(homeController: controller),
+          //HomeDatePicker(homeController: controller),
           Container(
             color: Colors.white,
             child: Row(
@@ -150,10 +149,10 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   width: 16,
                 ),
-                Text("Today Ticket ",
+                Text("Total Ticket ",
                     style: AppTextStyle.mediumTS
                         .copyWith(fontSize: 16, color: AppColors.grey848Color)),
-                Expanded(
+               /* Expanded(
                   child: Obx(
                     () {
                       int count = controller.ticketList
@@ -211,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-                ),
+                ),*/
                 const Spacer(),
                 InkWell(
                   onTap: () {
@@ -246,7 +245,7 @@ class HomeScreen extends StatelessWidget {
             child: Obx(
               () => Container(
                 color: AppColors.blueEFFColor,
-                child: controller.listElementCount.value == 0
+                child: controller.filteredList.isEmpty
                     ? Center(
                         child: Text(
                           "No Data Found.",
@@ -256,51 +255,51 @@ class HomeScreen extends StatelessWidget {
                       )
                     : ListView.builder(
                         padding: const EdgeInsets.all(16),
-                        itemCount: controller.listElementCount.value,
+                        itemCount: controller.filteredList.length,
                         itemBuilder: (context, index) {
                           return TicketCard(
                             ticketId:
-                                controller.ticketList[index].serviceCallNo ??
+                                controller.filteredList[index].serviceCallNo ??
                                     'N/A',
                             ticketSubStatus:
-                                controller.ticketList[index].subStatus ?? "N/A",
+                                controller.filteredList[index].subStatus ?? "N/A",
                             ticketTitle:
-                                controller.ticketList[index].subject ?? "N/A",
+                                controller.filteredList[index].subject ?? "N/A",
                             ticketTime: double.parse(
-                                    controller.ticketList[index].duration ??
+                                    controller.filteredList[index].duration ??
                                         "0.0")
                                 .toStringAsFixed(2),
-                            model: controller.ticketList[index].model ?? "N/A",
+                            model: controller.filteredList[index].model ?? "N/A",
                             manuSN:
-                                controller.ticketList[index].manuSN ?? "N/A",
+                                controller.filteredList[index].manuSN ?? "N/A",
                             ticketLocation:
-                                controller.ticketList[index].address ?? 'N/A',
+                                controller.filteredList[index].address ?? 'N/A',
                             ticketStatus:
-                                controller.ticketList[index].callStatus ??
+                                controller.filteredList[index].callStatus ??
                                     "N/A",
                             ticketPriority:
-                                controller.ticketList[index].priority ?? "N/A",
+                                controller.filteredList[index].priority ?? "N/A",
                             contactNumber:
-                                controller.ticketList[index].contactMobNo ?? "",
+                                controller.filteredList[index].contactMobNo ?? "",
                             contactPerson:
-                                controller.ticketList[index].contactPerson ??
+                                controller.filteredList[index].contactPerson ??
                                     "N/A",
                             customerName:
-                                controller.ticketList[index].customerName ??
+                                controller.filteredList[index].customerName ??
                                     "N/A",
                             endDate:
-                                controller.ticketList[index].endDate ?? "N/A",
+                                controller.filteredList[index].endDate ?? "N/A",
                             startDate:
-                                controller.ticketList[index].generateDate ??
+                                controller.filteredList[index].generateDate ??
                                     "N/A",
                             triage:
-                                controller.ticketList[index].triage ?? "N/A",
+                                controller.filteredList[index].triage ?? "N/A",
                             duration: double.parse(
-                                    controller.ticketList[index].duration ??
+                                    controller.filteredList[index].duration ??
                                         "0.0")
                                 .toStringAsFixed(2),
                             remark:
-                                controller.ticketList[index].remarks ?? "N/A",
+                                controller.filteredList[index].remarks ?? "N/A",
                           );
                         },
                       ),

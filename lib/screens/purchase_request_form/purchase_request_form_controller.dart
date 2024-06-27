@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/warehouse_model.dart';
 import 'package:service_call_management/screens/choose_items/choose_items.dart';
-import 'package:service_call_management/utils/app_url.dart';
+
 
 import '../../services/network_api_services.dart';
 
@@ -10,17 +10,12 @@ class PurchaseFormController extends GetxController {
   WarehouseModel warehouses = WarehouseModel();
   List<DropdownMenuItem<String>>? warehouseList =
       <DropdownMenuItem<String>>[].obs;
-  final _api = NetWorkApiService();
   RxBool isLoading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   RxString selectedFromWarehouse = "".obs;
   RxString selectedToWarehouse = "".obs;
   String callID = "";
-  @override
-  void onReady() {
-    super.onReady();
-    getWareHouse();
-  }
+
 
   onFromWarehouseChange(String? value) {
     selectedFromWarehouse.value = value!;
@@ -51,20 +46,6 @@ class PurchaseFormController extends GetxController {
         ));
       //}
     }
-  }
-
-  getWareHouse() async {
-    isLoading.value = true;
-    var data = await _api.getApi(AppUrl.getWarehouses);
-    warehouses = WarehouseModel.fromJson(data);
-    warehouseList = warehouses.wareHouse!
-        .map((e) => DropdownMenuItem<String>(
-              value: e.whsCode.toString(),
-              child: Text(e.whsName!),
-            ))
-        .toList();
-    isLoading.value = false;
-    update();
   }
 
   DateTime selectedDate = DateTime.now();

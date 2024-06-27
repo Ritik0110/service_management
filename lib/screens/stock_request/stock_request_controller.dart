@@ -11,10 +11,10 @@ class StockController extends GetxController {
   RxInt selectedIndex = 0.obs;
   InventoryModel? productModel;
   RxString callId = "05".obs;
-  List<Datum> productData = <Datum>[];
-  RxList<Datum> subProductList = <Datum>[].obs;
-  List<Datum> transferData = <Datum>[];
-  RxList<Datum> subTransferList = <Datum>[].obs;
+  List<Data> productData = <Data>[];
+  RxList<Data> subProductList = <Data>[].obs;
+  List<Data> transferData = <Data>[];
+  RxList<Data> subTransferList = <Data>[].obs;
   final _api = NetWorkApiService();
 
   @override
@@ -45,6 +45,7 @@ class StockController extends GetxController {
       "CallId": callId.value,
       "Page": 0,
     });
+    print(data);
     if (data["Result"] == 0) {
       productModel = null;
     } else {
@@ -52,7 +53,7 @@ class StockController extends GetxController {
     }
     productData = productModel?.data ?? [];
     getSubProductList();
-    update();
+    // update();
   }
 
   Future<void> getTransferRequestList() async {
@@ -60,6 +61,8 @@ class StockController extends GetxController {
       "CallId": callId.value,
       "Page": 0,
     });
+    print("TR");
+    print(data);
     if (data["Result"] == 0) {
       productModel = null;
     } else {
@@ -73,20 +76,22 @@ class StockController extends GetxController {
   void getSubProductList() {
     subProductList.clear();
     for (var element in productData) {
-      if (element.docStatus == dropdownValue.value ||
+      /*if (element.docStatus == dropdownValue.value ||
           dropdownValue.value == 'All') {
         subProductList.add(element);
-      }
+      }*/
+      subProductList.add(element);
     }
   }
 
   void getSubTransferList() {
     subTransferList.clear();
     for (var element in transferData) {
-      if (element.docStatus == dropdownValue.value ||
+      /*if (element.docStatus == dropdownValue.value ||
           dropdownValue.value == 'All') {
         subTransferList.add(element);
-      }
+      }*/
+      subTransferList.add(element);
     }
   }
 }

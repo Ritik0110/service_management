@@ -1,61 +1,85 @@
-// To parse this JSON data, do
-//
-//     final inventoryModel = inventoryModelFromJson(jsonString);
-
-import 'dart:convert';
-
-InventoryModel inventoryModelFromJson(String str) => InventoryModel.fromJson(json.decode(str));
-
-String inventoryModelToJson(InventoryModel data) => json.encode(data.toJson());
-
 class InventoryModel {
-  int result;
-  String message;
-  List<Datum> data;
+  int? result;
+  String? message;
+  List<Data>? data;
 
-  InventoryModel({
-    required this.result,
-    required this.message,
-    required this.data,
-  });
+  InventoryModel({this.result, this.message, this.data});
 
-  factory InventoryModel.fromJson(Map<String, dynamic> json) => InventoryModel(
-    result: json["Result"],
-    message: json["Message"],
-    data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
-  );
+  InventoryModel.fromJson(Map<String, dynamic> json) {
+    result = json['Result'];
+    message = json['Message'];
+    if (json['Data'] != null) {
+      data = <Data>[];
+      json['Data'].forEach((v) {
+        data!.add(Data.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-    "Result": result,
-    "Message": message,
-    "Data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Result'] = this.result;
+    data['Message'] = this.message;
+    if (this.data != null) {
+      data['Data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class Datum {
-  String docNum;
-  String docDate;
-  String docStatus;
-  String remark;
+class Data {
+  int? docNum;
+  String? docDate;
+  String? reqDate;
+  String? remark;
+  List<ItemData>? itemData;
 
-  Datum({
-    required this.docNum,
-    required this.docDate,
-    required this.docStatus,
-    required this.remark,
-  });
+  Data({this.docNum, this.docDate, this.reqDate, this.remark, this.itemData});
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    docNum: json["DocNum"],
-    docDate: json["DocDate"],
-    docStatus: json["DocStatus"],
-    remark: json["Remark"],
-  );
+  Data.fromJson(Map<String, dynamic> json) {
+    docNum = json['DocNum'];
+    docDate = json['DocDate'];
+    reqDate = json['ReqDate'];
+    remark = json['Remark'];
+    if (json['ItemData'] != null) {
+      itemData = <ItemData>[];
+      json['ItemData'].forEach((v) {
+        itemData!.add(new ItemData.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-    "DocNum": docNum,
-    "DocDate": docDate,
-    "DocStatus": docStatus,
-    "Remark": remark,
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['DocNum'] = this.docNum;
+    data['DocDate'] = this.docDate;
+    data['ReqDate'] = this.reqDate;
+    data['Remark'] = this.remark;
+    if (this.itemData != null) {
+      data['ItemData'] = this.itemData!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ItemData {
+  String? itemCode;
+  String? description;
+  double? quantity;
+
+  ItemData({this.itemCode, this.description, this.quantity});
+
+  ItemData.fromJson(Map<String, dynamic> json) {
+    itemCode = json['ItemCode'];
+    description = json['Description'];
+    quantity = json['Quantity'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ItemCode'] = this.itemCode;
+    data['Description'] = this.description;
+    data['Quantity'] = this.quantity;
+    return data;
+  }
 }

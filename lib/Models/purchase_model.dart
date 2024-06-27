@@ -21,13 +21,13 @@ class PurchaseRequestModel {
 
   factory PurchaseRequestModel.fromJson(Map<String, dynamic> json) => PurchaseRequestModel(
     requriedDate: DateTime.parse(json["RequriedDate"]),
-    uCallid: json["U_CALLID"],
+    uCallid: json["U_TEG_CALLID"],
     documentLines: List<DocumentLine>.from(json["DocumentLines"].map((x) => DocumentLine.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "RequriedDate": "${requriedDate.year.toString().padLeft(4, '0')}-${requriedDate.month.toString().padLeft(2, '0')}-${requriedDate.day.toString().padLeft(2, '0')}",
-    "U_CALLID": uCallid,
+    "U_TEG_CALLID": uCallid,
     "DocumentLines": List<dynamic>.from(documentLines.map((x) => x.toJson())),
   };
 }

@@ -1,9 +1,6 @@
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:service_call_management/Models/TicketsModel.dart';
 import 'package:service_call_management/Models/employee_model.dart';
 import 'package:service_call_management/utils/api_helper.dart';
@@ -12,38 +9,47 @@ import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/app_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Models/sub_status_model.dart';
+import '../../services/network_api_services.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_url.dart';
 
 enum Status { all, open, close }
-enum Triage {all,yes,no}
-enum Priority { all, low, medium, high }
+
+enum Triage { all, yes, no }
+
+// enum Priority { all, low, medium, high }
 
 class HomeController extends GetxController {
   final selectedDate = DateTime.now().obs;
   final RxList<ServiceData> ticketList = <ServiceData>[].obs;
-  final RxInt listElementCount = 0.obs;
+  RxList<ServiceData> filteredList = <ServiceData>[].obs;
   final status = Status.all.obs;
-  final priority = Priority.all.obs;
   final triage = Triage.all.obs;
   final tempStatus = Status.all.obs;
-  final tempPriority = Priority.all.obs;
   final tempTriage = Triage.all.obs;
   final searchText = "".obs;
   final empName = "".obs;
   final empNumber = " - ".obs;
   final empEmail = " - ".obs;
   final Rx<TicketsModel> ticketsModel = TicketsModel().obs;
+  final _api = NetWorkApiService();
+  StatusModel statusModel = StatusModel();
+  RxMap<String, bool> subStatusMap = <String, bool>{}.obs;
+  List subStatusList = [];
+  List filterSubList = [];
 
   Future<void> setSelectDate(DateTime date) async {
-    selectedDate.value = date;
+    //selectedDate.value = date;
     await loadApiData();
-    //applyFilter();
+    applyFilter1();
   }
 
   @override
   void onReady() {
     // TODO: implement onReady
     loadApiData();
+    getStatus();
     super.onReady();
   }
 
@@ -54,24 +60,32 @@ class HomeController extends GetxController {
     getUserDetails();
   }
 
+  void getStatus() async {
+    var data = await _api.getApi(AppUrl.subStatus);
+    statusModel = StatusModel.fromJson(data);
+    for (var i in statusModel.subStatus!) {
+      subStatusMap[i.subStatus!] = false;
+      subStatusList.add(i.subStatus!);
+    }
+  }
+
   Future<void> loadApiData() async {
     Get.dialog(
         const Center(
           child: CircularProgressIndicator(),
         ),
         barrierDismissible: false);
-    String result = await ApiHelper.getTickets(
-          DateFormat("yyyy-MM-dd").format(selectedDate.value),
-        ) ??
-        "";
+    String result = await ApiHelper.getTickets() ?? "";
     if (Get.isDialogOpen ?? false) {
       Get.back();
     }
     if (result == "1") {
       ticketsModel.value = AppVariables.ticketsModel;
       ticketList.value = ticketsModel.value.serviceData ?? [];
-      listElementCount.value = ticketList.length;
-      applyFilter();
+      filteredList.value = ticketsModel.value.serviceData ?? [];
+      print("object");
+      print(ticketList);
+      applyFilter1();
     } else {
       Get.defaultDialog(
           barrierDismissible: false,
@@ -112,58 +126,79 @@ class HomeController extends GetxController {
         : ' -- ')!;
   }
 
-  void applyFilter() {
-    List<ServiceData> filteredList =
-        ticketsModel.value.serviceData?.where((element) {
-              if (element.generateDate == null) {
-                return false;
-              }
+  // void applyFilter() {
+  //   /*List<ServiceData> filteredList =
+  //       ticketsModel.value.serviceData?.where((element) {
+  //             if (element.generateDate == null) {
+  //               return false;
+  //             }
+  //
+  //             // Remove any extra whitespace
+  //             String cleanedDate = element.generateDate!.trim();
+  //
+  //             // Split the date string into day, month, and year
+  //             List<String> dateParts = cleanedDate.split('/');
+  //             if (dateParts.length != 3) {
+  //               if (kDebugMode) {
+  //                 print("Skipping element with invalid date format: $element");
+  //               }
+  //               return false;
+  //             }
+  //
+  //             // Reconstruct the date string in "yyyy-MM-dd" format
+  //             String formattedDate =
+  //                 '${dateParts[2]}-${dateParts[0]}-${dateParts[1]}';
+  //
+  //             // Try to parse the formatted date string into a DateTime object
+  //             DateTime? date = DateTime.tryParse(formattedDate);
+  //             if (date == null) {
+  //               if (kDebugMode) {
+  //                 print("Skipping element due to parsing error: $element");
+  //               }
+  //               return false;
+  //             }
+  //
+  //             // Check if the parsed date matches the selectedDate
+  //             return date.day == selectedDate.value.day &&
+  //                 date.month == selectedDate.value.month &&
+  //                 date.year == selectedDate.value.year;
+  //           }).toList() ??
+  //           [];*/
+  //   List<ServiceData> filteredList = ticketsModel.value.serviceData ?? [];
+  //   if (triage.value == Triage.yes) {
+  //     filteredList
+  //         .removeWhere((element) => element.triage?.toLowerCase() != "yes");
+  //   }
+  //   if (triage.value == Triage.no) {
+  //     filteredList
+  //         .removeWhere((element) => element.triage?.toLowerCase() != "no");
+  //   }
+  //
+  //   ticketList.value = filteredList;
+  // }
 
-              // Remove any extra whitespace
-              String cleanedDate = element.generateDate!.trim();
-
-              // Split the date string into day, month, and year
-              List<String> dateParts = cleanedDate.split('/');
-              if (dateParts.length != 3) {
-                if (kDebugMode) {
-                  print("Skipping element with invalid date format: $element");
-                }
-                return false;
-              }
-
-              // Reconstruct the date string in "yyyy-MM-dd" format
-              String formattedDate =
-                  '${dateParts[2]}-${dateParts[0]}-${dateParts[1]}';
-
-              // Try to parse the formatted date string into a DateTime object
-              DateTime? date = DateTime.tryParse(formattedDate);
-              if (date == null) {
-                if (kDebugMode) {
-                  print("Skipping element due to parsing error: $element");
-                }
-                return false;
-              }
-
-              // Check if the parsed date matches the selectedDate
-              return date.day == selectedDate.value.day &&
-                  date.month == selectedDate.value.month &&
-                  date.year == selectedDate.value.year;
-            }).toList() ??
-            [];
-    // List<Data> filteredList = ticketsModel.data??[];
-    if (triage.value == Triage.yes) {
-      filteredList.removeWhere(
-          (element) => element.triage?.toLowerCase() != "yes");
+  void applyFilter1() {
+     List<ServiceData> temp = [];
+     temp.clear();
+     print(filterSubList.toString().toLowerCase());
+    for (var i in ticketList) {
+      print(filterSubList
+          .toString()
+          .toLowerCase()
+          .contains(i.subStatus!.toLowerCase()));
+      if ((i.callStatus?.toLowerCase() == status.value.name.toLowerCase() ||
+              status.value == Status.all) &&
+          (i.triage?.toLowerCase() == triage.value.name.toLowerCase() ||
+              triage.value == Triage.all)) {
+        if ((filterSubList
+                .toString()
+                .toLowerCase()
+                .contains(i.subStatus!.toLowerCase()) && i.subStatus!="") ||
+            filterSubList.isEmpty) {
+          temp.add(i);
+        }
+      }
     }
-    if (triage.value == Triage.no) {
-      filteredList.removeWhere(
-          (element) => element.triage?.toLowerCase() != "no");
-    }
-
-    ticketList.value = filteredList;
-    if (listElementCount.value == ticketList.length) {
-      listElementCount.value = 0;
-    }
-    listElementCount.value = ticketList.length;
+   filteredList.value = temp;
   }
 }

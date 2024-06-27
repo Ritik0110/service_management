@@ -9,6 +9,14 @@ import '../../services/network_api_services.dart';
 import '../../utils/app_variables.dart';
 
 class CalenderController extends GetxController{
+
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    super.onReady();
+    getData();
+    getDates();
+  }
   HomeController controller = Get.find();
   Rx<DateTime> day = DateTime.now().obs;
   RxString selectedDate = DateFormat("dd MMMM yyyy").format(DateTime.now()).obs;
@@ -18,18 +26,19 @@ class CalenderController extends GetxController{
   DateModel dates = DateModel();
   RxList selectedEvents = [].obs;
 
+
   onDaySelect(DateTime selectedDay, DateTime focusedDay) {
     print(selectedDay);
     selectedDate.value = DateFormat('dd MMMM yyyy').format(focusedDay);
     day.value = focusedDay;
     getData();
+
   }
   onPageChange(DateTime focusedDay) {
     selectedDate.value = DateFormat('dd MMMM yyyy').format(focusedDay);
     day.value = focusedDay;
     getDates();
     getData();
-    setDates(day.value);
   }
 
 
@@ -42,6 +51,7 @@ class CalenderController extends GetxController{
 
     baseModel.value = TicketsModel.fromJson(data);
     ticketList.value = baseModel.value.serviceData ?? [];
+    update();
   }
   getDates()async{
     selectedEvents.clear();
@@ -53,11 +63,12 @@ class CalenderController extends GetxController{
     for(var i in dates.dates ?? []){
       selectedEvents.add(i.dates);
     }
+    update();
   }
 
   List setDates(DateTime date){
     for(var ticket in selectedEvents) {
-      if (date.day.toString() == ticket.toString()) {
+      if (date.day.toString() == ticket.toString() && date.month == day.value.month) {
         return [1];
       }
     }

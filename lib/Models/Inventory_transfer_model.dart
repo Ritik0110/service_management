@@ -23,14 +23,14 @@ class InventoryTransferModel {
 
   factory InventoryTransferModel.fromJson(Map<String, dynamic> json) => InventoryTransferModel(
     docDate: DateTime.parse(json["DocDate"]),
-    uCallid: json["U_CALLID"],
+    uCallid: json["U_TEG_CALLID"],
     uAisitrsplit: json["U_AISITRSPLIT"],
     stockTransferLines: List<StockTransferLine>.from(json["StockTransferLines"].map((x) => StockTransferLine.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "DocDate": "${docDate.year.toString().padLeft(4, '0')}-${docDate.month.toString().padLeft(2, '0')}-${docDate.day.toString().padLeft(2, '0')}",
-    "U_CALLID": uCallid,
+    "U_TEG_CALLID": uCallid,
     "U_AISITRSPLIT": uAisitrsplit,
     "StockTransferLines": List<dynamic>.from(stockTransferLines.map((x) => x.toJson())),
   };

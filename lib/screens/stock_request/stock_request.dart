@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/inventory_model.dart';
 import 'package:service_call_management/common_widgets/common_button.dart';
@@ -127,7 +125,7 @@ class _StockRequestState extends State<StockRequest>
                 ))
               : ListView.builder(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
                   itemCount: list.length,
                   itemBuilder: (context, index) {
                     return commonCard(listItem: list[index]);
@@ -180,8 +178,8 @@ class _StockRequestState extends State<StockRequest>
 
   commonCard({required Data listItem}) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      margin: const EdgeInsets.only(bottom: 5,top:7 ),
+      padding: const EdgeInsets.symmetric(horizontal:15,vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
@@ -195,6 +193,7 @@ class _StockRequestState extends State<StockRequest>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,6 +231,7 @@ class _StockRequestState extends State<StockRequest>
           ListView.separated(
               separatorBuilder: (context, index) => 5.sizedBoxHeight,
               shrinkWrap: true,
+              padding: EdgeInsets.zero,
               itemCount: listItem.itemData?.length ?? 0,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {

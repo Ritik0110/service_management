@@ -79,26 +79,7 @@ class SearchTicketsDialog extends StatelessWidget {
                         itemCount: searchResult.length,
                         itemBuilder: (context, index) {
                           return TicketCard(
-                            ticketSubStatus: searchResult[index].subStatus ?? "N/A",
-                            ticketId: searchResult[index].serviceCallNo ?? "",
-                            ticketTitle: searchResult[index].subject ?? "N/A",
-                            ticketTime: searchResult[index].time ?? "N/A",
-                            ticketLocation:
-                                searchResult[index].address ?? "N/A",
-                            ticketStatus:
-                                searchResult[index].callStatus ?? "N/A",
-                            manuSN: searchResult[index].manuSN ?? "N/A",
-                            model: searchResult[index].model ?? "N/A",
-                            ticketPriority:
-                                searchResult[index].priority ?? "N/A",
-                            startDate: searchResult[index].generateDate ?? "N/A",
-                            endDate: searchResult[index].endDate ?? "N/A",
-                            customerName: searchResult[index].customerName ?? "N/A",
-                            contactPerson: searchResult[index].contactPerson ?? "N/A",
-                            contactNumber: searchResult[index].contactNumber ?? "",
-                            triage: searchResult[index].triage ?? "N/A",
-                            duration: searchResult[index].duration ?? "N/A",
-                            remark: searchResult[index].remarks ?? "N/A",
+                            data: searchResult[index],
                           );
                         },
                       ),

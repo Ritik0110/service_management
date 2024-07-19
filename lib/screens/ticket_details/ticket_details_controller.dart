@@ -24,6 +24,9 @@ class TicketDetailsController extends GetxController {
   final _api = NetWorkApiService();
   var selectedSubStatus = "".obs;
   var callId = "".obs;
+  final hours = TextEditingController(text: "00");
+  final minutes = TextEditingController(text: "00");
+
   void changeStatus() async {
     Get.dialog(Center(
       child: SizedBox(
@@ -49,7 +52,10 @@ class TicketDetailsController extends GetxController {
                   return Obx(() => RadioListTile(
                       value: statusModel.subStatus?[index].subStatus,
                       groupValue: selectedSubStatus.value,
-                      title: Text(statusModel.subStatus![index].subStatus!,style: AppTextStyle.black323semi14,),
+                      title: Text(
+                        statusModel.subStatus![index].subStatus!,
+                        style: AppTextStyle.black323semi14,
+                      ),
                       onChanged: (value) {
                         selectedSubStatus.value = value!;
                         update();
@@ -59,17 +65,20 @@ class TicketDetailsController extends GetxController {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
               ),
-              CommonMaterialButton(buttonText: "Update Sub Status",
-                onTap: ()async{
-                  var data = await _api.postApi(AppUrl.updateStatus,jsonEncode( {
-                    "SubStatus": selectedSubStatus.value,
-                    "CallId": callId.value.toString()
-                  }));
-                  if(data["Result"]==1){
-                    Fluttertoast.showToast(msg: "SubStatus Updated successfully");
-                    Get.offAll(()=>const HomeScreen());
-                    Get.deleteAll();
-                  }else{
+              CommonMaterialButton(
+                buttonText: "Update Sub Status",
+                onTap: () async {
+                  var data = await _api.postApi(
+                      AppUrl.updateStatus,
+                      jsonEncode({
+                        "SubStatus": selectedSubStatus.value,
+                        "CallId": callId.value.toString()
+                      }));
+                  if (data["Result"] == 1) {
+                    Fluttertoast.showToast(
+                        msg: "SubStatus Updated successfully");
+                    Get.offAll(() => const HomeScreen());
+                  } else {
                     Fluttertoast.showToast(msg: "${data["Message"]} ");
                   }
                 },
@@ -85,6 +94,90 @@ class TicketDetailsController extends GetxController {
   void getStatus() async {
     var data = await _api.getApi(AppUrl.subStatus);
     statusModel = StatusModel.fromJson(data);
-    print(statusModel.subStatus![0].subStatus);
+  }
+
+  void changeDuration() async {
+    Get.dialog(Center(
+      child: SizedBox(
+        child: Card(
+          margin: const EdgeInsets.all(16),
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              10.sizedBoxHeight,
+              Text(
+                'Change Duration',
+                style: AppTextStyle.boldTS.copyWith(
+                  fontSize: 20,
+                  color: AppColors.black323Color,
+                ),
+              ),
+              10.sizedBoxHeight,
+              SizedBox(
+                width: double.maxFinite,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    commonTextField(controller: hours, hint: "HH"),
+                    const Text(" : ",style: TextStyle(fontSize: 30),),
+                    commonTextField(controller: minutes, hint: "MM"),
+                  ],
+                ),
+              ),
+              CommonMaterialButton(
+                buttonText: "Update Duration",
+                onTap: () async {
+                  var data = await _api.postApi(
+                      AppUrl.updateDuration,
+                      jsonEncode({
+                        "Duration": "${hours.text}.${minutes.text}",
+                        "CallId": callId.value.toString()
+                      }));
+                  if (data["Result"] == 1) {
+                    Fluttertoast.showToast(
+                        msg: "Duration Updated successfully");
+                    Get.offAll(() => const HomeScreen());
+
+                  } else {
+                    Fluttertoast.showToast(msg: "${data["Message"]} ");
+                  }
+                },
+              ),
+              10.sizedBoxHeight
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+  commonTextField({required TextEditingController controller,required String hint}) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: hint,
+
+        contentPadding: EdgeInsets.zero,
+        constraints:
+        const BoxConstraints(maxHeight: 40,maxWidth: 60),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.grey848Color),
+        ),
+      ),
+      validator: (value) {
+        if(value!.contains("."))
+        {
+          controller.text = value.replaceAll(".", "");
+
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      textAlign: TextAlign.center,
+      textAlignVertical: TextAlignVertical.center,
+      keyboardType: TextInputType.phone,
+      textInputAction: TextInputAction.next,
+    );
   }
 }

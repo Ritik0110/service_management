@@ -6,13 +6,14 @@ import 'package:service_call_management/utils/app_colors.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
 
+import '../../Models/TicketsModel.dart';
 import '../purchase_request_form/purchase_request_form.dart';
 import 'stock_request_controller.dart';
 
 class StockRequest extends StatefulWidget {
-  const StockRequest({super.key, required this.callId});
+  const StockRequest({super.key, required this.data});
 
-  final String callId;
+  final ServiceData data;
   @override
   State<StockRequest> createState() => _StockRequestState();
 }
@@ -23,7 +24,7 @@ class _StockRequestState extends State<StockRequest>
 
   @override
   void initState() {
-    stockControl.callId.value = widget.callId;
+    stockControl.callId.value = widget.data.serviceCallNo!;
     stockControl.headerTab = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -83,7 +84,7 @@ class _StockRequestState extends State<StockRequest>
               onTap: () {
                 Get.to(() => PurchaseRequestForm(
                       isPurchase: true,
-                      callId: widget.callId,
+                      data: widget.data,
                     ));
               })
         ],

@@ -45,7 +45,6 @@ class StockController extends GetxController {
       "CallId": callId.value,
       "Page": 0,
     });
-    print(data);
     if (data["Result"] == 0) {
       productModel = null;
     } else {
@@ -61,8 +60,6 @@ class StockController extends GetxController {
       "CallId": callId.value,
       "Page": 0,
     });
-    print("TR");
-    print(data);
     if (data["Result"] == 0) {
       productModel = null;
     } else {

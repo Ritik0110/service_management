@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/Models/TicketsModel.dart';
 import '../../common_widgets/common_button.dart';
 import '../../common_widgets/common_item_view.dart';
 import '../purchase_order_review/purhcase_order_review.dart';
@@ -9,11 +10,11 @@ import '../../utils/app_test_style.dart';
 import '../../utils/extension/size_extension.dart';
 
 class ChooseItems extends StatefulWidget {
-  const ChooseItems({super.key, this.requirementDate,required this.callID});
+  const ChooseItems({super.key, this.requirementDate,required this.data});
   /*final String fromWarehouse;
   final String? toWarehouse;*/
   final DateTime? requirementDate;
-  final String callID;
+  final ServiceData data;
   @override
   State<ChooseItems> createState() => _ChooseItemsState();
 }
@@ -28,7 +29,8 @@ class _ChooseItemsState extends State<ChooseItems> {
     /*chooseController.fromWarehouse.value = widget.fromWarehouse;
     chooseController.toWarehouse = widget.toWarehouse ?? "";*/
     chooseController.requireDate = widget.requirementDate;
-    chooseController.callId = widget.callID;
+    chooseController.data = widget.data;
+
   }
 
   @override
@@ -207,7 +209,7 @@ class _ChooseItemsState extends State<ChooseItems> {
                           chooseController.totalItems.value > 0 ? true : false,
                       buttonText: "Review",
                       onTap: () {
-                        Get.to(PurchaseOrderReviewPage(),arguments: []);
+                        Get.to(()=>PurchaseOrderReviewPage());
                       },
                       width: 200,
                     )

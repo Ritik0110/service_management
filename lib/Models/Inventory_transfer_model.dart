@@ -12,12 +12,14 @@ class InventoryTransferModel {
   DateTime docDate;
   String uCallid;
   String uAisitrsplit;
+  String cardCode;
   List<StockTransferLine> stockTransferLines;
 
   InventoryTransferModel({
     required this.docDate,
     required this.uCallid,
     required this.uAisitrsplit,
+    required this.cardCode,
     required this.stockTransferLines,
   });
 
@@ -25,6 +27,7 @@ class InventoryTransferModel {
     docDate: DateTime.parse(json["DocDate"]),
     uCallid: json["U_TEG_CALLID"],
     uAisitrsplit: json["U_AISITRSPLIT"],
+    cardCode: json["CardCode"],
     stockTransferLines: List<StockTransferLine>.from(json["StockTransferLines"].map((x) => StockTransferLine.fromJson(x))),
   );
 
@@ -32,6 +35,7 @@ class InventoryTransferModel {
     "DocDate": "${docDate.year.toString().padLeft(4, '0')}-${docDate.month.toString().padLeft(2, '0')}-${docDate.day.toString().padLeft(2, '0')}",
     "U_TEG_CALLID": uCallid,
     "U_AISITRSPLIT": uAisitrsplit,
+    "CardCode": cardCode,
     "StockTransferLines": List<dynamic>.from(stockTransferLines.map((x) => x.toJson())),
   };
 }

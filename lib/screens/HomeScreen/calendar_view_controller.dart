@@ -28,7 +28,6 @@ class CalenderController extends GetxController{
 
 
   onDaySelect(DateTime selectedDay, DateTime focusedDay) {
-    print(selectedDay);
     selectedDate.value = DateFormat('dd MMMM yyyy').format(focusedDay);
     day.value = focusedDay;
     getData();

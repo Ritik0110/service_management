@@ -7,6 +7,8 @@ import 'package:service_call_management/Models/purchase_model.dart';
 import 'package:service_call_management/services/network_api_services.dart';
 import 'package:service_call_management/utils/app_url.dart';
 
+import '../../Models/TicketsModel.dart';
+
 class ChooseItemController extends GetxController {
   RxInt totalItems = 0.obs;
   List<ItemData> selectedItemsList = <ItemData>[].obs;
@@ -24,7 +26,7 @@ class ChooseItemController extends GetxController {
   var subQty = <String, num>{}.obs;
   String toWarehouse = "";
   DateTime? requireDate;
-  String callId = "";
+  late ServiceData data;
 
   @override
   void onReady() {

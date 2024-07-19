@@ -115,7 +115,8 @@ class OrderReviewController extends GetxController {
       transferModel = InventoryTransferModel(
           docDate: controller.requireDate!,
           stockTransferLines: transferItems,
-          uCallid: controller.callId,
+          uCallid: controller.data.serviceCallNo!,
+          cardCode: controller.data.customerCode!,
           uAisitrsplit: wCode ? "Y" : "N");
       var data = await _api.postApi(AppUrl.inventoryTransfer,
           jsonEncode(transferModel.toJson()));
@@ -130,7 +131,7 @@ class OrderReviewController extends GetxController {
       purchaseModel = PurchaseRequestModel(
           requriedDate: controller.requireDate!,
           documentLines: purchaseItems,
-          uCallid: controller.callId);
+          uCallid: controller.data.serviceCallNo!);
       var data = await _api.postApi(
           AppUrl.purchaseRequest, jsonEncode(purchaseModel.toJson()));
       return data;

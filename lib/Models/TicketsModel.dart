@@ -109,6 +109,8 @@ class ServiceData {
     duration = json['Duration'];
   }
 
+  get callId => null;
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ServiceCallNo'] = this.serviceCallNo;

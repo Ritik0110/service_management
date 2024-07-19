@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/Models/TicketsModel.dart';
 import 'package:service_call_management/Models/warehouse_model.dart';
 import 'package:service_call_management/screens/choose_items/choose_items.dart';
 
-
-import '../../services/network_api_services.dart';
 
 class PurchaseFormController extends GetxController {
   WarehouseModel warehouses = WarehouseModel();
@@ -14,7 +13,7 @@ class PurchaseFormController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   RxString selectedFromWarehouse = "".obs;
   RxString selectedToWarehouse = "".obs;
-  String callID = "";
+  late ServiceData data;
 
 
   onFromWarehouseChange(String? value) {
@@ -38,11 +37,11 @@ class PurchaseFormController extends GetxController {
             colorText: AppColors.whiteColor,
             duration: const Duration(seconds: 3));
       } else {*/
-        Get.to(ChooseItems(
+        Get.to(()=>ChooseItems(
           /*fromWarehouse: selectedFromWarehouse.value,
           toWarehouse: selectedToWarehouse.value,*/
-          callID: callID,
           requirementDate: selectedDate,
+          data: data,
         ));
       //}
     }

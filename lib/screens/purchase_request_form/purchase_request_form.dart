@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:service_call_management/common_widgets/common_dropdown.dart';
+import 'package:service_call_management/Models/TicketsModel.dart';
 import 'package:service_call_management/screens/purchase_request_form/purchase_request_form_controller.dart';
 import 'package:service_call_management/utils/app_test_style.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
@@ -9,10 +9,11 @@ import '../../common_widgets/common_button.dart';
 import '../../utils/app_colors.dart';
 
 class PurchaseRequestForm extends StatefulWidget {
-  const PurchaseRequestForm({super.key, required this.isPurchase,required this.callId});
+  const PurchaseRequestForm(
+      {super.key, required this.isPurchase, required this.data});
 
   final bool isPurchase;
-  final String callId;
+  final ServiceData data;
 
   @override
   State<PurchaseRequestForm> createState() => _PurchaseRequestFormState();
@@ -22,9 +23,11 @@ class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
   final formController = Get.put(PurchaseFormController());
 
   @override
-  void initState() {    super.initState();
-    formController.callID = widget.callId;
+  void initState() {
+    super.initState();
+    formController.data = widget.data;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,15 +103,12 @@ class _PurchaseRequestFormState extends State<PurchaseRequestForm> {
                                 : null,
                           ))
                       : const SizedBox(),*/
-
                 ],
               ),
             ),
             const Spacer(),
             CommonMaterialButton(
-                buttonText: "Choose Item(s)",
-                onTap:formController.submitForm
-            )
+                buttonText: "Choose Item(s)", onTap: formController.submitForm)
           ],
         ),
       ),

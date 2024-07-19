@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:service_call_management/Models/TicketsModel.dart';
 import 'package:service_call_management/screens/ticket_details/ticket_details.dart';
 import 'package:service_call_management/utils/app_assets.dart';
 import 'package:service_call_management/utils/extension/size_extension.dart';
@@ -11,41 +12,9 @@ import '../../../utils/app_test_style.dart';
 class TicketCard extends StatelessWidget {
   const TicketCard({
     super.key,
-    required this.ticketId,
-    required this.ticketTitle,
-    required this.ticketTime,
-    required this.ticketLocation,
-    required this.ticketStatus,
-    required this.model,
-    required this.manuSN,
-    required this.ticketSubStatus,
-    required this.ticketPriority,
-    required this.customerName,
-    required this.contactPerson,
-    required this.contactNumber,
-    required this.startDate,
-    required this.endDate,
-    required this.triage,
-    required this.duration,
-    required this.remark,
+    required this.data,
   });
-  final String ticketId;
-  final String ticketTitle;
-  final String ticketTime;
-  final String model;
-  final String manuSN;
-  final String ticketLocation;
-  final String ticketStatus;
-  final String ticketSubStatus;
-  final String ticketPriority;
-  final String customerName;
-  final String contactPerson;
-  final String contactNumber;
-  final String startDate;
-  final String endDate;
-  final String triage;
-  final String duration;
-  final String remark;
+  final ServiceData data;
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +31,9 @@ class TicketCard extends StatelessWidget {
             offset: const Offset(0, 0),
           )
         ],
-        color: ticketStatus.toLowerCase() == "open"
+        color: data.callStatus?.toLowerCase() == "open"
             ? AppColors.green47CColor
-            : ticketStatus.toLowerCase() == "close"
+            : data.callStatus?.toLowerCase() == "close"
                 ? AppColors.redE25Color
                 : Colors.grey,
         borderRadius: BorderRadius.circular(10),
@@ -72,21 +41,7 @@ class TicketCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Get.to(() => TicketDetails(
-                subStatus: ticketSubStatus,
-                ticketId: ticketId,
-                ticketTitle: ticketTitle,
-                ticketStatus: ticketStatus,
-                ticketLocation: ticketLocation,
-                ticketTime: ticketTime,
-                ticketPriority: ticketPriority,
-                contactNumber: contactNumber,
-                contactPerson: contactPerson,
-                customerName: customerName,
-                startDate: startDate,
-                endDate: endDate,
-                model: model,
-                manuSN: manuSN,
-                remark: remark,
+                data: data,
               ));
         },
         child: Container(
@@ -102,11 +57,11 @@ class TicketCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("#$ticketId",
+                      Text("#${data.serviceCallNo}",
                           style: AppTextStyle.semiBoldTS.copyWith(
                               color: AppColors.grey646Color, fontSize: 16)),
                       Text(
-                        ticketTitle,
+                        data.subject ?? "",
                         style: AppTextStyle.semiBoldTS.copyWith(
                             color: AppColors.black191Color, fontSize: 16),
                       )
@@ -115,7 +70,7 @@ class TicketCard extends StatelessWidget {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      launchUrl(Uri.parse("tel:$contactNumber"));
+                      launchUrl(Uri.parse("tel:${data.contactMobNo}"));
                     },
                     child: CircleAvatar(
                         backgroundColor: Colors.grey.shade100,
@@ -141,24 +96,24 @@ class TicketCard extends StatelessWidget {
                       commonRow(
                           size: size,
                           title: "Duration : ",
-                          value: ticketTime,
+                          value: data.duration ?? "0.0",
                           style: AppTextStyle.black323semi16),
                       4.sizedBoxHeight,
                       commonRow(
                           size: size,
                           title: "Model : ",
-                          value: model,
+                          value: data.model ?? "N/A",
                           style: AppTextStyle.black323semi16),
                       4.sizedBoxHeight,
                       commonRow(
                           size: size,
                           title: "manuSN : ",
-                          value: manuSN,
+                          value: data.manuSN ?? "N/A",
                           style: AppTextStyle.black323semi16),
                       commonRow(
                           size: size,
                           title: "Triage : ",
-                          value: triage,
+                          value: data.triage?? "N/A",
                           style: AppTextStyle.black323semi16),
                     ],
                   ),
@@ -169,19 +124,19 @@ class TicketCard extends StatelessWidget {
                       commonRow(
                           size: size,
                           title: "Status : ",
-                          value: ticketStatus,
+                          value: data.callStatus ?? "N/A",
                           style: AppTextStyle.semiBoldTS.copyWith(
                             fontSize: 16,
-                            color: ticketStatus.toLowerCase() == "open"
+                            color: data.callStatus?.toLowerCase() == "open"
                                 ? AppColors.green47CColor
-                                : ticketStatus.toLowerCase() == "close"
+                                : data.callStatus?.toLowerCase() == "close"
                                     ? AppColors.redE25Color
                                     : Colors.grey,
                           )),
                       commonRow(
                           size: size,
                           title: "subStatus : ",
-                          value: ticketSubStatus,
+                          value: data.subStatus ?? "N/A",
                           style: AppTextStyle.black323semi16),
                     ],
                   )
@@ -199,7 +154,7 @@ class TicketCard extends StatelessWidget {
                   ),
                   Expanded(
                       child: Text(
-                    ticketLocation,
+                    data.address ?? "N/A",
                     style: AppTextStyle.mediumTS
                         .copyWith(fontSize: 14, color: AppColors.black191Color),
                     overflow: TextOverflow.ellipsis,

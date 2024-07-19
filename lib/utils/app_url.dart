@@ -1,6 +1,7 @@
 class AppUrl {
   static const String baseUrl ='http://14.143.90.245:9700/API/';
-  static const String mainBaseUrl = 'http://50.233.53.114:9200/API/';
+  //static const String mainBaseUrl = 'http://50.233.53.114:9200/API/';
+  static const String mainBaseUrl = 'http://vpn.americanappliance.biz:9200/API/';
   static const String login = 'UserLogin';
   static const String getTickets = 'ServiceList';
   static const String getItems = "ItemList";
@@ -11,5 +12,6 @@ class AppUrl {
   static const String itList = "ListIT";
   static const String subStatus = "SubStatus";
   static const String updateStatus = "UpdateStatus";
+  static const String updateDuration = "UpdateDuration";
   static const String dateOfMonth = "DateofMonth";
 }

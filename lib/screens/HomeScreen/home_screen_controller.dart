@@ -83,8 +83,6 @@ class HomeController extends GetxController {
       ticketsModel.value = AppVariables.ticketsModel;
       ticketList.value = ticketsModel.value.serviceData ?? [];
       filteredList.value = ticketsModel.value.serviceData ?? [];
-      print("object");
-      print(ticketList);
       applyFilter1();
     } else {
       Get.defaultDialog(
@@ -180,12 +178,7 @@ class HomeController extends GetxController {
   void applyFilter1() {
      List<ServiceData> temp = [];
      temp.clear();
-     print(filterSubList.toString().toLowerCase());
     for (var i in ticketList) {
-      print(filterSubList
-          .toString()
-          .toLowerCase()
-          .contains(i.subStatus!.toLowerCase()));
       if ((i.callStatus?.toLowerCase() == status.value.name.toLowerCase() ||
               status.value == Status.all) &&
           (i.triage?.toLowerCase() == triage.value.name.toLowerCase() ||

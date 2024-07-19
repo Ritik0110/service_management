@@ -258,48 +258,7 @@ class HomeScreen extends StatelessWidget {
                         itemCount: controller.filteredList.length,
                         itemBuilder: (context, index) {
                           return TicketCard(
-                            ticketId:
-                                controller.filteredList[index].serviceCallNo ??
-                                    'N/A',
-                            ticketSubStatus:
-                                controller.filteredList[index].subStatus ?? "N/A",
-                            ticketTitle:
-                                controller.filteredList[index].subject ?? "N/A",
-                            ticketTime: double.parse(
-                                    controller.filteredList[index].duration ??
-                                        "0.0")
-                                .toStringAsFixed(2),
-                            model: controller.filteredList[index].model ?? "N/A",
-                            manuSN:
-                                controller.filteredList[index].manuSN ?? "N/A",
-                            ticketLocation:
-                                controller.filteredList[index].address ?? 'N/A',
-                            ticketStatus:
-                                controller.filteredList[index].callStatus ??
-                                    "N/A",
-                            ticketPriority:
-                                controller.filteredList[index].priority ?? "N/A",
-                            contactNumber:
-                                controller.filteredList[index].contactMobNo ?? "",
-                            contactPerson:
-                                controller.filteredList[index].contactPerson ??
-                                    "N/A",
-                            customerName:
-                                controller.filteredList[index].customerName ??
-                                    "N/A",
-                            endDate:
-                                controller.filteredList[index].endDate ?? "N/A",
-                            startDate:
-                                controller.filteredList[index].generateDate ??
-                                    "N/A",
-                            triage:
-                                controller.filteredList[index].triage ?? "N/A",
-                            duration: double.parse(
-                                    controller.filteredList[index].duration ??
-                                        "0.0")
-                                .toStringAsFixed(2),
-                            remark:
-                                controller.filteredList[index].remarks ?? "N/A",
+                            data: controller.filteredList[index],
                           );
                         },
                       ),

@@ -41,7 +41,8 @@ class CommonPopUp {
                           spacing: false,
                           buttonText: "Back to Home",
                           onTap: () {
-                            Get.offAll(const HomeScreen());
+                            Get.deleteAll();
+                            Get.to(const HomeScreen());
                           },
                           width: 200,
                         )

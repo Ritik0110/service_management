@@ -55,6 +55,7 @@ class CalenderController extends GetxController{
   getDates()async{
     selectedEvents.clear();
     var data = await _api.postApi(AppUrl.dateOfMonth, {
+      "EmpCode": AppVariables.employeeModel.employeeData?[0].employeeCode,
       "Year": DateFormat("yyyy").format(day.value),
       "Month": DateFormat("MM").format(day.value),
     });

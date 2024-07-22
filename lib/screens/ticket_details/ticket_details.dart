@@ -27,10 +27,21 @@ class _TicketDetailsState extends State<TicketDetails> {
   @override
   void initState() {
     super.initState();
+    String? hour,min;
+    String time = widget.data.duration!.trim();
+    if(time.contains(".")){
+      hour = time.split(".")[0];
+      min = time.split(".")[1];
+    }else if(time.contains(":")){
+      hour = time.split(":")[0];
+      min = time.split(":")[1];
+    }
+    print("hour: $hour");
+    print("min: $min");
     ticketController.selectedSubStatus.value = widget.data.subStatus ?? "N/A";
     ticketController.callId.value = widget.data.serviceCallNo ?? "N/A";
-    ticketController.hours.text = widget.data.duration?.split(".")[0] ?? "00";
-    ticketController.minutes.text = widget.data.duration?.split(".")[1] ?? "00";
+    ticketController.hours.text = hour ?? "00";
+    ticketController.minutes.text = min ?? "00";
   }
 
   @override
@@ -67,7 +78,7 @@ class _TicketDetailsState extends State<TicketDetails> {
                       children: [
                         commonRow(
                             title: "Duration : ",
-                            value: widget.data.duration ?? "0.0",
+                            value: widget.data.duration?.trim() ?? "0.0",
                             style: AppTextStyle.black323semi16),
                         MaterialButton(
                           onPressed: ticketController.changeDuration,

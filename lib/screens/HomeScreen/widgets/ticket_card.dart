@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/TicketsModel.dart';
@@ -53,21 +54,23 @@ class TicketCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("#${data.serviceCallNo}",
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("#${data.serviceCallNo}",
+                            style: AppTextStyle.semiBoldTS.copyWith(
+                                color: AppColors.grey646Color, fontSize: 16)),
+                        Text(
+                          data.subject ?? "",
                           style: AppTextStyle.semiBoldTS.copyWith(
-                              color: AppColors.grey646Color, fontSize: 16)),
-                      Text(
-                        data.subject ?? "",
-                        style: AppTextStyle.semiBoldTS.copyWith(
-                            color: AppColors.black191Color, fontSize: 16),
-                      )
-                    ],
+                              color: AppColors.black191Color, fontSize: 16),
+                          maxLines: 2,
+                        )
+                      ],
+                    ),
                   ),
-                  const Spacer(),
                   InkWell(
                     onTap: () {
                       launchUrl(Uri.parse("tel:${data.contactMobNo}"));

@@ -77,7 +77,8 @@ class TicketDetailsController extends GetxController {
                   if (data["Result"] == 1) {
                     Fluttertoast.showToast(
                         msg: "SubStatus Updated successfully");
-                    Get.offAll(() => const HomeScreen());
+                    Get.deleteAll();
+                    Get.to(() => const HomeScreen());
                   } else {
                     Fluttertoast.showToast(msg: "${data["Message"]} ");
                   }
@@ -138,7 +139,8 @@ class TicketDetailsController extends GetxController {
                   if (data["Result"] == 1) {
                     Fluttertoast.showToast(
                         msg: "Duration Updated successfully");
-                    Get.offAll(() => const HomeScreen());
+                    Get.deleteAll();
+                    Get.to(() => const HomeScreen());
 
                   } else {
                     Fluttertoast.showToast(msg: "${data["Message"]} ");

@@ -21,8 +21,10 @@ class TicketDetailsController extends GetxController {
   }
 
   StatusModel statusModel = StatusModel();
+  List triageList = ["YES", "NO"];
   final _api = NetWorkApiService();
   var selectedSubStatus = "".obs;
+  var selectedTriage = "".obs;
   var callId = "".obs;
   final hours = TextEditingController(text: "00");
   final minutes = TextEditingController(text: "00");
@@ -92,6 +94,72 @@ class TicketDetailsController extends GetxController {
     ));
   }
 
+  void changeTriage() async {
+    Get.dialog(Center(
+      child: SizedBox(
+        width: double.infinity,
+        child: Card(
+          elevation: 0,
+          margin: const EdgeInsets.all(16),
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              10.sizedBoxHeight,
+              Text(
+                'Change Triage',
+                style: AppTextStyle.boldTS.copyWith(
+                  fontSize: 20,
+                  color: AppColors.black323Color,
+                ),
+              ),
+              10.sizedBoxHeight,
+              ListView.builder(
+                itemBuilder: (context, index) {
+                  return Obx(() => RadioListTile(
+                      value: triageList[index],
+                      groupValue: selectedTriage.value,
+                      title: Text(
+                        triageList[index],
+                        style: AppTextStyle.black323semi14,
+                      ),
+                      onChanged: (value) {
+                        selectedTriage.value = value;
+                        update();
+                      }));
+                },
+                itemCount: triageList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
+              CommonMaterialButton(
+                buttonText: "Update Triage",
+                onTap: () async {
+                  var data = await _api.postApi(
+                      AppUrl.updateTriage,
+                      jsonEncode({
+                        "Triaged": selectedTriage.value,
+                        "CallId": callId.value.toString()
+                      }));
+                  print(data);
+                  if (data["Result"] == 1) {
+                    Fluttertoast.showToast(
+                        msg: "Triage change successfully");
+                    Get.deleteAll();
+                    Get.to(() => const HomeScreen());
+                  } else {
+                    Fluttertoast.showToast(msg: "${data["Message"]} ");
+                  }
+                },
+              ),
+              10.sizedBoxHeight
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+
   void getStatus() async {
     var data = await _api.getApi(AppUrl.subStatus);
     statusModel = StatusModel.fromJson(data);
@@ -123,7 +191,7 @@ class TicketDetailsController extends GetxController {
                   children: [
                     commonTextField(controller: hours, hint: "HH"),
                     const Text(" : ",style: TextStyle(fontSize: 30),),
-                    commonTextField(controller: minutes, hint: "MM"),
+                    commonTextField(controller: minutes, hint: "MM",isMin: true),
                   ],
                 ),
               ),
@@ -133,7 +201,7 @@ class TicketDetailsController extends GetxController {
                   var data = await _api.postApi(
                       AppUrl.updateDuration,
                       jsonEncode({
-                        "Duration": "${hours.text}.${minutes.text}",
+                        "Duration": "${hours.text}:${minutes.text}",
                         "CallId": callId.value.toString()
                       }));
                   if (data["Result"] == 1) {
@@ -154,7 +222,7 @@ class TicketDetailsController extends GetxController {
       ),
     ));
   }
-  commonTextField({required TextEditingController controller,required String hint}) {
+  commonTextField({required TextEditingController controller,required String hint,bool isMin = false}) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
@@ -168,17 +236,31 @@ class TicketDetailsController extends GetxController {
         ),
       ),
       validator: (value) {
+        print("value $value hello");
         if(value!.contains("."))
         {
           controller.text = value.replaceAll(".", "");
-
+        }
+        if(value.contains(",")){
+          controller.text = value.replaceAll(",", "");
+        }
+        if(value.contains("-")){
+          controller.text = value.replaceAll("-", "");
+        }
+        if(value.contains(" ")){
+          controller.text = value.replaceAll(" ", "");
+        }
+        if(value != ""){
+          if(int.parse(controller.text)>60 && isMin){
+            controller.text = "59";
+          }
         }
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       textAlign: TextAlign.center,
       textAlignVertical: TextAlignVertical.center,
-      keyboardType: TextInputType.phone,
+      keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
     );
   }

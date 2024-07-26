@@ -36,8 +36,7 @@ class _TicketDetailsState extends State<TicketDetails> {
       hour = time.split(":")[0];
       min = time.split(":")[1];
     }
-    print("hour: $hour");
-    print("min: $min");
+    ticketController.selectedTriage.value = widget.data.triage ?? "N/A";
     ticketController.selectedSubStatus.value = widget.data.subStatus ?? "N/A";
     ticketController.callId.value = widget.data.serviceCallNo ?? "N/A";
     ticketController.hours.text = hour ?? "00";
@@ -102,16 +101,41 @@ class _TicketDetailsState extends State<TicketDetails> {
                         title: "Status : ",
                         value: widget.data.callStatus ?? "N/A",
                         style: AppTextStyle.green47cSemi16),
-                    5.sizedBoxHeight,
+                    10.sizedBoxHeight,
                     commonRow(
                         title: "Model : ",
                         value: widget.data.model ?? "N/A",
                         style: AppTextStyle.black323semi16),
-                    5.sizedBoxHeight,
+                    10.sizedBoxHeight,
                     commonRow(
                         title: "ManuSN : ",
                         value: widget.data.manuSN ?? "N/A",
                         style: AppTextStyle.black323semi16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        commonRow(
+                            title: "Triage : ",
+                            value: widget.data.triage ?? "N/A",
+                            style: AppTextStyle.black323semi16),
+                        MaterialButton(
+                          onPressed: ticketController.changeTriage,
+                          height: 25,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 0),
+                          color: AppColors.grey7A7Color.withOpacity(0.25),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: const BorderSide(color: AppColors.grey848Color),
+                          ),
+                          child: Text(
+                            "Change",
+                            style: AppTextStyle.black323semi14,
+                          ),
+                        )
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

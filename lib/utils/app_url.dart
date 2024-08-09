@@ -15,4 +15,5 @@ class AppUrl {
   static const String updateDuration = "UpdateDuration";
   static const String dateOfMonth = "DateofMonth";
   static const String updateTriage = "UpdateTriage";
+  static const String firmList = "FirmList";
 }

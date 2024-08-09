@@ -10,7 +10,7 @@ import '../../utils/app_test_style.dart';
 import '../../utils/extension/size_extension.dart';
 
 class ChooseItems extends StatefulWidget {
-  const ChooseItems({super.key, this.requirementDate,required this.data});
+  const ChooseItems({super.key, this.requirementDate, required this.data});
   /*final String fromWarehouse;
   final String? toWarehouse;*/
   final DateTime? requirementDate;
@@ -30,7 +30,6 @@ class _ChooseItemsState extends State<ChooseItems> {
     chooseController.toWarehouse = widget.toWarehouse ?? "";*/
     chooseController.requireDate = widget.requirementDate;
     chooseController.data = widget.data;
-
   }
 
   @override
@@ -50,15 +49,9 @@ class _ChooseItemsState extends State<ChooseItems> {
             onPressed: chooseController.setSearch,
             icon: const Icon(Icons.search),
           ),
-          /*IconButton(
-            onPressed: () {
-              Get.to(const ScanCodePage());
-            },
-            icon: const Icon(Icons.qr_code_scanner),
-          ),*/
           IconButton(
             onPressed: () {
-              chooseController.getItems();
+              chooseController.getFirms();
             },
             icon: const Icon(Icons.sync_rounded),
           ),
@@ -92,8 +85,8 @@ class _ChooseItemsState extends State<ChooseItems> {
                   ),
                 )
               : Container()),
-          Expanded(
-            child: Obx(() => (chooseController.searchItems.isEmpty)
+          /*Expanded(
+            child: Obx(() => (chooseController.firmData.isEmpty)
                 ? Center(
                     child: Text(
                       "No Items Found",
@@ -101,15 +94,34 @@ class _ChooseItemsState extends State<ChooseItems> {
                     ),
                   )
                 : ListView.separated(
-                    itemCount: chooseController.searchItems.length,
+                    itemCount: chooseController.firmData.length,
                     itemBuilder: (context, index) {
-                      return (chooseController.searchItems[index].isEmpty)
-                          ? Container()
+                      return (!chooseController.firmData[index]['data'].isEmpty)
+                          ? Container(
+                              height: 50,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 10),
+                              color: Colors.red,
+                              child: Text(
+                                chooseController.firmData[index]['firmName'],
+                                style: AppTextStyle.white16medium,
+                              ),
+                            )
                           : ExpansionTile(
+                              onExpansionChanged: (value) {
+                                print("object : - $value");
+                               if(value && chooseController.firmData[index]['data'].isEmpty){
+                                 chooseController.getItems(
+                                     firmName: chooseController.firmData[index]
+                                     ['firmName'],
+                                     page: chooseController.firmData[index]
+                                     ['page'], index: index);
+                               }
+                              },
                               backgroundColor: AppColors.whiteColor,
                               collapsedBackgroundColor: AppColors.whiteColor,
                               title: Text(
-                                chooseController.searchItems[index][0].firmName
+                                chooseController.firmData[index]['firmName']
                                     .toString(),
                                 style: AppTextStyle.black323semi14,
                               ),
@@ -119,11 +131,12 @@ class _ChooseItemsState extends State<ChooseItems> {
                                 borderRadius: BorderRadius.circular(0),
                               ),
                               children: [
-                                  chooseController.searchItems[index].isEmpty
+                                  chooseController
+                                          .firmData[index]['data'].isEmpty
                                       ? Container()
                                       : ListView.separated(
                                           itemCount: chooseController
-                                              .searchItems[index].length,
+                                              .firmData[index]['data'].length,
                                           shrinkWrap: true,
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -192,6 +205,161 @@ class _ChooseItemsState extends State<ChooseItems> {
                       return 2.sizedBoxHeight;
                     },
                   )),
+          ),*/
+          Expanded(
+            child: GetBuilder(
+              init: ChooseItemController(),
+              builder: (control) {
+                if (control.searchController.text != "") {
+                  print("Hello from in loop");
+                  if(control.searchItems.isEmpty){
+                    return Center(
+                      child: Text(
+                        "No Items Found",
+                        style: AppTextStyle.black323semi16,
+                      ),
+                    );
+                  }else{
+                    return ListView.separated(
+                      itemCount: control.searchItems.length,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemBuilder: (context, j){
+                        return CommonItemView(
+                          warehouse:
+                          control.searchItems[j].warehouse.toString(),
+                          groupName:
+                          control.searchItems[j].groupName.toString(),
+                          title: control.searchItems[j].itemCode.toString(),
+                          subTitle: control.searchItems[j].itemName.toString(),
+                          quantity:
+                          (control.searchItems[j].quantity ?? 0).toInt(),
+                          subQty: control.subQty[
+                          '${control.searchItems[j].itemCode}-${control.searchItems[j].warehouse}']
+                              ?.toInt() ??
+                              0,
+                          increment: () =>
+                              control.increaseItem1(control.searchItems[j]),
+                          decrement: () =>
+                              control.decreaseItem1(control.searchItems[j]),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Divider(
+                            color: AppColors.grey848Color.withOpacity(0.5),
+                            height: 1,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                } else {
+                  return ListView.separated(
+                    itemCount: control.firmData.length,
+                    itemBuilder: (context, index) {
+                      if (control.firmData.isEmpty) {
+                        return Center(
+                          child: Text(
+                            "No Items Found",
+                            style: AppTextStyle.black323semi16,
+                          ),
+                        );
+                      } else {
+                        return ExpansionTile(
+                          backgroundColor: AppColors.whiteColor,
+                          collapsedBackgroundColor: AppColors.whiteColor,
+                          title: Text(
+                            control.firmData[index]['firmName'].toString(),
+                            style: AppTextStyle.black323semi14,
+                          ),
+                          iconColor: AppColors.grey848Color,
+                          collapsedIconColor: AppColors.grey848Color,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(0),
+                          ),
+                          children: [
+                            (control.firmData[index]['data'].isEmpty)
+                                ? Container()
+                                : SizedBox(
+                                    height: 300,
+                                    child: ListView.separated(
+                                      controller: control.firmData[index]
+                                          ['scroll'],
+                                      itemCount: control
+                                          .firmData[index]['data'].length,
+                                      shrinkWrap: true,
+                                      physics: const ClampingScrollPhysics(),
+                                      itemBuilder: (context, j) {
+                                        if (control.firmData[index]['data']
+                                                .length ==
+                                            0) {
+                                          return Container();
+                                        } else {
+                                          return CommonItemView(
+                                            warehouse: control
+                                                .firmData[index]['data'][j]
+                                                .warehouse
+                                                .toString(),
+                                            groupName: control
+                                                .firmData[index]['data'][j]
+                                                .groupName
+                                                .toString(),
+                                            title: control
+                                                .firmData[index]['data'][j]
+                                                .itemCode
+                                                .toString(),
+                                            subTitle: control
+                                                .firmData[index]['data'][j]
+                                                .itemName
+                                                .toString(),
+                                            quantity: (control
+                                                        .firmData[index]['data']
+                                                            [j]
+                                                        .quantity ??
+                                                    0)
+                                                .toInt(),
+                                            subQty: control.subQty[
+                                                        '${control.firmData[index]['data'][j].itemCode}-${control.firmData[index]['data'][j].warehouse}']
+                                                    ?.toInt() ??
+                                                0,
+                                            increment: () =>
+                                                chooseController.increaseItem1(
+                                                    control.firmData[index]
+                                                        ['data'][j]),
+                                            decrement: () =>
+                                                chooseController.decreaseItem1(
+                                                    control.firmData[index]
+                                                        ['data'][j]),
+                                          );
+                                        }
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0),
+                                          child: Divider(
+                                            color: AppColors.grey848Color
+                                                .withOpacity(0.5),
+                                            height: 1,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                          ],
+                        );
+                      }
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return 4.sizedBoxHeight;
+                    },
+                  );
+                }
+              },
+            ),
           ),
           Obx(() => Container(
                 padding: const EdgeInsets.only(left: 14),
@@ -209,7 +377,7 @@ class _ChooseItemsState extends State<ChooseItems> {
                           chooseController.totalItems.value > 0 ? true : false,
                       buttonText: "Review",
                       onTap: () {
-                        Get.to(()=>PurchaseOrderReviewPage());
+                        Get.to(() => PurchaseOrderReviewPage());
                       },
                       width: 200,
                     )

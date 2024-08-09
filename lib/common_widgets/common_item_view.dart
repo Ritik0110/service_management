@@ -9,8 +9,8 @@ class CommonItemView extends StatefulWidget {
     super.key,
     required this.title,
     required this.subTitle,
-    required this.increment,
-    required this.decrement,
+     this.increment,
+     this.decrement,
     required this.groupName,
     this.remove,
     required this.warehouse,
@@ -24,8 +24,8 @@ class CommonItemView extends StatefulWidget {
   int subQty;
   String warehouse;
   Function()? remove;
-  Function() increment;
-  Function() decrement;
+  Function()? increment;
+  Function()? decrement;
 
   @override
   State<CommonItemView> createState() => _CommonItemViewState();

@@ -14,7 +14,7 @@ import '../../services/network_api_services.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_url.dart';
 
-enum Status { all, open, close }
+enum Status { all, close }
 
 enum Triage { all, yes, no }
 

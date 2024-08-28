@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/Models/Inventory_transfer_model.dart';
 import 'package:service_call_management/Models/ItemModel.dart';
-import 'package:service_call_management/Models/firm_model.dart';
 import 'package:service_call_management/Models/purchase_model.dart';
 import 'package:service_call_management/services/network_api_services.dart';
 import 'package:service_call_management/utils/app_url.dart';
@@ -11,17 +10,20 @@ import '../../Models/TicketsModel.dart';
 
 class ChooseItemController extends GetxController {
   RxInt totalItems = 0.obs;
+  RxInt pageIndex = 0.obs;
+  RxInt mainPageIndex = 0.obs;
+  RxInt searchPageIndex = 0.obs;
+  RxBool isLoadMore = true.obs;
+  RxBool isSearchLoadMore = true.obs;
+  RxString searchValue = "".obs;
   List<ItemData> selectedItemsList = <ItemData>[].obs;
+  List<ItemData> itemsList = <ItemData>[].obs;
   final _api = NetWorkApiService();
   ItemModel model = ItemModel();
-  FirmModel firms = FirmModel();
   final searchController = TextEditingController(
     text: "",
-  );
-  // Map contains data where groupCode marks as key
-  var subLists = <String, List<ItemData>>{}.obs;
-  //contains sublist of each groupCode
-  //RxList<List<ItemData>> groupItems = <List<ItemData>>[].obs;
+  ).obs;
+  final scrollController = ScrollController();
   RxList<ItemData> searchItems = <ItemData>[].obs;
   late InventoryTransferModel iTModel;
   late PurchaseRequestModel pRModel;
@@ -29,86 +31,86 @@ class ChooseItemController extends GetxController {
   var subQty = <String, num>{}.obs;
   DateTime? requireDate;
   late ServiceData data;
-  RxList firmData = [].obs;
 
   @override
   void onReady() {
     super.onReady();
-    //getItems();
-    getFirms();
-  }
-
-  Future getFirms() async {
-    firmData.clear();
-    subQty.clear();
-    totalItemsCount();
-    var data = await _api.getApi(AppUrl.firmList);
-    firms = FirmModel.fromJson(data);
-    firms.listFirm?.forEach((element) {
-      firmData.add({
-        'firmName': element.firmName,
-        'data': <ItemData>[],
-        'page': 1,
-        'is_null': false,
-        'scroll': ScrollController()
-      });
-    });
-    for (int i = 0; i < firmData.length; i++) {
-      getItems(
-          firmName: firmData[i]['firmName'],
-          page: firmData[i]['page'],
-          index: i);
-    }
-    initScroll();
-  }
-  initScroll(){
-    for (int i = 0; i < firmData.length; i++) {
-      firmData[i]['scroll'] = ScrollController();
-      firmData[i]['scroll'].addListener(() {
-        if (  firmData[i]['scroll'].position.pixels ==
-            firmData[i]['scroll'].position.maxScrollExtent) {
-          getItems(
-              firmName:   firmData[i]['firmName'],
-              page: firmData[i]['page'],
-              index: i);
-        }
-      });
-    }
+    getItems();
   }
 
   Future getItems(
-      {required String firmName, required int page, required int index}) async {
-    if (firmData[index]["is_null"] == false) {
+      {String itemName = "",
+      bool refresh = false,
+      bool isSearching = false}) async {
+    print("pageIndex: ${pageIndex.value}");
+    print("searchPageIndex: ${searchPageIndex.value}");
+    if (refresh) {
+      itemsList.clear();
+      selectedItemsList.clear();
+      searchItems.clear();
+      subQty.clear();
+      totalItemsCount();
+      pageIndex.value = 0;
+      searchPageIndex.value = 0;
+      isLoadMore.value = true;
+    }
+    if (isLoadMore.value && isSearching == false) {
+      print("isLoadMore: ${isLoadMore.value}");
+      print("isSearching: ${isSearching}");
       var data = await _api
-          .postApi(AppUrl.getItems, {"FirmName": firmName, "page": page});
-      firmData[index]["page"] = page + 1;
+          .postApi(AppUrl.getItems, {"itemCode": "", "Page": pageIndex.value});
       model = ItemModel.fromJson(data);
-      if (model.itemData == [] || model.itemData == null) {
-        firmData[index]["is_null"] = true;
-      }else{
-        firmData[index]["data"].addAll(model.itemData);
+      if (model.itemData == null || model.itemData!.isEmpty) {
+        isLoadMore.value = false;
+      } else {
+        pageIndex.value++;
+        itemsList.addAll(model.itemData!);
         model.itemData?.forEach((element) {
-          subQty['${element.itemCode}-${element.warehouse}'] = 0;
+          subQty.putIfAbsent(
+              '${element.itemCode}-${element.warehouse}', () => 0);
+        });
+      }
+
+    } else if (isSearching && isSearchLoadMore.value == true) {
+
+      if(searchValue.value != itemName){
+        for (var i in searchItems) {
+          if (subQty['${i.itemCode}-${i.warehouse}'] == 0) {
+            subQty.remove('${i.itemCode}-${i.warehouse}');
+          }
+        }
+        searchItems.clear();
+      }
+      searchValue.value = itemName;
+      var data = await _api
+          .postApi(AppUrl.getItems, {"itemCode": itemName, "Page": searchPageIndex.value});
+      model = ItemModel.fromJson(data);
+      if (model.itemData == null || model.itemData!.isEmpty) {
+        isSearchLoadMore.value = false;
+      } else {
+        searchPageIndex.value++;
+        searchItems.addAll(model.itemData!);
+        model.itemData?.forEach((element) {
+          subQty.putIfAbsent(
+              '${element.itemCode}-${element.warehouse}', () => 0);
         });
       }
     }
+
     update();
-    // searchItems.clear();
-    // subLists.clear();
-    //mapping data into sub list using each group code
-
-    // if (!subLists.containsKey(element.firmName)) {
-    //   subLists[element.firmName.toString()] = [];
-    // }
-    //subLists[element.firmName]!.add(element);
-
-    //converting map into list of grouped item list
-    // groupItems.value = subLists.values.toList();
-    // searchItems.addAll(groupItems);
   }
 
   void setSearch() {
     isSearch.value = isSearch.value ? false : true;
+    update();
+  }
+
+  void searchItemsList(String searchValue) {
+    searchPageIndex.value = 0;
+    isSearchLoadMore.value = true;
+    getItems(
+        itemName: searchValue, isSearching: true);
+    update();
   }
 
   totalItemsCount() {
@@ -118,29 +120,29 @@ class ChooseItemController extends GetxController {
     });
   }
 
-  void searchedList(String? searchValue) {
-    if (searchController.text.isNotEmpty) {
-      searchItems.clear();
-      for (var element in firmData) {
-        List<ItemData> temp = [];
-        for (var e in element['data']) {
-          if (e.itemName!.toLowerCase().contains(searchValue!.toLowerCase())) {
-            temp.add(e);
-          } else if (e.itemCode!
-              .toLowerCase()
-              .contains(searchValue.toLowerCase())) {
-            temp.add(e);
-          }
-        }
-        if (temp.isNotEmpty) {
-          searchItems.addAll(temp);
-        }
-      }
-    } else {
-      searchItems.clear();
-    }
-    update();
-  }
+  // void searchedList(String? searchValue) {
+  //   if (searchController.text.isNotEmpty) {
+  //     searchItems.clear();
+  //     for (var element in firmData) {
+  //       List<ItemData> temp = [];
+  //       for (var e in element['data']) {
+  //         if (e.itemName!.toLowerCase().contains(searchValue!.toLowerCase())) {
+  //           temp.add(e);
+  //         } else if (e.itemCode!
+  //             .toLowerCase()
+  //             .contains(searchValue.toLowerCase())) {
+  //           temp.add(e);
+  //         }
+  //       }
+  //       if (temp.isNotEmpty) {
+  //         searchItems.addAll(temp);
+  //       }
+  //     }
+  //   } else {
+  //     searchItems.clear();
+  //   }
+  //   update();
+  // }
 
   increaseItem1(ItemData data) {
     !selectedItemsList.contains(data) ? selectedItemsList.add(data) : null;

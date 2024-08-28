@@ -67,7 +67,7 @@ class _HomeFilterBottomSheetState extends State<HomeFilterBottomSheet> {
                     () => Wrap(
                       alignment: WrapAlignment.spaceBetween,
                       direction: Axis.horizontal,
-                      spacing: 16,
+                      spacing: 24,
                       runAlignment: WrapAlignment.spaceBetween,
                       children: [
                         Row(
@@ -89,25 +89,7 @@ class _HomeFilterBottomSheetState extends State<HomeFilterBottomSheet> {
                                     fontSize: 18))
                           ],
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Radio(
-                              value: Status.open,
-                              groupValue: homeController.tempStatus.value,
-                              onChanged: (value) {
-                                homeController.tempStatus.value = Status.open;
-                              },
-                            ),
-                            Text("Open",
-                                style: AppTextStyle.mediumTS.copyWith(
-                                    color: homeController.tempStatus.value ==
-                                            Status.open
-                                        ? AppColors.blue2F6Color
-                                        : AppColors.grey848Color,
-                                    fontSize: 18))
-                          ],
-                        ),
+
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

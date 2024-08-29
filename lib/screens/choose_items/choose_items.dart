@@ -96,7 +96,7 @@ class _ChooseItemsState extends State<ChooseItems> {
                                 icon: const Icon(Icons.search),
                               ),
                             ),
-                            //onChanged: chooseController.searchedList,
+                            onChanged: chooseController.showList,
                             textAlign: TextAlign.start,
                             cursorWidth: 1,
                             //onChanged: control.searchItemsList,

@@ -52,8 +52,7 @@ class ChooseItemController extends GetxController {
       searchPageIndex.value = 0;
       isLoadMore.value = true;
     }
-    if (isLoadMore.value && isSearching == false) {
-
+    if (isLoadMore.value && (isSearching == false || searchController.value.text.trim() =="")) {
       var data = await _api
           .postApi(AppUrl.getItems, {"itemCode": "", "Page": pageIndex.value});
       model = ItemModel.fromJson(data);
@@ -67,10 +66,8 @@ class ChooseItemController extends GetxController {
               '${element.itemCode}-${element.warehouse}', () => 0);
         });
       }
-
     } else if (isSearching && isSearchLoadMore.value == true) {
-
-      if(searchValue.value != itemName){
+      if (searchValue.value != itemName) {
         for (var i in searchItems) {
           if (subQty['${i.itemCode}-${i.warehouse}'] == 0) {
             subQty.remove('${i.itemCode}-${i.warehouse}');
@@ -79,8 +76,8 @@ class ChooseItemController extends GetxController {
         searchItems.clear();
       }
       searchValue.value = itemName;
-      var data = await _api
-          .postApi(AppUrl.getItems, {"itemCode": itemName, "Page": searchPageIndex.value});
+      var data = await _api.postApi(AppUrl.getItems,
+          {"itemCode": itemName, "Page": searchPageIndex.value});
       model = ItemModel.fromJson(data);
       if (model.itemData == null || model.itemData!.isEmpty) {
         isSearchLoadMore.value = false;
@@ -106,15 +103,17 @@ class ChooseItemController extends GetxController {
     searchPageIndex.value = 0;
     isSearchLoadMore.value = true;
 
-    if(searchValue.compareTo(search) != 0){
-
-      getItems(
-          itemName: search, isSearching: true);
+    if (searchValue.compareTo(search) != 0) {
+      getItems(itemName: search, isSearching: true);
     }
 
     update();
   }
-
+  void showList(String search) {
+    if(searchController.value.text.trim()==""){
+      update();
+    }
+  }
   totalItemsCount() {
     totalItems.value = 0;
     subQty.forEach((key, value) {
@@ -147,7 +146,22 @@ class ChooseItemController extends GetxController {
   // }
 
   increaseItem1(ItemData data) {
-    !selectedItemsList.contains(data) ? selectedItemsList.add(data) : null;
+    bool added = true;
+    print(data.toJson());
+    print("Data found ?");
+    print(selectedItemsList.contains(data));
+    for (var i in selectedItemsList) {
+      if (i.itemCode == data.itemCode && i.warehouse == data.warehouse) {
+        added = false;
+        break;
+      }
+    }
+    added ? selectedItemsList.add(data) : null;
+    print("loop started");
+    for (var i in selectedItemsList) {
+      print(i.toJson());
+    }
+    print("loop ended");
     subQty['${data.itemCode}-${data.warehouse}'] =
         (subQty['${data.itemCode}-${data.warehouse}']! + 1);
     totalItemsCount();

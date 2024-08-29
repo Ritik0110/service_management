@@ -42,8 +42,6 @@ class ChooseItemController extends GetxController {
       {String itemName = "",
       bool refresh = false,
       bool isSearching = false}) async {
-    print("pageIndex: ${pageIndex.value}");
-    print("searchPageIndex: ${searchPageIndex.value}");
     if (refresh) {
       itemsList.clear();
       selectedItemsList.clear();
@@ -55,8 +53,7 @@ class ChooseItemController extends GetxController {
       isLoadMore.value = true;
     }
     if (isLoadMore.value && isSearching == false) {
-      print("isLoadMore: ${isLoadMore.value}");
-      print("isSearching: ${isSearching}");
+
       var data = await _api
           .postApi(AppUrl.getItems, {"itemCode": "", "Page": pageIndex.value});
       model = ItemModel.fromJson(data);
@@ -105,11 +102,16 @@ class ChooseItemController extends GetxController {
     update();
   }
 
-  void searchItemsList(String searchValue) {
+  void searchItemsList(String search) {
     searchPageIndex.value = 0;
     isSearchLoadMore.value = true;
-    getItems(
-        itemName: searchValue, isSearching: true);
+
+    if(searchValue.compareTo(search) != 0){
+
+      getItems(
+          itemName: search, isSearching: true);
+    }
+
     update();
   }
 

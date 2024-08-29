@@ -34,7 +34,7 @@ class _ChooseItemsState extends State<ChooseItems> {
           chooseController.scrollController.position.maxScrollExtent) {
         chooseController.mainPageIndex.value++;
         chooseController.getItems(
-          isSearching: chooseController.isSearch.value,
+            isSearching: chooseController.isSearch.value,
             itemName: chooseController.searchController.value.text);
       }
     });
@@ -88,11 +88,18 @@ class _ChooseItemsState extends State<ChooseItems> {
                               ),
                               fillColor: AppColors.whiteColor,
                               filled: true,
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  control.searchItemsList(
+                                      control.searchController.value.text);
+                                },
+                                icon: const Icon(Icons.search),
+                              ),
                             ),
                             //onChanged: chooseController.searchedList,
                             textAlign: TextAlign.start,
                             cursorWidth: 1,
-                            onChanged: control.searchItemsList,
+                            //onChanged: control.searchItemsList,
                             textAlignVertical: TextAlignVertical.center,
                           ),
                         )

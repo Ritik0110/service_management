@@ -79,7 +79,16 @@ class _ChooseItemsState extends State<ChooseItems> {
                             color: AppColors.blue2E6Color,
                           ),
                           child: TextFormField(
+                            keyboardAppearance: Brightness.dark,
                             controller: control.searchController.value,
+                            onFieldSubmitted: (value) {
+                              control.searchItemsList(
+                                  control.searchController.value.text);
+                            },
+                            onTapOutside: (value){
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            textInputAction: TextInputAction.search,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 12),

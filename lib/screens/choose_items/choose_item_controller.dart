@@ -52,7 +52,8 @@ class ChooseItemController extends GetxController {
       searchPageIndex.value = 0;
       isLoadMore.value = true;
     }
-    if (isLoadMore.value && (isSearching == false || searchController.value.text.trim() =="")) {
+    if (isLoadMore.value &&
+        (isSearching == false || searchController.value.text.trim() == "")) {
       var data = await _api
           .postApi(AppUrl.getItems, {"itemCode": "", "Page": pageIndex.value});
       model = ItemModel.fromJson(data);
@@ -90,12 +91,15 @@ class ChooseItemController extends GetxController {
         });
       }
     }
-
+    if(refresh){
+      scrollController.jumpTo(0);
+    }
     update();
   }
 
   void setSearch() {
     isSearch.value = isSearch.value ? false : true;
+    (isSearch.value == false) ? searchController.value.clear() : null;
     update();
   }
 
@@ -109,11 +113,13 @@ class ChooseItemController extends GetxController {
 
     update();
   }
+
   void showList(String search) {
-    if(searchController.value.text.trim()==""){
+    if (searchController.value.text.trim() == "") {
       update();
     }
   }
+
   totalItemsCount() {
     totalItems.value = 0;
     subQty.forEach((key, value) {

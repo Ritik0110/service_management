@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:service_call_management/common_widgets/common_card.dart';
 import 'package:service_call_management/screens/choose_items/choose_item_controller.dart';
@@ -13,11 +11,11 @@ import '../../services/network_api_services.dart';
 import '../../utils/app_url.dart';
 
 class OrderReviewController extends GetxController {
-  @override
-  void onReady() {
-    super.onReady();
-    getWareHouse();
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  //   //getWareHouse();
+  // }
 
   final _api = NetWorkApiService();
   WarehouseModel warehouses = WarehouseModel();
@@ -26,21 +24,21 @@ class OrderReviewController extends GetxController {
   List<DocumentLine> purchaseItems = [];
   late InventoryTransferModel transferModel;
   late PurchaseRequestModel purchaseModel;
-  List<DropdownMenuItem<String>>? warehouseList =
-      <DropdownMenuItem<String>>[].obs;
+  // List<DropdownMenuItem<String>>? warehouseList =
+  //     <DropdownMenuItem<String>>[].obs;
   String selectedWarehouse = "";
   bool wCode = false;
 
-  getWareHouse() async {
-    var data = await _api.getApi(AppUrl.getWarehouses);
-    warehouses = WarehouseModel.fromJson(data);
-    warehouseList = warehouses.wareHouse!
-        .map((e) => DropdownMenuItem<String>(
-              value: e.whsCode.toString(),
-              child: Text(e.whsName!),
-            ))
-        .toList();
-  }
+  // getWareHouse() async {
+  //   var data = await _api.getApi(AppUrl.getWarehouses);
+  //   warehouses = WarehouseModel.fromJson(data);
+  //   warehouseList = warehouses.wareHouse!
+  //       .map((e) => DropdownMenuItem<String>(
+  //             value: e.whsCode.toString(),
+  //             child: Text(e.whsName!),
+  //           ))
+  //       .toList();
+  // }
 
   submitOrder() {
     transferItems.clear();
@@ -85,7 +83,12 @@ class OrderReviewController extends GetxController {
         }
       }
     }
-    submitReview();
+    if(purchaseItems.isEmpty || purchaseItems ==[]){
+      submitReview();
+    }else{
+      CommonPopUp.showConfirm(itemList: purchaseItems, onClick: submitReview);
+    }
+
   }
 
   submitReview() async {

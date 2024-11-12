@@ -16,12 +16,32 @@ import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 import 'calendar_view_page.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  HomeController controller = Get.put(HomeController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.scrollController.addListener(() {
+      if (controller.scrollController.position.pixels ==
+          controller.scrollController.position.maxScrollExtent) {
+        controller.pageCount.value++;
+        if(controller.isLoadMore.value){
+          controller.loadApiData();
+        }
+      }
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    HomeController controller = Get.put(HomeController());
+
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       drawer: Drawer(
@@ -33,41 +53,41 @@ class HomeScreen extends StatelessWidget {
                 color: AppColors.blue2F6Color,
               ),
               child: Obx(() => SizedBox(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Text(
-                            'Service Call Management',
-                            style: AppTextStyle.white16medium,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          "Welcome",
-                          style: AppTextStyle.mediumTS.copyWith(
-                              fontSize: 14, color: AppColors.whiteColor),
-                        ),
-                        Text(
-                          controller.empName.value,
-                          style: AppTextStyle.white14semiBold,
-                        ),
-                        5.sizedBoxHeight,
-                        Text(
-                          'Mobile : ${controller.empNumber.value}',
-                          style: AppTextStyle.white14semiBold,
-                        ),
-                        5.sizedBoxHeight,
-                        Text(
-                          'Email : ${controller.empEmail.value}',
-                          style: AppTextStyle.white14semiBold,
-                        ),
-                      ],
+                height: double.infinity,
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        'Service Call Management',
+                        style: AppTextStyle.white16medium,
+                      ),
                     ),
-                  )),
+                    const Spacer(),
+                    Text(
+                      "Welcome",
+                      style: AppTextStyle.mediumTS.copyWith(
+                          fontSize: 14, color: AppColors.whiteColor),
+                    ),
+                    Text(
+                      controller.empName.value,
+                      style: AppTextStyle.white14semiBold,
+                    ),
+                    5.sizedBoxHeight,
+                    Text(
+                      'Mobile : ${controller.empNumber.value}',
+                      style: AppTextStyle.white14semiBold,
+                    ),
+                    5.sizedBoxHeight,
+                    Text(
+                      'Email : ${controller.empEmail.value}',
+                      style: AppTextStyle.white14semiBold,
+                    ),
+                  ],
+                ),
+              )),
             ),
             ListTile(
               title: const Text('Calender View'),
@@ -86,7 +106,7 @@ class HomeScreen extends StatelessWidget {
               title: const Text('Sign Out'),
               onTap: () async {
                 SharedPreferences preferences =
-                    await SharedPreferences.getInstance();
+                await SharedPreferences.getInstance();
                 preferences.remove(AppPreferences.isLoggedIn);
                 Get.offAll(() => const SignInScreen());
               },
@@ -149,10 +169,10 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   width: 16,
                 ),
-                Text("Total Ticket ",
+                Obx(() => Text("Total Ticket ${controller.filteredList.length}",
                     style: AppTextStyle.mediumTS
-                        .copyWith(fontSize: 16, color: AppColors.grey848Color)),
-               /* Expanded(
+                        .copyWith(fontSize: 16, color: AppColors.grey848Color)),),
+                /* Expanded(
                   child: Obx(
                     () {
                       int count = controller.ticketList
@@ -223,7 +243,7 @@ class HomeScreen extends StatelessWidget {
                   },
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     color: AppColors.blueEFFColor,
                     child: Row(
                       children: [
@@ -243,25 +263,27 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: Obx(
-              () => Container(
+                  () => Container(
                 color: AppColors.blueEFFColor,
                 child: controller.filteredList.isEmpty
                     ? Center(
-                        child: Text(
-                          "No Data Found.",
-                          style: AppTextStyle.semiBoldTS
-                              .copyWith(color: AppColors.grey848Color),
-                        ),
-                      )
+                  child: Text(
+                    "No Data Found.",
+                    style: AppTextStyle.semiBoldTS
+                        .copyWith(color: AppColors.grey848Color),
+                  ),
+                )
                     : ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: controller.filteredList.length,
-                        itemBuilder: (context, index) {
-                          return TicketCard(
-                            data: controller.filteredList[index],
-                          );
-                        },
-                      ),
+                  padding: const EdgeInsets.all(16),
+                  controller: controller.scrollController,
+                  itemCount: controller.filteredList.length,
+                  physics: const ClampingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return TicketCard(
+                      data: controller.filteredList[index],
+                    );
+                  },
+                ),
               ),
             ),
           )

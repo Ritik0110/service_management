@@ -32,6 +32,9 @@ class HomeController extends GetxController {
   final empName = "".obs;
   final empNumber = " - ".obs;
   final empEmail = " - ".obs;
+  RxInt pageCount = 0.obs;
+  final scrollController = ScrollController();
+  RxBool isLoadMore = true.obs;
   final Rx<TicketsModel> ticketsModel = TicketsModel().obs;
   final _api = NetWorkApiService();
   StatusModel statusModel = StatusModel();
@@ -75,14 +78,20 @@ class HomeController extends GetxController {
           child: CircularProgressIndicator(),
         ),
         barrierDismissible: false);
-    String result = await ApiHelper.getTickets() ?? "";
+    String result = await ApiHelper.getTickets(count: pageCount.value) ?? "";
     if (Get.isDialogOpen ?? false) {
       Get.back();
     }
     if (result == "1") {
       ticketsModel.value = AppVariables.ticketsModel;
-      ticketList.value = ticketsModel.value.serviceData ?? [];
-      filteredList.value = ticketsModel.value.serviceData ?? [];
+      if(ticketsModel.value.serviceData!.isNotEmpty){
+        ticketList.addAll(ticketsModel.value.serviceData!);
+        filteredList.addAll(ticketsModel.value.serviceData!);
+      }else{
+        isLoadMore.value = false;
+      }
+      // ticketList.value = ticketsModel.value.serviceData ?? [];
+      // filteredList.value = ticketsModel.value.serviceData ?? [];
       applyFilter1();
     } else {
       Get.defaultDialog(
@@ -115,7 +124,7 @@ class HomeController extends GetxController {
     var data = prefs.getString(AppPreferences.storedEmpData);
     EmployeeModel model = EmployeeModel.fromJson(jsonDecode(data!));
     empName.value =
-        "${model.employeeData?[0].firstName} ${model.employeeData?[0].middleName} ${model.employeeData?[0].lastName}";
+    "${model.employeeData?[0].firstName} ${model.employeeData?[0].middleName} ${model.employeeData?[0].lastName}";
     empNumber.value = (model.employeeData?[0].mobilePhone != ""
         ? model.employeeData![0].mobilePhone
         : ' -- ')!;
@@ -176,22 +185,22 @@ class HomeController extends GetxController {
   // }
 
   void applyFilter1() {
-     List<ServiceData> temp = [];
-     temp.clear();
+    List<ServiceData> temp = [];
+    temp.clear();
     for (var i in ticketList) {
       if ((i.callStatus?.toLowerCase() == status.value.name.toLowerCase() ||
-              status.value == Status.all) &&
+          status.value == Status.all) &&
           (i.triage?.toLowerCase() == triage.value.name.toLowerCase() ||
               triage.value == Triage.all)) {
         if ((filterSubList
-                .toString()
-                .toLowerCase()
-                .contains(i.subStatus!.toLowerCase()) && i.subStatus!="") ||
+            .toString()
+            .toLowerCase()
+            .contains(i.subStatus!.toLowerCase()) && i.subStatus!="") ||
             filterSubList.isEmpty) {
           temp.add(i);
         }
       }
     }
-   filteredList.value = temp;
+    filteredList.value = temp;
   }
 }

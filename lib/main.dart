@@ -13,13 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Models/employee_model.dart';
 import 'screens/HomeScreen/home_screen.dart';
 
-
 Future<void> main() async {
-  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  FlutterNativeSplash.preserve(
+      widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   SharedPreferences prefs = await SharedPreferences.getInstance();
   AppVariables.isLoggedIn = prefs.getBool(AppPreferences.isLoggedIn) ?? false;
-  if(AppVariables.isLoggedIn){
-     AppVariables.employeeModel = EmployeeModel.fromJson(json.decode(prefs.getString(AppPreferences.storedEmpData) ?? '{}'));
+  if (AppVariables.isLoggedIn) {
+    AppVariables.employeeModel = EmployeeModel.fromJson(
+        json.decode(prefs.getString(AppPreferences.storedEmpData) ?? '{}'));
   }
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-     builder: (context, child) {
+      builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
             // Change this value to adjust scaling
@@ -58,31 +59,31 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: AppColors.scaffoldColor,
         iconButtonTheme: const IconButtonThemeData(
-          style: ButtonStyle(
-             foregroundColor: MaterialStatePropertyAll(Colors.white)
-          )
-        ),
-        appBarTheme:  AppBarTheme(
-          shadowColor: Colors.transparent,
-          elevation: 0,
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: AppColors.blue2F6Color,
-          centerTitle: false,
-          foregroundColor: Colors.white,
-          titleTextStyle: AppTextStyle.white16medium
-        ),
+            style: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.white))),
+        appBarTheme: AppBarTheme(
+            shadowColor: Colors.transparent,
+            elevation: 0,
+            surfaceTintColor: Colors.transparent,
+            backgroundColor: AppColors.blue2F6Color,
+            centerTitle: false,
+            foregroundColor: Colors.white,
+            titleTextStyle: AppTextStyle.white16medium),
         radioTheme: RadioThemeData(
-
-          fillColor: MaterialStateProperty.resolveWith((states) => states.contains(MaterialState.selected) ? AppColors.blue2F6Color : Colors.grey),
+          fillColor: MaterialStateProperty.resolveWith((states) =>
+              states.contains(MaterialState.selected)
+                  ? AppColors.blue2F6Color
+                  : Colors.grey),
           visualDensity: VisualDensity.standard,
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue2F6Color),
         useMaterial3: true,
       ),
-      home: AppVariables.isLoggedIn? const HomeScreen():const SignInScreen(),
+      home: AppVariables.isLoggedIn ? const HomeScreen() : const SignInScreen(),
     );
   }
 }
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -91,4 +92,3 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-

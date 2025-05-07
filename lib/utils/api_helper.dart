@@ -14,11 +14,11 @@ class ApiHelper {
   static Dio dio = Dio(BaseOptions(
     baseUrl: AppUrl.mainBaseUrl,
   ));
-  static Future<String?> getTickets() async {
+  static Future<String?> getTickets({required int count}) async {
     try {
       final response = await dio.post(AppUrl.getTickets, data: {
         "EmpCode": AppVariables.employeeModel.employeeData?[0].employeeCode,
-        "Page": 0
+        "Page": count
       });
       AppVariables.ticketsModel =
           TicketsModel.fromJson(json.decode(response.toString()));

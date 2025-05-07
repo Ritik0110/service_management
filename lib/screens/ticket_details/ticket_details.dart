@@ -51,7 +51,7 @@ class _TicketDetailsState extends State<TicketDetails> {
           title: const Text('Ticket Details'),
         ),
         body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

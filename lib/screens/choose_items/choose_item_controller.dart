@@ -153,9 +153,6 @@ class ChooseItemController extends GetxController {
 
   increaseItem1(ItemData data) {
     bool added = true;
-    print(data.toJson());
-    print("Data found ?");
-    print(selectedItemsList.contains(data));
     for (var i in selectedItemsList) {
       if (i.itemCode == data.itemCode && i.warehouse == data.warehouse) {
         added = false;
@@ -163,11 +160,6 @@ class ChooseItemController extends GetxController {
       }
     }
     added ? selectedItemsList.add(data) : null;
-    print("loop started");
-    for (var i in selectedItemsList) {
-      print(i.toJson());
-    }
-    print("loop ended");
     subQty['${data.itemCode}-${data.warehouse}'] =
         (subQty['${data.itemCode}-${data.warehouse}']! + 1);
     totalItemsCount();
